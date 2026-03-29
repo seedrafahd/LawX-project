@@ -58,6 +58,22 @@ export default function MyDrawer() {
     { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
     {
       icon: <PersonIcon />,
+      label: "مكاتب المحاماة",
+      link: "offices",
+    },
+    { icon: <ArticleIcon />, label: "خطط الاشتراك", link: "plans" },
+    { icon: <ArticleIcon />, label: "التقارير", link: "reports" },
+    {
+      icon: <SettingsIcon />,
+      label: "الإعدادات",
+      link: "settings",
+    },
+  ];
+
+  const officeAdminMenuItems = [
+    { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
+    {
+      icon: <PersonIcon />,
       label: "الموظف",
       link: "employee",
     },
@@ -80,8 +96,16 @@ export default function MyDrawer() {
     },
   ];
 
+  const accountantMenuItems = [
+    { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
+  ];
+
   const menuItems =
-    role === "office_admin" ? superAdminMenuItems : superAdminMenuItems;
+    role === "super_admin"
+      ? superAdminMenuItems
+      : role === "office_admin"
+        ? officeAdminMenuItems
+        : accountantMenuItems;
 
   const drawer = (
     <Box
