@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Cookies from "universal-cookie";
+import { setUserDetails } from "./Features/Auth/AuthSlice";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import AppRouter from "./App/Router/AppRouter";
+
+function AppInitializer({ children }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const savedAuth = cookies.get("auth");
+    if (savedAuth) {
+      console.log(savedAuth);
+      dispatch(setUserDetails(savedAuth));
+    }
+  }, [dispatch]);
+
+  return children;
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppInitializer>
+        <AppRouter />
+      </AppInitializer>
     </div>
   );
 }
