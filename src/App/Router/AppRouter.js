@@ -26,9 +26,9 @@ export default function AppRouter() {
         <Route element={<ProtectedRoute allowedRole="office_admin" />}>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            {/* <Route path="/employee" element={<CasesPage />} />
+            {/* <Route path="/employee" element={<CasesPage />} /> */}
             <Route path="/cases" element={<CasesPage />} />
-            <Route path="/evaluation" element={<CasesPage />} />
+            {/* <Route path="/evaluation" element={<CasesPage />} />
             <Route path="/templates" element={<CasesPage />} />
             <Route path="/law" element={<CasesPage />} />
             <Route path="/settings" element={<CasesPage />} /> */}
