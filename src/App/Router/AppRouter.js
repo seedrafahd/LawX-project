@@ -1,11 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
-import Login from "../../Features/Auth/Components/Login";
+import Auth from "../../Features/Auth/Components/Auth";
 import DashboardLayout from "../DashboardLayout";
 import CasesPage from "../../Features/Cases/Components/CasesList";
 import SplashScreen from "../SplashPage";
 import Dashboard from "../../Features/Dashboard/Components/Dashboard";
+import LoginForm from "../../Features/Auth/Components/LoginCard";
+import Verification from "../../Features/Auth/Components/2FACard";
+import ForgotPasswordPage from "../../Features/Auth/Components/ForgetPasswordCard";
+import ResetPasswordPage from "../../Features/Auth/Components/ResetPasswordCard";
+import SettingsPage from "../../Features/Settings/Components/SettingsPage";
 
 export default function AppRouter() {
   return (
@@ -13,19 +18,24 @@ export default function AppRouter() {
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<SplashScreen />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Auth />}>
+          <Route index element={<LoginForm />} />
+          <Route path="verification" element={<Verification />} />
+          <Route path="forget-password" element={<ForgotPasswordPage />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
+        </Route>
 
-        {/* Office Admin Routes */}
+        {/* Super Admin Routes */}
         <Route element={<ProtectedRoute allowedRole="super_admin" />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           </Route>
         </Route>
 
         {/* Office Admin Routes */}
         <Route element={<ProtectedRoute allowedRole="office_admin" />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
             {/* <Route path="/employee" element={<CasesPage />} /> */}
             <Route path="/cases" element={<CasesPage />} />
             {/* <Route path="/evaluation" element={<CasesPage />} />
@@ -45,6 +55,7 @@ export default function AppRouter() {
         {/* Common */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<SettingsPage />} />
             {/* <Route path="/profile" element={<ProfilePage />} /> */}
           </Route>
         </Route>

@@ -1,17 +1,28 @@
 import { Outlet } from "react-router-dom";
 import MyAppBar from "./AppBar";
 import MyDrawer from "./Drawer";
+import { Box, Toolbar } from "@mui/material";
 
 export default function DashboardLayout() {
   return (
-    <div className="flex flex-row h-screen bg-gray-50">
+    <Box sx={{ display: "flex" }}>
       <MyDrawer />
-      <div className="flex-1 flex flex-col overflow-hidden">
+
+      <Box sx={{ flexGrow: 1 }}>
         <MyAppBar />
-        <main className="flex-1 overflow-y-auto p-6">
+
+        {/* المحتوى */}
+        <Box
+          sx={{
+            padding: "32px",
+            background: "#f5f7fb",
+            minHeight: "calc(100vh - 64px)",
+          }}
+        >
+          <Toolbar />
           <Outlet />
-        </main>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
