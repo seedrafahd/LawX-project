@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../Services/AuthApi";
 import { useState } from "react";
-import { Alert, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
-import { setLoading, setUserDetails } from "../AuthSlice";
+import { setError, setLoading, setUserDetails } from "../AuthSlice";
+import { useAuth } from "../Hooks/useAuth";
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const dispatch = useDispatch();
+  const { error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -20,16 +21,30 @@ export default function LoginForm() {
     dispatch(setLoading(true));
     try {
       const data = await loginRequest({ email, password });
-      dispatch(setUserDetails(data));
-      if (rememberMe) {
-        cookies.set("auth", data);
+      if (data.token) {
+        dispatch(setUserDetails(data));
+        if (rememberMe) {
+          cookies.set("auth", data);
+        } else {
+          sessionStorage.setItem("auth", JSON.stringify(data));
+        }
+        navigate("/dashboard");
       } else {
-        sessionStorage.setItem("auth", JSON.stringify(data));
+        sessionStorage.setItem("temp_auth", JSON.stringify(data));
+        navigate("/login/verify2fa");
       }
-      // sessionStorage.setItem("temp_token", data.temp_token);
-      navigate("/dashboard");
     } catch (err) {
-      setError("بيانات غير صحيحة");
+      console.log(
+        err.response.data?.data?.message || err.response.data.errors.email[0],
+      );
+      dispatch(
+        setError(
+          err.response.data?.data?.message || err.response.data.errors.email[0],
+        ),
+      );
+      setTimeout(() => {
+        dispatch(setError(null));
+      }, 5000);
     } finally {
       dispatch(setLoading(false));
     }

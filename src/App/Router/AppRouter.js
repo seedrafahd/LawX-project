@@ -7,10 +7,10 @@ import CasesPage from "../../Features/Cases/Components/CasesList";
 import SplashScreen from "../SplashPage";
 import Dashboard from "../../Features/Dashboard/Components/Dashboard";
 import LoginForm from "../../Features/Auth/Components/LoginCard";
-import Verification from "../../Features/Auth/Components/2FACard";
+import Verify2fa from "../../Features/Auth/Components/2FACard";
 import ForgotPasswordPage from "../../Features/Auth/Components/ForgetPasswordCard";
 import ResetPasswordPage from "../../Features/Auth/Components/ResetPasswordCard";
-import SettingsPage from "../../Features/Settings/Components/SettingsPage";
+import { SettingsPage } from "../../Features/Settings/Components/SettingsPage";
 
 export default function AppRouter() {
   return (
@@ -20,9 +20,9 @@ export default function AppRouter() {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login" element={<Auth />}>
           <Route index element={<LoginForm />} />
-          <Route path="verification" element={<Verification />} />
+          <Route path="verify2fa" element={<Verify2fa />} />
           <Route path="forget-password" element={<ForgotPasswordPage />} />
-          <Route path="reset-password" element={<ResetPasswordPage />} />
+          <Route path="reset-password/:email" element={<ResetPasswordPage />} />
         </Route>
 
         {/* Super Admin Routes */}
@@ -55,7 +55,7 @@ export default function AppRouter() {
         {/* Common */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<SettingsPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             {/* <Route path="/profile" element={<ProfilePage />} /> */}
           </Route>
         </Route>

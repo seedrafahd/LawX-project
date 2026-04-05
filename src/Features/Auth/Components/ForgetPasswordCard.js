@@ -1,13 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { forgetPasswordRequest } from "../Services/AuthApi";
+import { useDispatch } from "react-redux";
+import { setError, setLoading } from "../AuthSlice";
+import { useAuth } from "../Hooks/useAuth";
+import { Typography } from "@mui/material";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { error } = useAuth();
   const [email, setEmail] = useState("");
 
-  const handleSubmit = () => {
-    console.log("Send reset link to:", email);
-    // 👉 هون API
+  const handleSubmit = async () => {
+    dispatch(setLoading(true));
+    try {
+      const data = await forgetPasswordRequest({ email });
+
+      sessionStorage.setItem("reset_data", JSON.stringify(data));
+
+      navigate(`/login/reset-password/${email}`);
+    } catch (err) {
+      console.log(err.response.data.error.email[0]);
+      dispatch(setError(err.response.data.error.email[0]));
+      setTimeout(() => {
+        dispatch(setError(null));
+      }, 5000);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
@@ -25,7 +46,7 @@ export default function ForgotPasswordPage() {
           </h2>
 
           <p className="text-gray-500 text-sm mt-1">
-            أدخل بريدك الإلكتروني وسنرسل لك رابط لإعادة تعيين كلمة المرور
+            أدخل بريدك الإلكتروني وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور
           </p>
         </div>
 
@@ -46,13 +67,18 @@ export default function ForgotPasswordPage() {
           </div>
         </div>
 
-        {/* 🚀 Button */}
+        {/*  Button */}
         <button
           onClick={handleSubmit}
           className="w-full bg-[#3f4b7f] hover:bg-[#2f3a66] text-white py-3 rounded-xl transition shadow-md"
         >
-          إرسال رابط إعادة التعيين →
+          إرسال رمز إعادة التعيين →
         </button>
+        {error && (
+          <Typography variant="body1" color="error">
+            {error}
+          </Typography>
+        )}
 
         {/* Back */}
         <div className="text-center mt-5 text-sm text-gray-500">

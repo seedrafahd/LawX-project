@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "universal-cookie";
-import { resendCode, verify2FA } from "../Services/AuthApi";
+import { resendCode, verify2FARequest } from "../Services/AuthApi";
 import { setUserDetails } from "../AuthSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function Verification() {
+export default function Verify2fa() {
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(30);
@@ -43,9 +43,9 @@ export default function Verification() {
   const handleResend = async () => {
     if (!canResend) return;
     try {
-      const tempToken = sessionStorage.getItem("temp_token");
+      const tempAuth = JSON.parse(sessionStorage.getItem("temp_auth"));
 
-      await resendCode(tempToken);
+      await resendCode(tempAuth.temporary_token);
 
       setTimeLeft(30);
       setCanResend(false);
@@ -57,11 +57,12 @@ export default function Verification() {
   };
 
   const handleVerify = async () => {
-    const tempToken = sessionStorage.getItem("temp_token");
+    const tempAuth = sessionStorage.getItem("temp_auth");
     try {
-      const data = await verify2FA({
+      const data = await verify2FARequest({
         code,
-        tempToken,
+        tempToken: tempAuth.temporary_token,
+        user_id: tempAuth.user_id,
       });
 
       dispatch(setUserDetails(data));
@@ -71,8 +72,8 @@ export default function Verification() {
 
       if (data.user.role === "office_admin") {
         navigate("/cases");
-      } else if (data.user.role === "accountant") {
-        navigate("/billing");
+      } else {
+        navigate("/settings");
       }
     } catch (err) {
       console.log(err);

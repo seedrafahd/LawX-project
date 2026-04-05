@@ -8,6 +8,7 @@ export const useAuth = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -27,6 +28,7 @@ export const useAuth = () => {
     user,
     token,
     loading,
+    error,
     role: user?.role,
     officeId: user?.office_id,
     logout: handleLogout,
