@@ -22,9 +22,9 @@ export const logoutRequest = async () => {
   await Axios.get("logout");
 };
 
-export const verify2FARequest = async ({ code, tempToken, user_id }) => {
-  let response = await Axios.post("veryfy_2FA", {
-    temporary_token: tempToken,
+export const verify2FARequest = async ({ code, temporary_token, user_id }) => {
+  let response = await Axios.post("verify_2FA", {
+    temporary_token,
     code,
     user_id,
   });
@@ -32,23 +32,9 @@ export const verify2FARequest = async ({ code, tempToken, user_id }) => {
   return response.data.data;
 };
 
-export const resendCode = async (tempToken) => {
-  // const response = await fetch("/api/resend-2fa", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     temp_token: tempToken,
-  //   }),
-  // });
-
-  // if (!response.ok) {
-  //   throw new Error("فشل إعادة الإرسال");
-  // }
-
-  return { message: "ok" };
-};
+// export const resendCode = async (tempToken) => {
+//   return { message: "ok" };
+// };
 
 export const forgetPasswordRequest = async (body) => {
   let response = await Axios.post("password/forgot", body);

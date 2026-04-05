@@ -118,7 +118,7 @@ export default function ResetPasswordPage() {
           </div>
         </div>
 
-        {/* 🚀 Button */}
+        {/*  Button */}
         <button
           onClick={handleSubmit}
           className="w-full bg-[#3f4b7f] hover:bg-[#2f3a66] text-white py-3 rounded-xl transition shadow-md"
@@ -131,7 +131,7 @@ export default function ResetPasswordPage() {
           </Typography>
         )}
 
-        {/* 🔙 Back */}
+        {/*  Back */}
         {/* <div className="text-center mt-5 text-sm text-gray-500">
           رجوع إلى{" "}
           <button className="text-blue-500 hover:underline">

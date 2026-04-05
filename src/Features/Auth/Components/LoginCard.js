@@ -31,6 +31,10 @@ export default function LoginForm() {
         navigate("/dashboard");
       } else {
         sessionStorage.setItem("temp_auth", JSON.stringify(data));
+        sessionStorage.setItem(
+          "temp_data",
+          JSON.stringify({ email, password }),
+        );
         navigate("/login/verify2fa");
       }
     } catch (err) {
