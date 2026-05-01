@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useChangePassword } from "../Hooks/useChangePassword";
+import Loader from "../../../shared/Components/Loading";
+import { Typography } from "@mui/material";
 // import icon2 from "./icon-2.svg";
 // import icon8 from "./icon-8.svg";
 // import icon9 from "./icon-9.svg";
@@ -9,9 +12,10 @@ import { useState } from "react";
 // import vector3 from "./vector-3.svg";
 
 export const SecuritySettingsOverviewSection = () => {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const { mutate, isPending, error } = useChangePassword();
+  const [current_password, setCurrentPassword] = useState("");
+  const [new_password, setNewPassword] = useState("");
+  const [new_password_confirmation, setConfirmPassword] = useState("");
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
   const [systemTwoFactorEnabled, setSystemTwoFactorEnabled] = useState(true);
   const [enforceAllUsers, setEnforceAllUsers] = useState(true);
@@ -28,33 +32,60 @@ export const SecuritySettingsOverviewSection = () => {
     return [score >= 1, score >= 2, score >= 3, score >= 4];
   };
 
-  const strengthBars = getPasswordStrength(newPassword);
+  const strengthBars = getPasswordStrength(new_password);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    mutate({
+      current_password,
+      new_password,
+      new_password_confirmation,
+    });
+  };
+
+  const handleToggleVerify2FA = async (e) => {
+    e.preventDefault();
+    setTwoFactorEnabled(!twoFactorEnabled);
+    // mutate({
+    //   current_password,
+    //   new_password,
+    //   new_password_confirmation,
+    // });
+  };
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full">
+      {isPending && <Loader />}
       {/* Password Card */}
-      <div className="flex flex-col gap-6 p-4 sm:p-6 bg-white rounded-2xl border-t-4 border-[#0050cb] shadow-[0px_12px_32px_#191c1d0a] relative">
-        <h2 className="text-lg sm:text-xl font-bold text-right [direction:rtl]">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-6 p-4 sm:p-6 bg-white rounded-2xl border-t-4 border-[#0050cb] shadow-[0px_12px_32px_#191c1d0a] relative"
+      >
+        <h2 className="text-lg sm:text-xl font-bold text-right ">
           إعدادات الأمان
         </h2>
 
-        <p className="text-sm text-slate-500 text-right [direction:rtl]">
+        <p className="text-sm text-slate-500 text-right">
           قم بتغيير كلمة المرور الخاصة بك بانتظام للحفاظ على أمان حسابك.
         </p>
 
         {/* Inputs */}
         <div className="flex flex-col gap-4">
           <input
+            required
             type="password"
             placeholder="كلمة المرور الحالية"
             className="w-full h-12 bg-[#f3f4f5] rounded-xl px-4 text-right outline-none"
+            onChange={(e) => setCurrentPassword(e.target.value)}
           />
 
           <div>
             <input
+              required
               type="password"
               placeholder="كلمة المرور الجديدة"
               className="w-full h-12 bg-[#f3f4f5] rounded-xl px-4 text-right outline-none"
+              onChange={(e) => setNewPassword(e.target.value)}
             />
 
             {/* Strength */}
@@ -71,18 +102,28 @@ export const SecuritySettingsOverviewSection = () => {
           </div>
 
           <input
+            required
             type="password"
             placeholder="تأكيد كلمة المرور"
             className="w-full h-12 bg-[#f3f4f5] rounded-xl px-4 text-right outline-none"
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
 
-        <button className="w-full py-3 bg-[#e1e3e4] rounded-xl hover:bg-[#d0d2d3] transition">
+        <button
+          type="submit"
+          className="w-full py-3 bg-[#e1e3e4] rounded-xl hover:bg-[#d0d2d3] transition"
+        >
           تحديث كلمة المرور
         </button>
+        {error && (
+          <Typography variant="body1" color="error">
+            {error.response.data.errors.current_password[0]}
+          </Typography>
+        )}
 
         {/* AI Tip */}
-        <div className="mt-2 p-4 bg-[#0050cb0a] rounded-xl text-right [direction:rtl]">
+        <div className="mt-2 p-4 bg-[#0050cb0a] rounded-xl text-right">
           <p className="text-xs font-bold text-[#0050cb] mb-1">
             توصية الذكاء الاصطناعي
           </p>
@@ -90,20 +131,20 @@ export const SecuritySettingsOverviewSection = () => {
             ننصح بتفعيل تنبيهات البريد الإلكتروني للتقارير الأسبوعية.
           </p>
         </div>
-      </div>
+      </form>
 
       {/* Security Controls */}
       <div className="flex flex-col gap-4">
         {/* General Security */}
         <div className="flex flex-col gap-6 p-4 sm:p-6 bg-white rounded-2xl shadow-[0px_12px_32px_#191c1d0a]">
-          <h3 className="text-lg font-bold text-right [direction:rtl]">
+          <h3 className="text-lg font-bold text-right ">
             إعدادات الأمان العامة
           </h3>
 
           {/* Toggle Item */}
           <div className="flex items-center justify-between">
             <button
-              onClick={() => setTwoFactorEnabled(!twoFactorEnabled)}
+              onClick={handleToggleVerify2FA}
               className={`w-11 h-6 rounded-full relative ${
                 twoFactorEnabled ? "bg-[#0050cb]" : "bg-gray-300"
               }`}
@@ -115,7 +156,7 @@ export const SecuritySettingsOverviewSection = () => {
               />
             </button>
 
-            <div className="text-right [direction:rtl]">
+            <div className="text-right">
               <p className="font-bold text-sm">التحقق بخطوتين</p>
               <p className="text-xs text-slate-500">
                 حماية إضافية عند تسجيل الدخول
@@ -138,7 +179,7 @@ export const SecuritySettingsOverviewSection = () => {
               />
             </button>
 
-            <div className="text-right [direction:rtl]">
+            <div className="text-right">
               <p className="font-bold text-sm">تفعيل 2FA على مستوى النظام</p>
               <p className="text-xs text-slate-500">
                 تطبيق على جميع المستخدمين
@@ -154,18 +195,18 @@ export const SecuritySettingsOverviewSection = () => {
               onChange={() => setEnforceAllUsers(!enforceAllUsers)}
             />
 
-            <span className="text-sm text-right [direction:rtl]">
+            <span className="text-sm text-right">
               فرض التحقق على جميع المستخدمين
             </span>
           </label>
 
-          <p className="text-xs text-slate-500 text-right [direction:rtl]">
+          <p className="text-xs text-slate-500 text-right">
             آخر تسجيل دخول: اليوم 10:45 صباحاً
           </p>
         </div>
 
         {/* Help Card */}
-        <div className="flex flex-col gap-3 p-4 sm:p-6 bg-[#0066ff] rounded-2xl text-white text-right [direction:rtl]">
+        <div className="flex flex-col gap-3 p-4 sm:p-6 bg-[#0066ff] rounded-2xl text-white text-right">
           <h3 className="text-lg font-bold">هل تحتاج للمساعدة؟</h3>
 
           <p className="text-sm opacity-90">

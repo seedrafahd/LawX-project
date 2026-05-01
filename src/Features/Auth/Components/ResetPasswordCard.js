@@ -15,7 +15,8 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [password_confirmation, setConfirmPassword] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!password || !password_confirmation) {
       alert("يرجى ملء جميع الحقول");
       return;
@@ -40,8 +41,13 @@ export default function ResetPasswordPage() {
 
       navigate("/login");
     } catch (err) {
-      console.log(err.response.data.errors);
-      dispatch(setError(err.response.data.errors.code[0]));
+      console.log(err.message);
+      dispatch(
+        setError(
+          err.message,
+          // err.response.data.errors.code[0]
+        ),
+      );
       setTimeout(() => {
         dispatch(setError(null));
       }, 5000);
@@ -51,94 +57,103 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <form
+      onSubmit={handleSubmit}
+      className="
+    w-full max-w-md
+    mx-auto
+    flex flex-col
+    p-6 sm:p-8 md:p-10
+    bg-white/80 backdrop-blur-md
+    rounded-3xl
+    border border-[#c2c6d826]
+    shadow-sm
+  "
+    >
       {/* Card */}
-      <div className="w-[400px] rounded-2xl bg-white/70 backdrop-blur-2xl shadow-[0_30px_80px_rgba(0,0,0,0.08)] p-8">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gray-200 flex items-center justify-center text-lg">
-            🔑
-          </div>
 
-          <h2 className="text-[20px] font-bold text-gray-800">
-            إعادة تعيين كلمة المرور
-          </h2>
-
-          <p className="text-gray-500 text-sm mt-1">
-            أدخل رمز التحقق وأدخل كلمة مرور جديدة لحسابك
-          </p>
+      {/* <div className="w-full max-w-md sm:max-w-lg md:max-w-xl rounded-2xl bg-white/80 backdrop-blur-xl shadow-lg p-6 sm:p-8 md:p-10"> */}
+      {/* Header */}
+      <div className="text-center mb-6">
+        <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gray-200 flex items-center justify-center text-lg">
+          🔑
         </div>
 
-        {/* Code */}
-        <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">رمز التحقق</label>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+          إعادة تعيين كلمة المرور
+        </h2>
 
-          <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#3f4b7f]">
-            <input
-              type="password"
-              placeholder="********"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm"
-            />
-          </div>
-        </div>
-
-        {/* Password */}
-        <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">
-            كلمة المرور الجديدة
-          </label>
-
-          <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#3f4b7f]">
-            <input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm"
-            />
-          </div>
-        </div>
-
-        {/* Confirm Password */}
-        <div className="mb-5">
-          <label className="block text-sm text-gray-600 mb-1">
-            تأكيد كلمة المرور
-          </label>
-
-          <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#3f4b7f]">
-            <input
-              type="password"
-              placeholder="********"
-              value={password_confirmation}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm"
-            />
-          </div>
-        </div>
-
-        {/*  Button */}
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-[#3f4b7f] hover:bg-[#2f3a66] text-white py-3 rounded-xl transition shadow-md"
-        >
-          حفظ كلمة المرور →
-        </button>
-        {error && (
-          <Typography variant="body1" color="error">
-            {error}
-          </Typography>
-        )}
-
-        {/*  Back */}
-        {/* <div className="text-center mt-5 text-sm text-gray-500">
-          رجوع إلى{" "}
-          <button className="text-blue-500 hover:underline">
-            تسجيل الدخول
-          </button>
-        </div> */}
+        <p className="text-gray-500 text-sm sm:text-base mt-1">
+          أدخل رمز التحقق وأدخل كلمة مرور جديدة لحسابك
+        </p>
       </div>
-    </div>
+
+      {/* Code */}
+      <div className="mb-4">
+        <label className="block text-sm sm:text-base text-gray-600 mb-1 text-right">
+          رمز التحقق
+        </label>
+        <div className="bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-sm focus-within:border-[#3f4b7f]">
+          <input
+            type="password"
+            placeholder="********"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            className="w-full bg-transparent outline-none text-sm sm:text-base"
+          />
+        </div>
+      </div>
+
+      {/* Password */}
+      <div className="mb-4">
+        <label className="block text-sm sm:text-base text-gray-600 mb-1 text-right">
+          كلمة المرور الجديدة
+        </label>
+        <div className="bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-sm focus-within:border-[#3f4b7f]">
+          <input
+            type="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-transparent outline-none text-sm sm:text-base"
+          />
+        </div>
+      </div>
+
+      {/* Confirm Password */}
+      <div className="mb-5">
+        <label className="block text-sm sm:text-base text-gray-600 mb-1 text-right">
+          تأكيد كلمة المرور
+        </label>
+        <div className="bg-white border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-sm focus-within:border-[#3f4b7f]">
+          <input
+            type="password"
+            placeholder="********"
+            value={password_confirmation}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full bg-transparent outline-none text-sm sm:text-base"
+          />
+        </div>
+      </div>
+
+      {/* Button */}
+      <button
+        type="submit"
+        className="w-full bg-[#3f4b7f] hover:bg-[#2f3a66] text-white py-3 sm:py-4 rounded-xl transition shadow-md text-sm sm:text-base"
+      >
+        حفظ كلمة المرور →
+      </button>
+
+      {error && (
+        <Typography
+          variant="body1"
+          color="error"
+          className="mt-3 text-sm sm:text-base"
+        >
+          {error}
+        </Typography>
+      )}
+      {/* </div> */}
+    </form>
   );
 }

@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { pageConfig } from "./Config/pageConfig";
 import {
   AppBar,
@@ -11,11 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-
-const sorce = "/assets/logo.png";
+import img from "./Assets/image-person.png";
 
 export default function MyAppBar() {
+  const navigate = useNavigate();
   const location = useLocation();
   const currentPage = pageConfig[location.pathname] || {};
   return (
@@ -58,7 +59,7 @@ export default function MyAppBar() {
             </Box>
           ) : (
             <Box sx={{ display: "flex", gap: "8px" }}>
-              <currentPage.icon sx={{ height: "32px" }} />
+              <HomeRoundedIcon sx={{ height: "32px" }} />
               <Typography
                 variant="h6"
                 noWrap
@@ -92,13 +93,13 @@ export default function MyAppBar() {
               <Grid size={4}>
                 {currentPage.type === "dashboard" ? (
                   <Button
-                    // onClick={handleCreateUser}
+                    onClick={(e) => navigate("/cases/create")}
                     size="small"
                     style={{ height: "100%", borderRadius: "15px" }}
                     variant="contained"
                     startIcon={<AddIcon />}
                   >
-                    إضافة
+                    إضافة قضية
                   </Button>
                 ) : (
                   <Box sx={{ display: "flex", gap: "8px" }}>
@@ -106,7 +107,7 @@ export default function MyAppBar() {
                       sx={{ height: 36, width: 36, color: "#868686" }}
                     />
                     <Avatar
-                      src={sorce}
+                      src={img}
                       alt="profile"
                       style={{ height: 40, background: "#868686" }}
                     />

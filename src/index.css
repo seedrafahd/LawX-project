@@ -1,3 +1,129 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* FIX AUTOFILL BACKGROUND */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+@tailwind components;
+@tailwind utilities;
+@layer components {
+.all-\[unset\] {
+all: unset;
+}
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+}
+
+:root {
+--variable-collection: rgba(0, 0, 0, 0.2);
+--variable-collection-blue2-color: #1563f8;
+--variable-collection-blue3-color: #43b1df;
+--variable-collection-CART-color: #eff1f8;
+--variable-collection-error-color: rgba(216, 12, 12, 1);
+--variable-collection-grey-color: #7e8ca7;
+--variable-collection-GREY-textcolor: #464646;
+--variable-collection-navbar-color: #48576733;
+--variable-collection-navbarbg-color: #b1bfce;
+--variable-collection-primary-color: 52 68 116;
+--variable-collection-SCREEN-BG-color: #eff1f8;
+--variable-collection-strokes-color: #cac4d0;
+--variable-collection-sucess-color: rgba(25, 135, 84, 1);
+--variable-collection-warning-color: #ba5b08;
+}
+:root {
+--animate-spin: spin is linear infinite;
+}
+.animate-fade-in {
+animation: fade-in 1s var(--animation-delay, es) ease forwards;
+}
+.animate-fade-up {
+animation: fade-up 1s var(--animation-delay, es) ease forwards;
+}
+.animate-marquee {
+animation: marquee var(--duration) infinite linear;
+}
+.animate-marquee-vertical {
+animation: marquee-vertical var(--duration) linear infinite;
+}
+.animate-shimmer {
+animation: shimmer 8s infinite;
+}
+.animate-spin {
+animation: var(--animate-spin);
+}
+@keyframes spin {
+to {
+transform: rotate(1turn);
+}
+}
+@keyframes image-glow {
+0% {
+opacity: 0;
+animation-timing-function: cubic-bezier (0.74, 0.25, 0.76, 1);
+}
+10% {
+opacity: 0.7;
+animation-timing-function: cubic-bezier (0.12, 0.01, 0.08, 0.99);
+}
+to {
+opacity: 0.4;
+}
+}
+@keyframes fade-in {
+0% {
+opacity: 0;
+transform: translateY(-10px);
+}
+to {
+opacity: 1;
+transform: none;
+}
+}
+@keyframes fade-up {
+0% {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: none;
+}
+}
+@keyframes shimmer {
+0%,
+90%,
+to {
+background-position: calc(-100% - var(--shimmer-width)) 0;
+}
+30%,
+60% {
+background-position: calc(100% + var(--shimmer-width)) 0;
+}
+}
+@keyframes marquee {
+0% {
+transform: translate(0);
+}
+to {
+transform: translatex (calc(-100% - var(--gap)));
+}
+}
+@keyframes marquee-vertical {
+0% {
+transform: translateY(0);
+}
+
+to {
+transform: translateY(calc(-100% var(--gap)));
+}
+}

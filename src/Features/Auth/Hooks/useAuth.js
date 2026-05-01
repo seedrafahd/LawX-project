@@ -16,6 +16,7 @@ export const useAuth = () => {
     try {
       await logoutRequest();
     } catch (e) {
+      console.log(e.message);
     } finally {
       dispatch(setLoading(false));
       dispatch(logout());

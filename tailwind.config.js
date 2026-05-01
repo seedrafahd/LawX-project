@@ -22,7 +22,7 @@ module.exports = {
         "variable-collection-navbarbg-color":
           "var(--variable-collection-navbarbg-color)",
         "variable-collection-primary-color":
-          "var(--variable-collection-primary-color)",
+          "rgb(var(--variable-collection-primary-color) / <alpha-value>)",
         "variable-collection-SCREEN-BG-color":
           "var(--variable-collection-SCREEN-BG-color)",
         "variable-collection-strokes-color":
@@ -31,6 +31,10 @@ module.exports = {
           "var(--variable-collection-sucess-color)",
         "variable-collection-warning-color":
           "var(--variable-collection-warning-color)",
+      },
+
+      fontFamily: {
+        sans: ["Cairo", "sans-serif"],
       },
     },
   },

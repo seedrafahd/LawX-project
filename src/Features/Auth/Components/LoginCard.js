@@ -6,6 +6,10 @@ import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
 import { setError, setLoading, setUserDetails } from "../AuthSlice";
 import { useAuth } from "../Hooks/useAuth";
+import icon_login from "../../../App/Assets/Icon_login.png";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -38,14 +42,8 @@ export default function LoginForm() {
         navigate("/login/verify2fa");
       }
     } catch (err) {
-      console.log(
-        err.response.data?.data?.message || err.response.data.errors.email[0],
-      );
-      dispatch(
-        setError(
-          err.response.data?.data?.message || err.response.data.errors.email[0],
-        ),
-      );
+      console.log(err.message);
+      dispatch(setError(err.message));
       setTimeout(() => {
         dispatch(setError(null));
       }, 5000);
@@ -55,100 +53,131 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      {/* Login Card */}
-      <div className=" w-[400px] rounded-2xl bg-white/70 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8">
-        {/* Header */}
-        <div className="text-center pb-6 w-[318px]">
-          <div className="w-14 h-12 mx-auto pb-3 pt-3 rounded-full bg-gray-200 flex items-center justify-center">
-            🛡️
-          </div>
-          <h1 className="text-xl font-bold text-gray-800 h-6 mt-7">
-            دخول المشرف الرئيسي
-          </h1>
-          <p className="text-gray-500 text-sm">
-            بيئة قانونية مشفرة وآمنة بالكامل
-          </p>
+    <form
+      onSubmit={handleSubmit}
+      className="
+    w-full max-w-md
+    mx-auto
+    flex flex-col
+    p-6 sm:p-8 md:p-10
+    bg-white/80 backdrop-blur-md
+    rounded-3xl
+    border border-[#c2c6d826]
+    shadow-sm
+  "
+    >
+      {/* HEADER */}
+      <div className="flex flex-col items-center gap-4 pb-8">
+        {/* Icon */}
+        <div className=" p-3 flex items-center justify-center bg-[#f3f4f5] rounded-full">
+          <img alt="Icon" src={icon_login} className="w-6 h-6" />
         </div>
 
-        {/* form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-7 pb-4">
-          {/* Email */}
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-black block text-right pl-1 pr-1">
-              البريد الإلكتروني
-            </label>
-            <div className="flex items-center bg-white border border-gray-100 rounded-xl px-4 py-3 shadow-sm">
-              <input
-                required
-                type="email"
-                placeholder="admin@intelligentjurist.legal"
-                className="w-full bg-white outline-none text-sm text-gray-500"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+        {/* Title */}
+        <h1 className="text-2xl sm:text-3xl font-bold text-center ">
+          تسجيل الدخول
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-xs sm:text-sm text-center text-[#424656]">
+          بيئة قانونية مشفرة وآمنة بالكامل
+        </p>
+      </div>
+
+      {/* FORM */}
+      <div className="flex flex-col gap-6">
+        {/* EMAIL */}
+        <div className="flex flex-col gap-2">
+          <label className="text-xs font-bold text-right ">
+            البريد الإلكتروني
+          </label>
+
+          <div className="relative">
+            <input
+              className="w-full px-4 py-3 sm:py-4 rounded-2xl border shadow-sm text-right"
+              placeholder="admin@intelligentjurist.legal"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              dir="ltr"
+            />
+            <AlternateEmailIcon
+              sx={{ color: "#868686" }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5"
+            />
+          </div>
+        </div>
+
+        {/* PASSWORD */}
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-bold ">كلمة المرور</label>
+            <button
+              type="button"
+              className="text-xs text-blue-600"
+              onClick={() => navigate("/login/forget-password")}
+            >
+              نسيت كلمة المرور؟
+            </button>
           </div>
 
-          {/* Password */}
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between text-xs font-bold text-black px-1">
-              <span>كلمة المرور</span>
-              <button
-                className="text-[#3f4b7f] text-xs"
-                onClick={() => navigate("/login/forget-password")}
-              >
-                نسيت كلمة المرور؟
-              </button>
-            </div>
-            <div className="flex items-center bg-white border border-gray-100 rounded-xl px-4 py-3 shadow-sm">
-              <input
-                required
-                type="password"
-                placeholder="••••••••••••"
-                className="w-full bg-white outline-none text-sm"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+          <div className="relative ">
+            <input
+              className="w-full px-4 py-3 sm:py-4 rounded-2xl border shadow-sm text-right"
+              placeholder="••••••••••••"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <HttpsOutlinedIcon
+              sx={{ color: "#868686" }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-4"
+            />
           </div>
+        </div>
 
-          {/* Remember */}
-          <div className="flex items-center justify-between text-sm text-gray-700 gap-3 pr-1">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="text-gray-300"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              تذكرني على هذا الجهاز
-            </label>
-          </div>
+        {/* REMEMBER */}
+        <div className="flex items-center justify-between gap-2">
+          <label className="text-sm flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="w-4 h-4"
+            />
+            تذكرني على هذا الجهاز
+          </label>
+        </div>
 
-          {/* Button */}
+        {/* BUTTON */}
+        <button
+          type="submit"
+          className="w-full h-12 sm:h-14 flex items-center justify-center rounded-2xl bg-gradient-to-r from-[#344474] to-[#59699a] gap-2"
+        >
+          <span className="text-white font-bold text-base sm:text-lg">
+            تسجيل الدخول
+          </span>
+          <LoginOutlinedIcon sx={{ color: "white" }} />
+        </button>
 
-          <button
-            type="submit"
-            className="w-full bg-[#3f4b7f] hover:bg-[#2f3a66] text-white py-3 rounded-xl transition"
-          >
-            تسجيل الدخول →
-          </button>
-        </form>
         {error && (
           <Typography variant="body1" color="error">
             {error}
           </Typography>
         )}
+      </div>
 
-        {/* Badges */}
-        <div className="flex justify-center gap-4 text-xs pt-8">
-          <span className="bg-[#D6E3FB] text-blue-600 px-4 py-1 rounded-full">
+      {/* FOOTER */}
+      <div className="pt-8 flex justify-center">
+        <div className="flex flex-wrap justify-center gap-2">
+          <div className="px-3 py-1 bg-blue-100 rounded-full text-[10px]">
             نظام معتمد
-          </span>
-          <span className="bg-[#E1E3E4] px-4 py-1 rounded-full text-gray-600">
-            BIT-256 تشفير
-          </span>
+          </div>
+          <div className="px-3 py-1 bg-gray-100 rounded-full text-[10px]">
+            تشفير 256-BIT
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

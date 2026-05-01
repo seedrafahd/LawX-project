@@ -1,20 +1,10 @@
-import lawXImage from "./Assets/law_X.png";
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Navigate, NavLink } from "react-router-dom";
+import { useAuth } from "../Features/Auth/Hooks/useAuth";
+import { useState } from "react";
+import ConfirmDialog from "../shared/Components/ConfirmDialog";
+import logoImage from "./Assets/lawX.png";
 
+// Icons
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
@@ -24,38 +14,22 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import ArticleIcon from "@mui/icons-material/Article";
-
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { NavLink } from "react-router-dom";
-import { useAuth } from "../Features/Auth/Hooks/useAuth";
-import { useState } from "react";
-import ConfirmDialog from "../shared/Components/ConfirmDialog";
 
 const drawerWidth = 230;
 
 export default function MyDrawer() {
-  const { logout } = useAuth();
-  const { user } = useAuth();
+  const { logout, user } = useAuth();
   const role = user?.role;
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const superAdminMenuItems = [
     { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
-    {
-      icon: <ArticleIcon />,
-      label: "الباقات والخطط",
-      link: "packages",
-    },
+    { icon: <ArticleIcon />, label: "الباقات والخطط", link: "packages" },
     { icon: <LocalAtmIcon />, label: "إشتراكات ودفعات", link: "subscribes" },
     { icon: <StarsOutlinedIcon />, label: "ميزات", link: "features" },
     {
@@ -63,198 +37,108 @@ export default function MyDrawer() {
       label: "الملف الشخصي",
       link: "profile",
     },
-    // { icon: <ArticleIcon />, label: "التقارير", link: "reports" },
-    {
-      icon: <SettingsIcon />,
-      label: "الإعدادات",
-      link: "settings",
-    },
+    { icon: <SettingsIcon />, label: "الإعدادات", link: "settings" },
   ];
 
   const officeAdminMenuItems = [
     { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
-    {
-      icon: <PersonIcon />,
-      label: "الموظف",
-      link: "employee",
-    },
+    // { icon: <PersonIcon />, label: "الموظف", link: "employee" },
     { icon: <BusinessCenterIcon />, label: "القضايا", link: "cases" },
-    { icon: <StarIcon />, label: "التقييم", link: "evaluation" },
-    {
-      icon: <ArticleIcon />,
-      label: "القوالب",
-      link: "templates",
-    },
-    {
-      icon: <BalanceIcon />,
-      label: "قانون",
-      link: "law",
-    },
-    {
-      icon: <SettingsIcon />,
-      label: "الإعدادات",
-      link: "settings",
-    },
-  ];
-
-  const accountantMenuItems = [
-    { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
+    // { icon: <StarIcon />, label: "التقييم", link: "evaluation" },
+    // { icon: <ArticleIcon />, label: "القوالب", link: "templates" },
+    // { icon: <BalanceIcon />, label: "قانون", link: "law" },
+    // { icon: <SettingsIcon />, label: "الإعدادات", link: "settings" },
   ];
 
   const menuItems =
     role === "super_admin"
       ? superAdminMenuItems
-      : role === "office_admin"
+      : role === "admin"
         ? officeAdminMenuItems
-        : superAdminMenuItems;
+        : null;
 
-  const drawer = (
-    <Box
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        py: "16px",
-        px: "24px",
-      }}
-    >
-      <Box sx={{ display: "flex" }}>
-        <Avatar alt="Logo" src={lawXImage} sx={{ width: 60, height: 60 }} />
-        {/* <Box sx={{ display: "flex", alignItems: "center" }}> */}
-        <Typography sx={{ fontSize: 20, color: "#868686" }}>
-          Powersed by FetureX
-        </Typography>
-        {/* </Box> */}
-      </Box>
+  const DrawerContent = () => (
+    <div className="h-full flex flex-col justify-between py-4 px-6 gap-5">
+      {/* LOGO */}
+      <img src={logoImage} alt="Logo" className="w-[152px]" />
+      {/* <div className="flex items-center gap-2">
+        <img src={XImage} alt="Logo" className="w-[55px] h-[63px]" />
+        <div className="flex-1 flex items-center">
+          <span className="w-full h-full text-[clamp(24px,5vw,50px)] font-bold text-variable-collection-primary-color">
+            Law
+          </span>
+        </div>
+      </div> */}
 
       {/* MENU */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "100px" }}>
-        <List
-          sx={{
-            // flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+      <div className="flex flex-col justify-between h-full">
+        <ul className="flex flex-col gap-2">
           {menuItems.map((item, index) => (
-            <NavLink
-              key={index}
-              to={item.link}
-              style={{ textDecoration: "none" }}
-            >
+            <NavLink key={index} to={item.link}>
               {({ isActive }) => (
-                <ListItem disablePadding>
-                  <ListItemButton
-                    sx={(theme) => ({
-                      gap: "10px",
-                      borderRadius: 5,
-                      backgroundColor: isActive
-                        ? theme.palette.primary.main
-                        : "transparent",
-                      color: !isActive ? "gray" : "white",
-                      "&:hover": {
-                        bgcolor: theme.palette.primary.light,
-                        color: "white",
-                      },
-                    })}
-                  >
-                    <ListItemIcon sx={{ color: "inherit", minWidth: "auto" }}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.label} />
-                  </ListItemButton>
-                </ListItem>
+                <li
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition
+                  ${
+                    isActive
+                      ? "bg-variable-collection-primary-color text-white"
+                      : "text-gray-500 hover:bg-variable-collection-primary-color/50 hover:text-white"
+                  }`}
+                >
+                  <span>{item.icon}</span>
+                  <span>{item.label}</span>
+                </li>
               )}
             </NavLink>
           ))}
-        </List>
+        </ul>
 
-        {/* Logout */}
-        <Box sx={{ p: 2 }}>
-          <ListItemButton
+        {/* LOGOUT */}
+        <div>
+          <button
             onClick={() => setShowModal(true)}
-            sx={{
-              borderRadius: 5,
-              color: "#DC3545",
-              "&:hover": { bgcolor: "#DC3545", color: "white" },
-            }}
+            className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition"
           >
-            <ListItemIcon sx={{ color: "inherit" }}>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="تسجيل خروج" />
-          </ListItemButton>
-        </Box>
-      </Box>
-    </Box>
+            <LogoutIcon />
+            <span>تسجيل خروج</span>
+          </button>
+        </div>
+      </div>
+    </div>
   );
-
+  if (menuItems == null) {
+    return <Navigate to="/unauthorized" replace />;
+  }
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
+    <div className="flex">
+      {/* MOBILE TOP BAR */}
+      <div className="sm:hidden fixed top-0 left-0 right-0 bg-blue-600 text-white flex items-center px-4 py-3 z-50">
+        <button onClick={() => setMobileOpen(true)}>
+          <MenuIcon />
+        </button>
+        <span className="ml-4 font-semibold">Menu</span>
+      </div>
 
-      {/* TOP APP BAR MOBILE */}
-      <AppBar
-        position="fixed"
-        sx={{ display: { sm: "none" }, boxShadow: "none" }}
+      {/* MOBILE DRAWER */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div
+            className="bg-black/40 w-full"
+            onClick={() => setMobileOpen(false)}
+          />
+          <div className="bg-white h-full" style={{ width: drawerWidth }}>
+            <DrawerContent />
+          </div>
+        </div>
+      )}
+
+      {/* DESKTOP DRAWER */}
+      <div
+        className="hidden sm:block h-screen border-l bg-white"
+        style={{ width: drawerWidth }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Menu
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      {/* DRAWERS */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
-        {/* MOBILE */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              gap: 1.4,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-
-        {/* DESKTOP */}
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              borderLeft: "1px solid #eee",
-              background: "#fff",
-            },
-          }}
-        >
-          <Toolbar />
-          {drawer}
-        </Drawer>
-      </Box>
+        <div className="h-16" />
+        <DrawerContent />
+      </div>
 
       {/* LOGOUT MODAL */}
       <ConfirmDialog
@@ -262,11 +146,9 @@ export default function MyDrawer() {
         onClose={() => setShowModal(false)}
         onConfirm={logout}
         title="تأكيد تسجيل الخروج"
-        description="
-            هل أنت متأكد من رغبتك في تسجيل الخروج؟ سيتم إنهاء جلستك الحالية
-            وستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى بياناتك."
+        description="هل أنت متأكد من رغبتك في تسجيل الخروج؟ سيتم إنهاء جلستك الحالية وستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى بياناتك."
         confirmText="تسجيل الخروج"
       />
-    </Box>
+    </div>
   );
 }

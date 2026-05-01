@@ -1,5 +1,3 @@
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-
 export const pageConfig = {
   "/login": {
     type: "dashboard",
@@ -21,7 +19,6 @@ export const pageConfig = {
 
   "/employee": {
     title: "/إدارة المحامين والموظفين",
-    icon: HomeRoundedIcon,
   },
   "/cases": {
     title: "/إدارة القضايا",
