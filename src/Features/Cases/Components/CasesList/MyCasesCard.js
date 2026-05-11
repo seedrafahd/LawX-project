@@ -1,5 +1,5 @@
 import GavelIcon from "@mui/icons-material/Gavel";
-import CaseCard from "./CaseCard";
+import CaseCard from "../CaseCard";
 
 export default function MyCasesView({ data }) {
   const cases = 0;
@@ -7,20 +7,26 @@ export default function MyCasesView({ data }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-      <div className="lg:col-span-2 space-y-4">
-        <div
-          key={cases.id}
-          className={`grid grid-cols-1 xl:grid-cols-2 gap-4
+      {data?.length ? (
+        <>
+          <div className="lg:col-span-2 space-y-4">
+            <div
+              key={cases.id}
+              className={`grid grid-cols-1 xl:grid-cols-2 gap-4
         ${isOdd ? "md:col-span-3" : ""}
       `}
-        >
-          {[1, 2, 3].map((i) => (
-            <CaseCard key={i} data={data} />
-          ))}
-        </div>
-      </div>
+            >
+              {data?.map((c) => (
+                <CaseCard key={c.id} c={c} />
+              ))}
+            </div>
+          </div>
 
-      <TasksSidebar />
+          <TasksSidebar />
+        </>
+      ) : (
+        <p className="text-sm font-semibold text-gray-500">لا توجد قضايا بعد</p>
+      )}
     </div>
   );
 }

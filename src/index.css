@@ -24,20 +24,33 @@ body {
   font-family: "Cairo", sans-serif;
 }
 
+.hearing-date-input {
+  position: relative;
+}
+
+.hearing-date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 1rem;
+  right: auto;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
 :root {
 --variable-collection: rgba(0, 0, 0, 0.2);
+--variable-collection-primary-color: 52 68 116;
+/* Red */
+--variable-collection-error-color: 216 12 12;
 --variable-collection-blue2-color: #1563f8;
 --variable-collection-blue3-color: #43b1df;
 --variable-collection-CART-color: #eff1f8;
---variable-collection-error-color: rgba(216, 12, 12, 1);
 --variable-collection-grey-color: #7e8ca7;
 --variable-collection-GREY-textcolor: #464646;
 --variable-collection-navbar-color: #48576733;
 --variable-collection-navbarbg-color: #b1bfce;
---variable-collection-primary-color: 52 68 116;
 --variable-collection-SCREEN-BG-color: #eff1f8;
 --variable-collection-strokes-color: #cac4d0;
---variable-collection-sucess-color: rgba(25, 135, 84, 1);
+--variable-collection-sucess-color: #198754;
 --variable-collection-warning-color: #ba5b08;
 }
 :root {

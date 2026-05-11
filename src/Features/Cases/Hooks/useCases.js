@@ -31,8 +31,9 @@ export const useUpdateCase = () => {
 
   return useMutation({
     mutationFn: updateCaseRequest,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["cases"]);
+      toast.success(data?.message || "تمت العملية بنجاح ✅");
     },
   });
 };
@@ -42,8 +43,9 @@ export const useDeleteCase = () => {
 
   return useMutation({
     mutationFn: deleteCaseRequest,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["cases"]);
+      toast.success(data?.message || "تمت العملية بنجاح ✅");
     },
   });
 };

@@ -9,7 +9,7 @@ export default function CaseSummary({ formData }) {
 
         <div className="space-y-3 text-sm">
           {formData.client_id && (
-            <Row label="العميل" value={formData.client_id} />
+            <Row label="العميل" value={formData.client_name} />
           )}
           {formData.type && <Row label="نوع القضية" value={formData.type} />}
           {formData.payment_plan && (

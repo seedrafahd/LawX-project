@@ -5,7 +5,7 @@ import StepNavigation from "./StepNavigation";
 export default function ClientStep({ formData, setFormData, onNext }) {
   const clients = [
     {
-      id: "5f8ea816-03fe-4726-b537-9975f4dbeadd",
+      id: "0d4a4b17-44ed-4372-8d9c-99648e5ce81f",
       name: "أحمد العلي",
     },
   ];
@@ -13,9 +13,11 @@ export default function ClientStep({ formData, setFormData, onNext }) {
   return (
     <div className="bg-white rounded-xl p-6 shadow-sm">
       <div className="flex justify-between px-4 py-[18px] text-variable-collection-primary-color">
-        <div className="flex gap-2 text-variable-collection-primary-color">
+        <div className="flex gap-2 ">
           <PersonSearchIcon />
-          <h2 className="text-xl font-semibold">اختيار العميل</h2>
+          <h2 className="text-xl font-bold text-variable-collection-GREY-textcolor">
+            اختيار العميل
+          </h2>
         </div>
         إضافة عميل جديد
       </div>
@@ -35,7 +37,13 @@ export default function ClientStep({ formData, setFormData, onNext }) {
           return (
             <div
               key={client.id}
-              onClick={() => setFormData({ ...formData, client_id: client.id })}
+              onClick={() =>
+                setFormData({
+                  ...formData,
+                  client_id: client.id,
+                  client_name: client.name,
+                })
+              }
               className={`border rounded-lg px-3 py-2 flex justify-between items-center cursor-pointer transition hover:bg-variable-collection-primary-color/10
         ${isSelected ? "bg-variable-collection-primary-color/10 border-variable-collection-primary-color" : "bg-white"}
       `}
@@ -60,7 +68,6 @@ export default function ClientStep({ formData, setFormData, onNext }) {
       </div>
 
       {/* Buttons */}
-
       <StepNavigation onNext={onNext} disableNext={!formData.client_id} />
     </div>
   );

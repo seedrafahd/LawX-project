@@ -44,6 +44,7 @@ export default function MyDrawer() {
     { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
     // { icon: <PersonIcon />, label: "الموظف", link: "employee" },
     { icon: <BusinessCenterIcon />, label: "القضايا", link: "cases" },
+    // { icon: <BusinessCenterIcon />, label: "المهام", link: "tasks" },
     // { icon: <StarIcon />, label: "التقييم", link: "evaluation" },
     // { icon: <ArticleIcon />, label: "القوالب", link: "templates" },
     // { icon: <BalanceIcon />, label: "قانون", link: "law" },
@@ -133,11 +134,13 @@ export default function MyDrawer() {
 
       {/* DESKTOP DRAWER */}
       <div
-        className="hidden sm:block h-screen border-l bg-white"
+        className="hidden sm:block h-screen border-l bg-white overflow-hidden"
         style={{ width: drawerWidth }}
       >
         <div className="h-16" />
-        <DrawerContent />
+        <div className="h-[calc(100vh-64px)]">
+          <DrawerContent />
+        </div>
       </div>
 
       {/* LOGOUT MODAL */}

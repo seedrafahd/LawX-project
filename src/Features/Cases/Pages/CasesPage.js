@@ -3,15 +3,16 @@ import { FilterToolbar } from "../Components/CasesFilter";
 import { useNavigate } from "react-router-dom";
 import { useCases } from "../Hooks/useCases";
 import { useMemo, useState } from "react";
-import CasesList from "../Components/CasesList";
+import CasesList from "../Components/CasesList/CasesList";
 import Loader from "../../../shared/Components/Loading";
+import SharedButton from "../../../shared/Components/SharedButton";
 
 export default function CasesPage() {
   const navigate = useNavigate();
   const { data, isPending } = useCases();
-  const cases = data?.data?.data?.cases;
-  console.log(cases);
   const [activeTab, setActiveTab] = useState("all");
+  const cases = data?.data?.data?.cases;
+
   const tabs = [
     { id: "all", label: "كل القضايا" },
     { id: "my", label: "قضاياي" },
@@ -57,7 +58,7 @@ export default function CasesPage() {
   };
 
   return (
-    <div className="flex flex-col gap-5 min-h-screen">
+    <div className="space-y-5 min-h-screen">
       {isPending && <Loader />}
       <div className="flex flex-col gap-5">
         {/* Header */}
@@ -69,14 +70,12 @@ export default function CasesPage() {
               المكتب.
             </p>
           </div>
-          <button
+          <SharedButton
+            icon={<Plus size={18} />}
             onClick={(e) => navigate("/cases/create")}
-            className="flex items-center gap-3 px-8 py-4 text-white bg-variable-collection-primary-color
-                      rounded-2xl shadow-sm hover:bg-variable-collection-primary-color/80"
           >
-            <Plus size={18} />
             إنشاء قضية
-          </button>
+          </SharedButton>
         </div>
 
         <div className="flex flex-col gap-8 bg-white px-6 pt-8 pb-6">

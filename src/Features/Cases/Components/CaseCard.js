@@ -1,6 +1,8 @@
 import { CalendarDays, Paperclip } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function CaseCard({ c }) {
+  const navigate = useNavigate();
   return (
     <div className="bg-white rounded-2xl border-r-4 border-blue-600 p-6 space-y-4 font-[Cairo]">
       {/* Header */}
@@ -17,7 +19,10 @@ export default function CaseCard({ c }) {
           </div>
 
           <div className="text-sm text-gray-500">
-            <span>رقم القضية: AR-0941-2023 • المحكمة التجارية بالرياض</span>
+            <span>
+              {c?.description ||
+                "رقم القضية: AR-0941-2023 • المحكمة التجارية بالرياض"}
+            </span>
           </div>
         </div>
 
@@ -60,7 +65,10 @@ export default function CaseCard({ c }) {
         </div>
 
         {/* Button */}
-        <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">
+        <button
+          onClick={() => navigate(`/cases/case_details/${c.id}`)}
+          className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm"
+        >
           عرض التفاصيل
         </button>
       </div>

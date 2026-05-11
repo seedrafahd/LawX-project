@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateCase } from "../Hooks/useCases";
 import Loader from "../../../shared/Components/Loading";
 import toast from "react-hot-toast";
+import AssignCourtStep from "../Components/CreateCase/AssignCourtStep";
 
 export default function CreateCasePage() {
   const navigate = useNavigate();
@@ -18,12 +19,14 @@ export default function CreateCasePage() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     title: "",
-    description: "qwerty ertyukv",
+    description: "",
     client_id: null,
+    client_name: "",
     type: "",
     workflow: "",
     payment_plan: "",
     lawyer: "",
+    court: "",
   });
 
   const handleSubmit = () => {
@@ -92,11 +95,18 @@ export default function CreateCasePage() {
 
             {step === 5 && (
               <>
-                <AssignLawyerStep
-                  formData={formData}
-                  setFormData={setFormData}
-                  onBack={() => setStep(4)}
-                />
+                <div className="space-y-[38px]">
+                  <AssignLawyerStep
+                    formData={formData}
+                    setFormData={setFormData}
+                    onBack={() => setStep(4)}
+                  />
+                  <AssignCourtStep
+                    formData={formData}
+                    setFormData={setFormData}
+                    onBack={() => setStep(4)}
+                  />
+                </div>
 
                 <div className="flex justify-between mt-16">
                   <button

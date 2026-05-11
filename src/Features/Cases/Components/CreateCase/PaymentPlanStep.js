@@ -4,6 +4,7 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import PercentIcon from "@mui/icons-material/Percent";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LanIcon from "@mui/icons-material/Lan";
+import StepHeader from "./StepHeader";
 
 export default function PaymentPlanStep({
   formData,
@@ -39,12 +40,7 @@ export default function PaymentPlanStep({
   return (
     <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl">
       {/* Header */}
-      <div className=" px-4 py-[18px] text-variable-collection-primary-color">
-        <div className="flex items-center gap-2">
-          <PaymentsIcon />
-          <span className="text-lg font-semibold">خطة الدفع</span>
-        </div>
-      </div>
+      <StepHeader icon={<PaymentsIcon />} title="خطة الدفع" />
 
       {/* Cards */}
       <div className="grid grid-cols-3 max-w-xl mx-auto gap-[10px] pt-[14px] pb-[22px]">

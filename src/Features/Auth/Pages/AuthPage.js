@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import AuthAppBar from "./AuthAppBar";
+import AuthAppBar from "../Components/AuthAppBar";
 import ellipse5 from "../../../App/Assets/Ellipse 5.png";
 import ellipse6 from "../../../App/Assets/Ellipse 6.png";
 
-export default function Auth() {
+export default function AuthPage() {
   const { token, user } = useSelector((state) => state.auth);
 
   // if already logged in //

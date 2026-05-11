@@ -9,9 +9,9 @@ export default function CasesList({ activeTab, data }) {
       {activeTab === "all" ? (
         <AllCasesView cases={data} />
       ) : activeTab === "office" ? (
-        <OfficeListView />
+        <OfficeListView cases={data} />
       ) : (
-        <MyCasesView />
+        <MyCasesView data={data} />
       )}
     </div>
   );

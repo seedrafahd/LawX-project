@@ -1,5 +1,6 @@
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import StepNavigation from "./StepNavigation";
+import StepHeader from "./StepHeader";
 
 export default function AssignLawyerStep({ formData, setFormData, onBack }) {
   const lawyers = [
@@ -29,13 +30,8 @@ export default function AssignLawyerStep({ formData, setFormData, onBack }) {
   return (
     <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl">
       {/* Header */}
-      <div className=" px-4 py-[18px] text-variable-collection-primary-color">
-        <div className="flex items-center gap-2">
-          <PersonSearchIcon />
-          <span className="text-lg font-semibold">تعيين المحامي المسؤول</span>
-        </div>
-      </div>
-      <div className="space-y-[14px]">
+      <StepHeader icon={<PersonSearchIcon />} title="تعيين المحامي المسؤول" />
+      <div className="px-4 pt-[10px] pb[18px] space-y-[14px]">
         {/* Selected Lawyer Card */}
         {lawyers.map((lawyer) => {
           const isSelected = formData.lawyer === lawyer.name;
@@ -83,8 +79,6 @@ export default function AssignLawyerStep({ formData, setFormData, onBack }) {
           );
         })}
       </div>
-
-      <StepNavigation onBack={onBack} disableNext={true} />
     </div>
   );
 }

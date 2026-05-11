@@ -2,6 +2,7 @@ import StarIcon from "@mui/icons-material/Star";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StepNavigation from "./StepNavigation";
 import { useState } from "react";
+import StepHeader from "./StepHeader";
 
 export default function CaseDetailsStep({
   formData,
@@ -14,27 +15,44 @@ export default function CaseDetailsStep({
   return (
     <div className="bg-white rounded-xl">
       {/* Header */}
-      <div className="px-4 py-[18px]">
-        <div className="flex items-center gap-2 ">
-          <DescriptionOutlinedIcon className="text-lg" />
-          <h2 className="font-semibold text-lg font-bold">تفاصيل القضية</h2>
-        </div>
-      </div>
+      <StepHeader icon={<DescriptionOutlinedIcon />} title=" تفاصيل القضية" />
       {/* card */}
       <div className="border-b">
-        <div className="px-[25px] pt-3 pb-[18px]">
-          <div className="flex flex-col gap-2">
-            <label className="block text-sm text-gray-700">عنوان القضية</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              className="w-full border border-gray-300 rounded-lg px-[10px] py-2"
-              placeholder="مثال: نزاع عقاري-حصر إرث..."
-            />
-          </div>
+        {/* Title */}
+        <div className="flex flex-col px-[25px] pt-3 pb-[18px] gap-2">
+          <label className="block text-sm text-gray-700">عنوان القضية</label>
+          <input
+            type="text"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            className="w-full border border-gray-300 rounded-lg px-[10px] py-2"
+            placeholder="مثال: نزاع عقاري-حصر إرث..."
+          />
+          {formData.title && formData.title.trim().length < 5 && (
+            <span className="text-variable-collection-error-color text-xs">
+              يجب أن يكون العنوان 5 أحرف على الأقل
+            </span>
+          )}
+        </div>
+        {/* Description */}
+        <div className="flex flex-col px-[25px] pt-3 pb-[18px] gap-2 border-t">
+          <label className="block text-sm text-gray-700">وصف القضية</label>
+          <input
+            type="text"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+            className="w-full border border-gray-300 rounded-lg px-[10px] py-2"
+            placeholder="أدخل وصف للقضية.."
+          />
+          {formData.description && formData.description.trim().length < 10 && (
+            <span className="text-variable-collection-error-color text-xs">
+              يجب أن يكون الوصف 10 أحرف على الأقل
+            </span>
+          )}
         </div>
 
         <div className="border-t px-[25px] pt-3 pb-[18px]">
@@ -80,7 +98,12 @@ export default function CaseDetailsStep({
       <StepNavigation
         onNext={onNext}
         onBack={onBack}
-        disableNext={!formData.title || !formData.type}
+        disableNext={
+          !formData.title ||
+          formData.title.trim().length < 5 ||
+          !formData.type ||
+          formData.description.trim().length < 10
+        }
       />
     </div>
   );

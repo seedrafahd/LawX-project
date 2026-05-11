@@ -1,4 +1,6 @@
+import StepHeader from "./StepHeader";
 import StepNavigation from "./StepNavigation";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 export default function WorkflowStep({
   formData,
@@ -22,14 +24,7 @@ export default function WorkflowStep({
   return (
     <div className="bg-white rounded-xl">
       {/* Header */}
-      <div className="px-4 py-[18px] text-variable-collection-primary-color">
-        <div className="flex items-center gap-2 ">
-          <span className="text-lg">📌</span>
-          <h2 className="font-semibold text-lg font-bold">
-            سير العمل (المهام)
-          </h2>
-        </div>
-      </div>
+      <StepHeader icon={<AccountTreeIcon />} title="سير العمل (المهام)" />
 
       {/* Cards */}
       <div className="space-y-4 px-[25px] pt-3 pb-[18px]">
