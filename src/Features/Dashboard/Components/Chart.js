@@ -8,18 +8,45 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
-export default function FinanceChart() {
+const MONTHS = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
+export default function FinanceChart({ monthlyData }) {
   const data = {
-    labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"],
+    labels: MONTHS,
     datasets: [
-      { label: "دخل", data: [30, 60, 40, 70, 50, 80] },
-      { label: "مصروف", data: [20, 40, 30, 60, 40, 70] },
+      {
+        label: "المدفوعات",
+        data: monthlyData || Array(12).fill(0),
+        backgroundColor: "#4F46E5",
+      },
     ],
   };
 
-  return (
-    <div className=" flex justify-center bg-white p-4">
-      <Bar className="w-full" data={data} />
-    </div>
-  );
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 12,
+        },
+      },
+    },
+  };
+
+  return <Bar data={data} options={options} />;
 }

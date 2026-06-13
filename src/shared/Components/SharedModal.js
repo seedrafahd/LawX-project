@@ -1,14 +1,13 @@
 import { X } from "lucide-react";
 
 export default function SharedModal({
-  isOpen = true,
+  isOpen = false,
   title,
   description,
   titleId,
   icon,
   onClose,
   children,
-  footer,
   primaryLabel,
   primaryIcon,
   primaryType = "button",
@@ -21,8 +20,7 @@ export default function SharedModal({
   if (!isOpen) return null;
 
   const modalFooter =
-    footer ||
-    (primaryLabel || secondaryLabel ? (
+    primaryLabel || secondaryLabel ? (
       <>
         {secondaryLabel && (
           <button
@@ -46,7 +44,7 @@ export default function SharedModal({
           </button>
         )}
       </>
-    ) : null);
+    ) : null;
 
   return (
     <div

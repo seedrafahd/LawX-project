@@ -1,36 +1,25 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import MyAppBar from "./AppBar";
 import MyDrawer from "./Drawer";
-import { Box } from "@mui/material";
-import { useProfile } from "../Features/Settings/Hooks/useProfile";
-import Loader from "../shared/Components/Loading";
 
 export default function DashboardLayout() {
-  // const { isError, error, isLoading } = useProfile();
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
-  // if (isLoading) return <Loader />;
-  // if (isError) return <div>{error.message}</div>;
   return (
-    <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      <MyDrawer />
+    <div className="flex h-screen overflow-hidden">
+      <MyDrawer
+        mobileOpen={isMobileDrawerOpen}
+        onMobileClose={() => setIsMobileDrawerOpen(false)}
+      />
 
-      <Box sx={{ flexGrow: 1, minWidth: 0, height: "100vh" }}>
-        <MyAppBar />
+      <div className="min-w-0 flex-1">
+        <MyAppBar onMenuClick={() => setIsMobileDrawerOpen(true)} />
 
-        {/* المحتوى */}
-        <Box
-          sx={{
-            // p-4 sm:p-6 md:p-8
-            padding: "32px",
-            background: "#eff1f8",
-            height: "calc(100vh - 64px)",
-            marginTop: "64px",
-            overflowY: "auto",
-          }}
-        >
+        <div className="mt-16 h-[calc(100vh-64px)] overflow-y-auto bg-[#eff1f8] p-8">
           <Outlet />
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }

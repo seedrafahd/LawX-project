@@ -7,11 +7,27 @@ import {
 } from "lucide-react";
 import SharedButton from "../../../shared/Components/SharedButton";
 
-const PDFModal = ({ isOpen, onClose, pdfFile }) => {
+export default function PDFModal({ isOpen, onClose, file }) {
   if (!isOpen) return null;
 
+  const fileName = file?.File_name || "مستند";
+  const fileSize = file?.file_size || "غير متوفر";
+  const fileUrl = file?.file_url;
+  const fileDate = file?.uploaded_AT || "منذ ثوانٍ";
+  const uploadedBy = file?.uploaded_by?.name;
+  const accessLevel = file?.access_level || "محدد";
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/40 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-[1200px] h-full flex overflow-hidden">
         {/* Left Document Area */}
         <div className="flex-1 flex flex-col">
@@ -22,17 +38,15 @@ const PDFModal = ({ isOpen, onClose, pdfFile }) => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <h1 className="text-base font-bold text-gray-900">
-                مذكرة الدفاع النهائية.pdf
-              </h1>
-              <span className="text-gray-500 text-xs">2.4 MB</span>
+              <h1 className="text-base font-bold text-gray-900">{fileName}</h1>
+              <span className="text-gray-500 text-xs">{fileSize}</span>
             </div>
           </div>
 
           {/* PDF Pages */}
 
           <iframe
-            src={pdfFile}
+            src={fileUrl}
             className="flex-1 w-full h-full"
             title="PDF Preview"
           />
@@ -57,10 +71,8 @@ const PDFModal = ({ isOpen, onClose, pdfFile }) => {
               <div className="flex items-start gap-3">
                 <Calendar className="w-4 h-4 text-blue-500" />
                 <div>
-                  <p className="text-gray-600 text-[10px]">تاريخ الدفع</p>
-                  <p className="text-gray-900 font-bold text-sm">
-                    24 أكتوبر 2023
-                  </p>
+                  <p className="text-gray-600 text-[10px]">تاريخ الرفع</p>
+                  <p className="text-gray-900 font-bold text-sm">{fileDate}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -68,14 +80,14 @@ const PDFModal = ({ isOpen, onClose, pdfFile }) => {
                 <div>
                   <p className="text-gray-600 text-[10px]">بواسطة</p>
                   <p className="text-gray-900 font-bold text-sm">
-                    د. خالد الفيصل
+                    {uploadedBy}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <LockKeyhole className="w-4 h-4 text-blue-500" />
                 <span className="text-gray-600 text-[10px]">
-                  مستوى الوصول: محدد
+                  مستوى الوصول: {accessLevel}
                 </span>
               </div>
             </div>
@@ -83,19 +95,16 @@ const PDFModal = ({ isOpen, onClose, pdfFile }) => {
 
           {/* Footer Actions */}
           <div className="p-4 flex justify-center space-x-2 rtl:space-x-reverse border-t border-gray-200">
-            
-            <button
+            <SharedButton
+              colors="bg-gray-200 text-gray-800"
+              className="hover:bg-gray-300"
               onClick={onClose}
-              className="bg-gray-200 text-gray-800 px-6 py-2 rounded-xl hover:bg-gray-300 transition"
-            >
-              إغلاق
-            </button>
-            <SharedButton children={" تحميل الملف"} />
+              children="إغلاق"
+            />
+            <SharedButton children=" تحميل الملف" onClick={handleDownload} />
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default PDFModal;
+}

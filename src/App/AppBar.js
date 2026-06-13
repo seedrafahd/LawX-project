@@ -1,23 +1,39 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { pageConfig } from "./Config/pageConfig";
-import { Plus, Search } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Badge from "@mui/material/Badge";
 import img from "./Assets/image-person.png";
 import SharedButton from "../shared/Components/SharedButton";
+import { useNotifications } from "../Features/Notifications/hooks/useNotifications";
 
-export default function MyAppBar() {
+export default function MyAppBar({ onMenuClick }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentPage =
-    pageConfig[location.pathname] ||
-    (location.pathname.startsWith("/cases/case_details")
-      ? pageConfig["/cases/case_details"]
-      : {});
+  const { data } = useNotifications();
+  const unreadCount = data?.unread?.length || 0;
+
+  const matchedPageKey = Object.keys(pageConfig)
+    .sort((firstKey, secondKey) => secondKey.length - firstKey.length)
+    .find(
+      (key) =>
+        location.pathname === key || location.pathname.startsWith(`${key}/`),
+    );
+  const currentPage = pageConfig[matchedPageKey] || {};
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-[#CAC4D080] bg-white text-variable-collection-primary-color">
       <div className="flex h-full items-center justify-between px-5 py-4 sm:px-6">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="فتح القائمة"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-variable-collection-primary-color transition hover:bg-variable-collection-primary-color/10 sm:hidden"
+        >
+          <Menu size={22} />
+        </button>
+
         {currentPage.type === "dashboard" ? (
           <div className="hidden min-w-0 sm:block space-y-[6px]">
             <h1 className="truncate text-2xl font-bold text-variable-collection-GREY-textcolor">
@@ -40,16 +56,6 @@ export default function MyAppBar() {
 
         {currentPage.type === "dashboard" ? (
           <div className="flex items-center gap-4 ">
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                id="outlined-multiline-flexible"
-                type="search"
-                placeholder={currentPage.search}
-                className="bg-[#eff1f8] rounded-2xl border border-gray-300 px-4 py-3 pr-9 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-variable-collection-primary-color focus:ring-2 focus:ring-variable-collection-primary-color/15"
-              />
-            </div>
-
             <SharedButton
               icon={<Plus size={18} />}
               onClick={(e) => navigate("/cases/create")}
@@ -61,9 +67,16 @@ export default function MyAppBar() {
           <div className="flex items-center gap-4">
             <button
               type="button"
+              onClick={() => navigate("/notifications")}
               className="items-center justify-center rounded-full text-[#868686] transition hover:bg-gray-100"
             >
-              <NotificationsIcon />
+              <Badge
+                badgeContent={unreadCount}
+                color="error"
+                invisible={unreadCount === 0}
+              >
+                <NotificationsIcon />
+              </Badge>
             </button>
             <img
               src={img}

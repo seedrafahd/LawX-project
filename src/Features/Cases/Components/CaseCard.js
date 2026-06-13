@@ -1,8 +1,32 @@
-import { CalendarDays, Paperclip } from "lucide-react";
+import {
+  CalendarDays,
+  EllipsisVertical,
+  Paperclip,
+  Trash2,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { StatusDropdown } from "../../../shared/Components/sharedBadge";
+import TeamAvatars from "../../../shared/Components/TeamAvatars";
+import { useDeleteCase, useUpdateCase } from "../Hooks/useCases";
+import DeleteModal from "../../../shared/Components/DeleteModal";
+import Loader from "../../../shared/Components/Loading";
+import { useRef, useState } from "react";
+import { statusOptions } from "../helpers/constants";
 
 export default function CaseCard({ c }) {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const menuRef = useRef(null);
+  const { mutate: deleteCase, isPending: isDeleting } = useDeleteCase();
+  const { mutate: updateCase, isPending: isUpdating } = useUpdateCase(c.id);
+
+  const handleDelete = () => {
+    deleteCase(c.id, { onSuccess: () => setDeleteOpen(false) });
+  };
+
+  if (isUpdating) return <Loader />;
+
   return (
     <div className="bg-white rounded-2xl border-r-4 border-blue-600 p-6 space-y-4 font-[Cairo]">
       {/* Header */}
@@ -10,68 +34,87 @@ export default function CaseCard({ c }) {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-bold">
-              {c?.title || "نزاع عقاري - مجموعة البركة"}
+              {c?.title || "لا يوجد عنوان للقضية"}
             </h2>
 
-            <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
-              {c?.status || " قيد التنفيذ"}
-            </span>
+            <StatusDropdown
+              value={c.status}
+              options={statusOptions}
+              onChange={(e) => {
+                updateCase({ status: e, case_id: c.id });
+              }}
+            />
           </div>
 
           <div className="text-sm text-gray-500">
-            <span>
-              {c?.description ||
-                "رقم القضية: AR-0941-2023 • المحكمة التجارية بالرياض"}
-            </span>
+            <span>{c?.description || "لا يوجد وصف"}</span>
           </div>
         </div>
-
-        {/* Avatar */}
-        <img
-          alt=""
-          src="https://i.pravatar.cc/50"
-          className="w-12 h-12 rounded-full border"
-        />
-      </div>
-
-      {/* Progress Section */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">التقدم الإجمالي</span>
-          <span className="font-medium text-gray-800">75%</span>
-        </div>
-
-        <div className="w-full bg-gray-100 rounded-full h-2">
-          <div
-            className="bg-blue-600 h-2 rounded-full"
-            style={{ width: "75%" }}
-          />
-        </div>
+        <TeamAvatars team={c?.team} />
       </div>
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-4">
-        {/* Right Info */}
         <div className="flex items-center gap-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
             <CalendarDays size={16} />
-            <span>آخر تحديث: 12 أكتوبر</span>
+            <span>آخر تحديث: {c.created_at} </span>
           </div>
 
           <div className="flex items-center gap-1">
             <Paperclip size={16} />
-            <span>12 ملف</span>
+            <span>{c.documents_count} ملف</span>
           </div>
         </div>
 
-        {/* Button */}
-        <button
-          onClick={() => navigate(`/cases/case_details/${c.id}`)}
-          className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm"
-        >
-          عرض التفاصيل
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() =>
+              navigate(`/cases/case_details/${c.id}`, {
+                state: { caseData: c },
+              })
+            }
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-1 md:px-4 py-2 rounded-lg text-sm"
+          >
+            عرض التفاصيل
+          </button>
+
+          <div className="relative" ref={menuRef}>
+            <button onClick={() => setMenuOpen((prev) => !prev)}>
+              <EllipsisVertical size={14} />
+            </button>
+
+            {menuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setMenuOpen(false)}
+                />
+                <div className="absolute left-0 bottom-full mb-1 z-20 min-w-36 rounded-lg bg-white shadow-lg border border-gray-200 py-1">
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setDeleteOpen(true);
+                    }}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 size={14} /> حذف
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </div>
+
+      <DeleteModal
+        isOpen={deleteOpen}
+        title="حذف القضية"
+        description="هل أنت متأكد من حذف هذه القضية؟ هذا الإجراء لا يمكن التراجع عنه."
+        onConfirm={handleDelete}
+        onClose={() => setDeleteOpen(false)}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

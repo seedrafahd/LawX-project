@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTasksForCaseRequest } from "../Services/TasksApi";
+import { getTasksForCaseRequest } from "../services/TasksApi";
 
 export const useTasksForCase = (case_id) => {
   return useQuery({

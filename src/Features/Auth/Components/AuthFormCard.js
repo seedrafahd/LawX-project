@@ -9,7 +9,8 @@ export default function AuthFormCard({
   return (
     <form
       onSubmit={onSubmit}
-      className={`w-full max-w-md mx-auto flex flex-col p-6 sm:p-8 md:p-10 bg-white/80 backdrop-blur-md text-variable-collection-primary-color rounded-3xl border border-[#c2c6d826] shadow-sm ${className}`}
+      className={`w-full max-w-md mx-auto flex flex-col p-6 sm:p-8 md:p-10 bg-white/80 backdrop-blur-md text-variable-collection-primary-color
+         rounded-3xl border border-[#c2c6d826] shadow-sm ${className}`}
     >
       {/* Header */}
       <div className="flex flex-col items-center gap-3 pb-10">

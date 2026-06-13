@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
-import splashImage from "./Assets/law_X.png";
+import splashImage from "./Assets/splash_img.png";
 import { Navigate } from "react-router-dom";
 
 export default function SplashScreen() {
@@ -17,30 +16,12 @@ export default function SplashScreen() {
   if (!visible) return <Navigate to="/login" replace />;
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "white",
-        zIndex: 9999,
-      }}
-    >
-      <Box
-        component="img"
+    <div className="fixed left-0 top-0 z-[9999] flex h-screen w-screen items-center justify-center bg-white">
+      <img
         src={splashImage}
         alt="Splash"
-        sx={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
+        className="h-full w-full   object-cover"
       />
-    </Box>
+    </div>
   );
 }

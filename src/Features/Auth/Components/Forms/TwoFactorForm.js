@@ -94,58 +94,57 @@ export default function TwoFactorForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <AuthFormCard
-        onSubmit={handleVerify}
-        // className="w-[400px] rounded-2xl bg-white/70 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8"
-        icon={<GppGoodIcon />}
-        title="التحقق بخطوتين"
-        subtitle={
-          <>
-            تم إرسال رمز تحقق إلى بريدك الإلكتروني <span>{temData.email}</span>{" "}
-            يرجى إدخال رمز المتابعة
-          </>
-        }
-      >
-        <div className="flex flex-row-reverse justify-between gap-2 mb-6">
-          {[...Array(7)].map((_, index) => (
-            <input
-              required
-              key={index}
-              id={`otp-${index}`}
-              type="text"
-              maxLength="1"
-              dir="ltr"
-              value={code[index] || ""}
-              onChange={(e) => handleChange(e.target.value, index)}
-              className="w-10 h-12 text-center text-lg rounded-xl border border-gray-200 bg-white shadow-sm focus:border-[#3f4b7f] outline-none"
-            />
-          ))}
-        </div>
+    // <div className="min-h-screen flex items-center justify-center">
+    <AuthFormCard
+      onSubmit={handleVerify}
+      icon={<GppGoodIcon />}
+      title="التحقق بخطوتين"
+      subtitle={
+        <>
+          تم إرسال رمز تحقق إلى بريدك الإلكتروني <span>{temData.email}</span>{" "}
+          يرجى إدخال رمز المتابعة
+        </>
+      }
+    >
+      <div className="flex flex-row-reverse justify-between gap-2 mb-6">
+        {[...Array(7)].map((_, index) => (
+          <input
+            required
+            key={index}
+            id={`otp-${index}`}
+            type="text"
+            maxLength="1"
+            dir="ltr"
+            value={code[index] || ""}
+            onChange={(e) => handleChange(e.target.value, index)}
+            className="w-10 h-12 text-center text-lg rounded-xl border border-gray-200 bg-white shadow-sm focus:border-[#3f4b7f] outline-none"
+          />
+        ))}
+      </div>
 
-        <div className="text-center mt-5 text-sm">
-          {!canResend ? (
-            <span className="text-gray-500">
-              إعادة الإرسال خلال{" "}
-              <span className="text-[#3f4b7f] font-semibold">{timeLeft}s</span>
-            </span>
-          ) : (
-            <AuthButton type="button" variant="text" onClick={handleResend}>
-              إعادة إرسال الرمز
-            </AuthButton>
-          )}
-        </div>
-
-        <AuthButton type="submit" className="shadow-none">
-          تأكيد⬅
-        </AuthButton>
-
-        {error && (
-          <Typography variant="body1" color="error">
-            {error}
-          </Typography>
+      <div className="text-center mt-5 text-sm">
+        {!canResend ? (
+          <span className="text-gray-500">
+            إعادة الإرسال خلال{" "}
+            <span className="text-[#3f4b7f] font-semibold">{timeLeft}s</span>
+          </span>
+        ) : (
+          <AuthButton type="button" variant="text" onClick={handleResend}>
+            إعادة إرسال الرمز
+          </AuthButton>
         )}
-      </AuthFormCard>
-    </div>
+      </div>
+
+      <AuthButton type="submit" className="shadow-none">
+        تأكيد⬅
+      </AuthButton>
+
+      {error && (
+        <Typography variant="body1" color="error">
+          {error}
+        </Typography>
+      )}
+    </AuthFormCard>
+    // </div>
   );
 }

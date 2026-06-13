@@ -5,6 +5,7 @@ const initialState = {
   token: null,
   loading: false,
   error: null,
+  isInitialized: false,
 };
 
 export const authSlice = createSlice({
@@ -19,6 +20,10 @@ export const authSlice = createSlice({
     logout: (currState) => {
       currState.user = null;
       currState.token = null;
+      currState.isInitialized = false;
+    },
+    setInitialized: (currState) => {
+      currState.isInitialized = true;
     },
     setLoading: (currState, action) => {
       currState.loading = action.payload;
@@ -29,6 +34,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUserDetails, logout, setLoading, setError } =
+export const { setUserDetails, logout, setLoading, setError, setInitialized } =
   authSlice.actions;
 export default authSlice.reducer;

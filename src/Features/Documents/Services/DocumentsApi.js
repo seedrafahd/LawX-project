@@ -2,8 +2,7 @@ import { Axios } from "../../../App/Axios";
 
 export const getDocumentsRequest = async (caseId) => {
   const res = await Axios.get(`/Case/get_documents_for_case/${caseId}`);
-  console.log(res);
-  return res.data;
+  return res.data?.data.data;
 };
 
 export const uploadDocumentRequest = async ({ formData, onUploadProgress }) => {
@@ -20,5 +19,11 @@ export const uploadDocumentRequest = async ({ formData, onUploadProgress }) => {
     },
   });
 
+  return res.data;
+};
+
+// delete document
+export const deleteDocumentRequest = async (id) => {
+  const res = await Axios.get(`/Case/delete_document/${id}`);
   return res.data;
 };

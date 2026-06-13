@@ -18,3 +18,32 @@ export const getFileMetadata = (file) => {
     type: getFileExtension(file.name),
   };
 };
+
+export const getFileName = (file) => {
+  if (file.name) return file.name;
+
+  if (!file.file_url) return "مستند";
+
+  const fileName = file.file_url.split("/").pop();
+
+  return decodeURIComponent(fileName || "مستند");
+};
+
+export const normalizeFile = (file) => {
+  return {
+    name: getFileName(file),
+    type: file.type?.toUpperCase() || "FILE",
+    size:
+      file.size ||
+      file.file_size ||
+      file.fileSize ||
+      "غير متوفر",
+
+    date: file.uploaded_AT || file.uploaded_at || "-",
+
+    url: file.file_url.replace(
+      "http://localhost",
+      "http://127.0.0.1:8000"
+    ),
+  };
+};

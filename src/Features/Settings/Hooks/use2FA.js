@@ -7,7 +7,7 @@ export const useTwoFactor = () => {
   return useMutation({
     mutationFn: toggle2FA,
     onSuccess: () => {
-      queryClient.invalidateQueries(["profile"]);
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 };

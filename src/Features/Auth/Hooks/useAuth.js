@@ -9,6 +9,7 @@ export const useAuth = () => {
   const token = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
+  const isInitialized = useSelector((state) => state.auth.isInitialized);
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -34,5 +35,6 @@ export const useAuth = () => {
     officeId: user?.office_id,
     logout: handleLogout,
     isAuthenticated: !!token,
+    isInitialized,
   };
 };

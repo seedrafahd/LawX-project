@@ -1,4 +1,5 @@
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import { getPaymentPlanName } from "../../helpers/getPaymentPlanName";
 
 export default function CaseSummary({ formData }) {
   console.log(formData);
@@ -8,14 +9,22 @@ export default function CaseSummary({ formData }) {
         <h3 className="font-semibold mb-4 border-b-2">ملخص القضية</h3>
 
         <div className="space-y-3 text-sm">
-          {formData.client_id && (
-            <Row label="العميل" value={formData.client_name} />
+          {formData.clients?.[0] && (
+            <Row label="العميل" value={formData.clients[0].name} />
           )}
-          {formData.type && <Row label="نوع القضية" value={formData.type} />}
-          {formData.payment_plan && (
-            <Row label="خطة الدفع" value={formData.payment_plan} />
+          {formData.case_category && (
+            <Row label="نوع القضية" value={formData.case_category} />
           )}
-          {formData.lawyer && <Row label="المحامي" value={formData.lawyer} />}
+          {formData.price && <Row label="سعر القضية" value={formData.price} />}
+          {formData.billing_type && (
+            <Row
+              label="نوع الدفع"
+              value={getPaymentPlanName(formData.billing_type)}
+            />
+          )}
+          {formData.lead_lawyer_id && (
+            <Row label="المحامي" value={formData.lead_lawyer_name} />
+          )}
         </div>
 
         {formData.fees > 0 && (

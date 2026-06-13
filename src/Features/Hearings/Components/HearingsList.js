@@ -1,49 +1,33 @@
-import { MapPin, Paperclip } from "lucide-react";
+import { MapPin, Paperclip, Pencil, Trash2 } from "lucide-react";
+import splitHearingDate from "../helpers/date";
+import { statusOptions, statusStyles } from "../helpers/constants";
+import { StatusDropdown } from "../../../shared/Components/sharedBadge";
+import IconActionButton from "../../../shared/Components/IconActionButton";
+import { getTime } from "../../../shared/helpers/date";
+import { useUpdateHearing } from "../Hooks/useHearings";
+import Loader from "../../../shared/Components/Loading";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
-function splitHearingDate(hearing) {
-  const dateValue = String(hearing.date).split("T")[0];
-  const hearingDate = new Date(`${dateValue}T00:00:00`);
+export default function HearingsList({
+  hearings,
+  setEditTarget,
+  setDeleteTarget,
+}) {
+  const { id } = useParams();
+  const { mutate: updateHearing, isPending } = useUpdateHearing();
 
-  if (Number.isNaN(hearingDate.getTime())) {
-    return {
-      day: hearing.date,
-      month: "",
-      year: "",
-    };
-  }
-
-  return {
-    day: String(hearingDate.getDate()),
-    month: new Intl.DateTimeFormat("ar", { month: "long" }).format(hearingDate),
-    year: new Intl.DateTimeFormat("ar", { year: "numeric" }).format(
-      hearingDate,
-    ),
-  };
-}
-
-export default function HearingsList({ hearings }) {
-  const statusStyles = {
-    completed: "bg-green-100 text-[#15803D] border-[#22C55E]",
-    upcoming: "bg-blue-100 text-blue-600 border-blue-500",
-    postponed: "bg-orange-100 text-orange-600 border-orange-500",
-  };
-
-  const statusText = {
-    completed: "تمت",
-    upcoming: "القادمة",
-    postponed: "مؤجلة",
-  };
-
+  if (isPending) return <Loader />;
   return (
     <div className="space-y-4">
       {hearings.length ? (
-        hearings.map((h, i) => {
+        hearings.map((h) => {
           const style = statusStyles[h.status] ?? statusStyles.upcoming;
           const hearingDate = splitHearingDate(h);
 
           return (
             <div
-              key={h.id ?? i}
+              key={h.session_id}
               className={`flex gap-5 rounded-2xl border-r-4 bg-white p-8 shadow ${style}`}
             >
               <div className="space-y-1 text-center">
@@ -53,46 +37,58 @@ export default function HearingsList({ hearings }) {
                 <div className="pb-2 text-xs font-bold text-gray-400">
                   {hearingDate.month} {hearingDate.year}
                 </div>
-                <div className={`rounded-full px-2 py-1 text-xs ${style}`}>
-                  {statusText[h.status] ?? statusText.upcoming}
-                </div>
+                <StatusDropdown
+                  value={h.status}
+                  options={statusOptions}
+                  onChange={(e) => {
+                    updateHearing(
+                      {
+                        status: e,
+                        case_id: id,
+                        session_id: h.session_id,
+                      },
+                      {
+                        onSuccess: () => toast.success("تم تحديث الجلسة بنجاح"),
+                      },
+                    );
+                  }}
+                />
               </div>
-
-              <div className="space-y-4">
-                <div className="space-y-1">
+              <div className="w-full ">
+                <div className="space-y-1 text-xs text-gray-500">
                   <h4 className="flex items-center gap-1 text-lg font-bold text-gray-900">
                     <MapPin size={14} /> {h.location}
                   </h4>
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
-                    <span className="flex items-center gap-1">{h.nots}</span>
-                    {h.attachmentsCount > 0 && (
-                      <span className="flex items-center gap-1">
-                        <Paperclip size={14} /> {h.attachmentsCount} مرفق
-                      </span>
-                    )}
+                  <span className="flex items-center gap-1">
+                    {getTime(h.date)}
+                  </span>
+                  <span className="flex items-center gap-1">{h.nots}</span>
+                </div>
+                {/* Footer */}
+                <div className="flex justify-between items-center gap-4 mt-4">
+                  <button>
+                    <Paperclip size={14} />
+                  </button>
+
+                  <div className="flex gap-2">
+                    <IconActionButton
+                      icon={Pencil}
+                      onClick={() => setEditTarget(h)}
+                    />
+                    <IconActionButton
+                      icon={Trash2}
+                      variant="danger"
+                      onClick={() => setDeleteTarget(h)}
+                    />
                   </div>
                 </div>
-
-                {h.summary && (
-                  <div className="rounded-lg bg-gray-100 p-4 text-sm text-gray-700">
-                    {h.summary}
-                  </div>
-                )}
-
-                {h.action && (
-                  <div className="flex gap-2">
-                    <button className="rounded-lg bg-gray-200 px-3 py-1 text-sm">
-                      {h.action}
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           );
         })
       ) : (
-        <p className="text-sm font-semibold text-gray-500">
-          لا توجد مستندات بعد
+        <p className="rounded-xl bg-white p-8 text-center text-sm font-semibold text-gray-500">
+          لا توجد جلسات بعد
         </p>
       )}
     </div>

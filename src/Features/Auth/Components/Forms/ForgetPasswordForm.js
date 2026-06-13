@@ -31,7 +31,6 @@ export default function ForgotPasswordForm() {
       dispatch(
         setError(
           err.message,
-          // err.response.data.error.email[0]
         ),
       );
       setTimeout(() => {

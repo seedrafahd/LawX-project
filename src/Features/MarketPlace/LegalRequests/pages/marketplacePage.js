@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import StatsCards from "../../../Tasks/Components/StatsCard";
 import { useRequests } from "../hooks/useRequests";
 import Loader from "../../../../shared/Components/Loading";
 import RequestCard from "../components/requestCard";
@@ -9,11 +8,15 @@ import { INITIAL_REQUESTS_FILTERS } from "../helpers/constants";
 import { useFilteredRequests } from "../hooks/useFilteredRequests";
 import { getMarketplaceStats } from "../helpers/getMarketplaceStats";
 import { useNavigate } from "react-router-dom";
+import StatsCards from "../../../Tasks/components/StatsCard";
 
 export default function MarketplacePage() {
   const navigate = useNavigate();
   const { data, isPending } = useRequests();
-  const allRequests = data?.data?.data ?? [];
+  const allRequests = useMemo(() => {
+    return data?.data?.data ?? [];
+  }, [data]);
+  // console.log(allRequests);
 
   const cityOptions = useMemo(() => {
     const cities = [
@@ -31,9 +34,16 @@ export default function MarketplacePage() {
     allRequests,
     filters,
   });
-  console.log(filteredRequests);
 
-  const stats = getMarketplaceStats(filters);
+  const groupedRequests = useMemo(
+    () => ({
+      public: allRequests.filter((r) => r.type_request === "public"),
+      private: allRequests.filter((r) => r.type_request === "private"),
+    }),
+    [allRequests],
+  );
+
+  const stats = getMarketplaceStats(groupedRequests);
 
   const handleOpenDetails = (item) => {
     navigate(`/marketplace/requests/request_details/${item.id}`, {
@@ -72,7 +82,7 @@ export default function MarketplacePage() {
           ))
         ) : (
           <div className="rounded-xl bg-white p-8 text-center text-sm font-semibold text-gray-500">
-            لا توجد طلبات مطابقة للفلاتر المحددة
+            لا توجد طلبات بعد
           </div>
         )}
       </section>

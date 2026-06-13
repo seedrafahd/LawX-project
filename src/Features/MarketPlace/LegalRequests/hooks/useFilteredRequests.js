@@ -1,14 +1,7 @@
 import { useMemo } from "react";
 
-import { normalizeRequests } from "../helpers/normalizeRequests";
-
 export const useFilteredRequests = ({ allRequests, filters }) => {
-  // console.log(allRequests);
   return useMemo(() => {
-    // const tabRequests = normalizeRequests(
-    //   filters.tab === "my" ? allRequests.private : allRequests.public,
-    // );
-
     const searchTerm = filters.title.trim().toLowerCase();
 
     return allRequests?.filter((item) => {

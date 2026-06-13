@@ -12,7 +12,7 @@ export const loginRequest = async (form) => {
 };
 
 export const logoutRequest = async () => {
-  await Axios.get("Auth/logout");
+  await Axios.post("Auth/logout");
 };
 
 export const verify2FARequest = async ({ code, temporary_token, user_id }) => {

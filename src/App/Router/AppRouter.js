@@ -4,17 +4,24 @@ import ProtectedRoute from "./ProtectedRoute";
 import AuthPage from "../../Features/Auth/Pages/AuthPage";
 import DashboardLayout from "../DashboardLayout";
 import SplashScreen from "../SplashPage";
-import Dashboard from "../../Features/Dashboard/Components/Dashboard";
+import Dashboard from "../../Features/Dashboard/pages/Dashboard";
 import LoginForm from "../../Features/Auth/Components/Forms/LoginForm";
 import TwoFactorForm from "../../Features/Auth/Components/Forms/TwoFactorForm";
 import ForgotPasswordForm from "../../Features/Auth/Components/Forms/ForgetPasswordForm";
 import ResetPasswordForm from "../../Features/Auth/Components/Forms/ResetPasswordForm";
-import { SettingsPage } from "../../Features/Settings/Components/SettingsPage";
 import CreateCasePage from "../../Features/Cases/Pages/CreateCasePage";
 import CasesPage from "../../Features/Cases/Pages/CasesPage";
 import CaseDetailsPage from "../../Features/Cases/Pages/CaseDetailsPage";
-import HearingsPsge from "../../Features/Hearings/Pages/HearingsPage";
-import TasksPage from "../../Features/Tasks/Pages/TasksPage";
+import HearingsPage from "../../Features/Hearings/Pages/HearingsPage";
+import TasksPage from "../../Features/Tasks/pages/TasksPage";
+import MyOffersPage from "../../Features/MarketPlace/Offers/pages/myOffersPage";
+import MarketplacePage from "../../Features/MarketPlace/LegalRequests/pages/marketplacePage";
+import SendOfferPage from "../../Features/MarketPlace/Offers/pages/sendOfferPage";
+import RequestDetailsPage from "../../Features/MarketPlace/LegalRequests/pages/requestDetailsPage";
+import OfferDetailsPage from "../../Features/MarketPlace/Offers/pages/offerDetailsPage";
+import EditOfferPage from "../../Features/MarketPlace/Offers/pages/editOfferPage";
+import CreateInvoicePage from "../../Features/Invoices/pages/CreateInvoicePage";
+import NotificationsPage from "../../Features/Notifications/pages/NotificationsPage";
 
 export default function AppRouter() {
   return (
@@ -30,14 +37,14 @@ export default function AppRouter() {
         </Route>
 
         {/* Super Admin Routes */}
-        <Route element={<ProtectedRoute allowedRole="super_admin" />}>
+        {/* <Route element={<ProtectedRoute allowedRole="super_admin" />}>
           <Route element={<DashboardLayout />}>
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
-        </Route>
+        </Route> */}
 
         {/* Office Admin Routes */}
-        <Route element={<ProtectedRoute allowedRole="admin" />}>
+        <Route element={<ProtectedRoute allowedRole={"admin" || "lawer"} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/cases">
               <Route index element={<CasesPage />} />
@@ -45,10 +52,36 @@ export default function AppRouter() {
               <Route path="case_details/:id" element={<CaseDetailsPage />} />
               <Route
                 path="case_details/:id/hearings"
-                element={<HearingsPsge />}
+                element={<HearingsPage />}
               />
             </Route>
             <Route path="/tasks" element={<TasksPage />} />
+
+            {/* INVOICES */}
+            <Route path="/invoices">
+              <Route path="create/:case_id" element={<CreateInvoicePage />} />
+            </Route>
+
+            {/* MARKET PLACE */}
+            <Route path="/marketplace">
+              <Route path="requests">
+                <Route index element={<MarketplacePage />} />
+                <Route
+                  path="request_details/:id"
+                  element={<RequestDetailsPage />}
+                />
+                <Route path="request/:id" element={<SendOfferPage />} />
+              </Route>
+              <Route path="my_offers">
+                <Route index element={<MyOffersPage />} />
+                <Route
+                  path="offer_details/:id"
+                  element={<OfferDetailsPage />}
+                />
+                <Route path="edit_offer/:id" element={<EditOfferPage />} />
+              </Route>
+            </Route>
+            <Route path="notifications" element={<NotificationsPage />} />
           </Route>
         </Route>
 
@@ -73,7 +106,7 @@ export default function AppRouter() {
         />
 
         {/* Catch All */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/unauthorized" />} />
       </Routes>
     </BrowserRouter>
   );

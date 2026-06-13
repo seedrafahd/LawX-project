@@ -1,83 +1,63 @@
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
-import StepNavigation from "./StepNavigation";
 import StepHeader from "./StepHeader";
+import { useSelector } from "react-redux";
+import Cookies from "universal-cookie";
 
-export default function AssignLawyerStep({ formData, setFormData, onBack }) {
-  const lawyers = [
-    {
-      id: 1,
-      name: "سارة القاضي",
-      role: "محامي أول",
-      specialty: "متخصص عقارات",
-      avatar: "https://i.pravatar.cc/100?img=32",
-    },
-    {
-      id: 2,
-      name: "محمد الأحمد",
-      role: "محامي",
-      specialty: "قضايا تجارية",
-      avatar: "https://i.pravatar.cc/100?img=12",
-    },
-    {
-      id: 3,
-      name: "ليلى حسن",
-      role: "محامية",
-      specialty: "أحوال شخصية",
-      avatar: "https://i.pravatar.cc/100?img=45",
-    },
-  ];
+const cookies = new Cookies();
+export default function AssignLawyerStep({
+  formData,
+  setFormData,
+  errors,
+  onBack,
+}) {
+  const reduxUser = useSelector((state) => state.auth?.user);
+  const authCookie = cookies.get("auth");
+  let sessionUser = null;
+  try {
+    sessionUser = JSON.parse(sessionStorage.getItem("auth"));
+  } catch (e) {}
+  const user = reduxUser || authCookie?.user || sessionUser?.user;
 
+  const isSelected = formData.lead_lawyer_id === user.ID;
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl">
+    <div className="w-full bg-white rounded-2xl pb-6">
       {/* Header */}
       <StepHeader icon={<PersonSearchIcon />} title="تعيين المحامي المسؤول" />
-      <div className="px-4 pt-[10px] pb[18px] space-y-[14px]">
-        {/* Selected Lawyer Card */}
-        {lawyers.map((lawyer) => {
-          const isSelected = formData.lawyer === lawyer.name;
 
-          return (
-            <div
-              key={lawyer.id}
-              onClick={() => setFormData({ ...formData, lawyer: lawyer.name })}
-              className={`flex items-center justify-between border rounded-xl px-4 py-[10px] cursor-pointer transition
+      <div className="px-4 pt-[10px] pb[18px] space-y-[14px]">
+        <div
+          key={user.ID}
+          onClick={() => {
+            setFormData("lead_lawyer_id", user.ID);
+            setFormData("lead_lawyer_name", user.full_name);
+          }}
+          className={`flex items-center justify-between border rounded-xl px-4 py-[10px] cursor-pointer transition
         ${isSelected ? "border-variable-collection-primary-color bg-variable-collection-primary-color/10" : "border-gray-300"}
       `}
-            >
-              {/* Right Side */}
-              <div className="flex items-center gap-[18px]">
-                <img
-                  src={lawyer.avatar}
-                  alt="avatar"
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="leading-tight">
-                  <p className="font-bold text-gray-900">{lawyer.name}</p>
-                  <p className="text-sm text-gray-500">
-                    {lawyer.role} • {lawyer.specialty}
-                  </p>
-                </div>
-              </div>
-
-              {/* Left Side */}
-              {isSelected ? (
-                <span className="text-sm text-variable-collection-primary-color font-medium">
-                  تم الاختيار
-                </span>
-              ) : (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFormData({ ...formData, lawyer: lawyer.name });
-                  }}
-                  className="px-2 py-1 border border-variable-collection-primary-color text-variable-collection-primary-color rounded-md text-sm hover:bg-variable-collection-primary-color/20 transition"
-                >
-                  اختيار
-                </button>
-              )}
+        >
+          {/* Right Side */}
+          <div className="flex items-center gap-[18px]">
+            <div className="w-12 h-12 rounded-full bg-variable-collection-primary-color text-white flex items-center justify-center  font-bold text-sm">
+              {user.full_name?.charAt(0) || "?"}
             </div>
-          );
-        })}
+            <div className="leading-tight">
+              <p className="font-bold text-gray-900">{user.full_name}</p>
+              <p className="text-sm text-gray-500">{user.role}</p>
+            </div>
+          </div>
+
+          {/* Left Side */}
+          {isSelected && (
+            <span className="text-sm text-variable-collection-primary-color font-medium">
+              تم الاختيار
+            </span>
+          )}
+        </div>
+        {errors && (
+          <span className="text-variable-collection-error-color text-xs">
+            {errors.lead_lawyer_id}
+          </span>
+        )}
       </div>
     </div>
   );

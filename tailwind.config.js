@@ -7,8 +7,13 @@ module.exports = {
         "variable-collection": "var(--variable-collection)",
         "variable-collection-primary-color":
           "rgb(var(--variable-collection-primary-color) / <alpha-value>)",
+
         "variable-collection-error-color":
           "rgb(var(--variable-collection-error-color)/ <alpha-value>)",
+
+        "variable-collection-sucess-color":
+          "rgb(var(--variable-collection-sucess-color)/ <alpha-value>)",
+
         "variable-collection-blue2-color":
           "var(--variable-collection-blue2-color)",
         "variable-collection-blue3-color":
@@ -27,8 +32,6 @@ module.exports = {
           "var(--variable-collection-SCREEN-BG-color)",
         "variable-collection-strokes-color":
           "var(--variable-collection-strokes-color)",
-        "variable-collection-sucess-color":
-          "var(--variable-collection-sucess-color)",
         "variable-collection-warning-color":
           "var(--variable-collection-warning-color)",
       },

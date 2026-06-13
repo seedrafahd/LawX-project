@@ -1,6 +1,5 @@
 import {
   MARKETPLACE_TABS,
-  SPECIALTY_OPTIONS,
   STATUS_OPTIONS,
 } from "../helpers/constants";
 
@@ -30,7 +29,7 @@ export default function FilterBar({ filters, onFilterChange, cityOptions }) {
 
   return (
     <header className="flex flex-col gap-4 lg:gap-0 lg:flex-row lg:justify-between bg-white rounded-xl p-4">
-      <div className="flex flex-col sm:flex-row  lg:items-center gap-6 order-2 lg:order-1">
+      <div className="flex flex-col md:flex-row  lg:items-center gap-6 order-2 lg:order-1">
         <div className="flex md:items-center">
           <SelectField
             label="المدينة"

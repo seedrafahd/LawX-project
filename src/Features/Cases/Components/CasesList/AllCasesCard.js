@@ -6,7 +6,9 @@ export default function AllCasesView({ cases }) {
       {cases?.length ? (
         cases?.map((c) => <CaseCard key={c.id} c={c} />)
       ) : (
-        <p className="text-sm font-semibold text-gray-500">لا توجد قضايا بعد</p>
+        <p className="rounded-xl bg-white p-8 text-center text-sm font-semibold text-gray-500">
+          لا توجد قضايا بعد
+        </p>
       )}
     </div>
   );

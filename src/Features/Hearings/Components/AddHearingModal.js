@@ -1,81 +1,29 @@
-import { useState } from "react";
 import { MapPin } from "lucide-react";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
-import toast from "react-hot-toast";
 import SuccessModal from "../../../shared/Components/SuccessModal";
 import SharedField from "../../../shared/Components/SharedFeild";
 import SharedModal from "../../../shared/Components/SharedModal";
-import { useCreateHearing } from "../Hooks/useHearings";
 import Loader from "../../../shared/Components/Loading";
+import { useHearingForm } from "../Hooks/useHearingForm";
 
-const initialForm = {
-  case_id: "",
-  date: "",
-  location: "",
-  nots: "",
-};
-
-export default function AddHearing({ isOpen, caseId, onClose }) {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState({});
-  const { mutate: createHearing, isPending } = useCreateHearing();
+export default function AddHearing({
+  isOpen,
+  caseId,
+  onClose,
+  selectedHearing,
+}) {
+  const {
+    form,
+    errors,
+    isSuccess,
+    isPending,
+    isEditMode,
+    updateField,
+    handleSubmit,
+    closeModal,
+  } = useHearingForm(caseId, onClose, selectedHearing);
 
   if (!isOpen) return null;
-
-  const updateField = (field, value) => {
-    setForm((currentForm) => ({
-      ...currentForm,
-      [field]: value,
-    }));
-    setErrors((currentErrors) => ({
-      ...currentErrors,
-      [field]: "",
-    }));
-  };
-
-  const closeModal = () => {
-    setIsSuccess(false);
-    setForm(initialForm);
-    setErrors({});
-    onClose?.();
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (isPending) return;
-
-    if (!form.date || !form.location.trim() || !form.nots?.trim()) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        date: !form.date ? "هذا الحقل مطلوب" : "",
-        location: !form.location.trim() ? "هذا الحقل مطلوب" : "",
-        nots: !form.nots.trim() ? "هذا الحقل مطلوب" : "",
-      }));
-      return;
-    }
-
-    if (isBeforeToday(form.date)) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        date: "يجب أن يكون التاريخ اليوم أو بعده",
-      }));
-      return;
-    }
-
-    try {
-      await createHearing({
-        case_id: caseId,
-        date: form.date,
-        location: form.location.trim(),
-        nots: form.nots.trim(),
-      });
-
-      setIsSuccess(true);
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
 
   const handleDone = () => {
     closeModal();
@@ -83,34 +31,36 @@ export default function AddHearing({ isOpen, caseId, onClose }) {
 
   if (isSuccess) {
     return (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000066] font-sans backdrop-blur-[6px]"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="hearing-success-title"
-      >
-        <SuccessModal
-          onDone={handleDone}
-          title="تم بنجاح"
-          description="تمت إضافة الجلسة بنجاح وتحديث ملف القضية"
-          notice="تم إخبار الموكل آلياً بالجلسة الجديدة"
-        />
-      </div>
+      <SuccessModal
+        onDone={handleDone}
+        title="تم بنجاح"
+        description={
+          isEditMode
+            ? "تم تعديل الجلسة بنجاح"
+            : "تمت إضافة الجلسة بنجاح وتحديث ملف القضية"
+        }
+        notice={isEditMode ? "" : "تم إخبار الموكل آلياً بالجلسة الجديدة"}
+      />
     );
   }
 
   return (
     <SharedModal
       isOpen={isOpen}
-      title="إضافة جلسة جديدة"
-      description="سجل تفاصيل الموعد القضائي القادم بدقة"
+      title={isEditMode ? "تعديل الجلسة" : "إضافة جلسة جديدة"}
+      description={
+        isEditMode
+          ? "قم بتعديل تفاصيل الجلسة"
+          : "سجل تفاصيل الموعد القضائي القادم بدقة"
+      }
       titleId="add-hearing-title"
       icon={<GavelOutlinedIcon />}
       onClose={closeModal}
-      secondaryLabel="إلغاء"
       onSecondaryClick={closeModal}
-      primaryLabel={isPending ? "جاري الحفظ..." : "حفظ الجلسة"}
+      primaryLabel={isEditMode ? "حفظ التعديلات" : "حفظ الجلسة"}
+      secondaryLabel="إلغاء"
       primaryType="submit"
+      onPrimaryClick={handleSubmit}
       primaryForm="add-hearing-form"
     >
       {isPending && <Loader />}
@@ -121,10 +71,19 @@ export default function AddHearing({ isOpen, caseId, onClose }) {
               <input
                 type="date"
                 lang="en-CA"
-                dir="ltr"
                 value={form.date}
                 onChange={(event) => updateField("date", event.target.value)}
-                className="hearing-date-input h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-center text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C] focus:bg-white focus:ring-2 focus:ring-[#40558C]/10"
+                className="hearing-date-input h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-center text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C]"
+              />
+            </SharedField>
+
+            <SharedField label="وقت الجلسة" error={errors.time}>
+              <input
+                type="time"
+                lang="en-CA"
+                value={form.time}
+                onChange={(event) => updateField("time", event.target.value)}
+                className="hearing-date-input h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-center text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C]"
               />
             </SharedField>
 
@@ -137,7 +96,7 @@ export default function AddHearing({ isOpen, caseId, onClose }) {
                     updateField("location", event.target.value)
                   }
                   placeholder="اسم المحكمة أو الموقع"
-                  className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-right text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C] focus:bg-white focus:ring-2 focus:ring-[#40558C]/10"
+                  className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-right text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C]"
                 />
               </InputWithIcon>
             </SharedField>
@@ -157,23 +116,6 @@ export default function AddHearing({ isOpen, caseId, onClose }) {
     </SharedModal>
   );
 }
-
-function isBeforeToday(dateValue) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const selectedDate = new Date(`${dateValue}T00:00:00`);
-  return selectedDate < today;
-}
-
-// function buildHearingPayload(form, caseId) {
-//   return {
-//     case_id: caseId,
-//     date: form.date,
-//     location: form.location.trim(),
-//     nots: form.nots.trim(),
-//   };
-// }
 
 function InputWithIcon({ icon, children }) {
   return (

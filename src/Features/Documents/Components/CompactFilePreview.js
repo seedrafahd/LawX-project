@@ -16,18 +16,20 @@ export default function CompactFilePreview({ file, onDelete }) {
         </p>
 
         <p className="mt-1 text-[12px] font-medium text-[#6f7581]">
-          تم الرفع {fileMeta.size} جاهز للرفع
+          {fileMeta.size} جاهز للرفع
         </p>
       </div>
 
-      <button
-        type="button"
-        onClick={onDelete}
-        aria-label="حذف الملف"
-        className="flex h-9 w-9 items-center justify-center rounded-md text-[#ef2424] transition hover:bg-red-50"
-      >
-        <Trash2 size={19} strokeWidth={2.2} />
-      </button>
+      {onDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          aria-label="حذف الملف"
+          className="flex h-9 w-9 items-center justify-center rounded-md text-[#ef2424] transition hover:bg-red-50"
+        >
+          <Trash2 size={19} strokeWidth={2.2} />
+        </button>
+      )}
     </div>
   );
 }

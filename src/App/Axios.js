@@ -53,7 +53,7 @@ Axios.interceptors.response.use(
 
       // if login → logout
       if (!isLoginPage) {
-        cookie.remove("auth");
+        cookie.remove("auth", { path: "/" });
         window.location.href = "/login";
       }
 

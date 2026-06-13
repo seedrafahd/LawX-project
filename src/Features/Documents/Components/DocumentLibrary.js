@@ -1,116 +1,83 @@
 import { useState } from "react";
-import { Upload, Download, FileText, BookOpenIcon, Trash2 } from "lucide-react";
-import DocumentUploadModal from "./DocumentUploadModal";
+import { Upload } from "lucide-react";
 import SharedButton from "../../../shared/Components/SharedButton";
-import { useDocuments } from "../Hooks/useDocuments";
+import { useDeleteDocument, useDocuments } from "../Hooks/useDocuments";
 import Loader from "../../../shared/Components/Loading";
 import PDFModal from "./OpenPDFModal";
+import DocumentItem from "./DocumentItem";
+import DeleteModal from "../../../shared/Components/DeleteModal";
+import DocumentUploadModal from "./UploadFile/DocumentUploadModal";
+import { useModal } from "../../../shared/Hooks/useModal";
 
 export default function DocumentLibrary({ caseId }) {
-  const { data, isPending } = useDocuments(caseId);
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [selectedFileUrl, setSelectedFileUrl] = useState(null);
-  const files = data?.data.data;
+  const { data: files = [], isPending } = useDocuments(caseId);
+  const uploadModal = useModal();
+  const [selectedPreviewFile, setSelectedPreviewFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const { mutate, isPending: isDeleting } = useDeleteDocument(
+    caseId,
+    selectedFile?.id,
+  );
+
+  const onDelete = () => {
+    mutate({}, { onSuccess: () => setSelectedFile(null) });
+  };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-8 space-y-8">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-bold text-gray-900">مكتبة المستندات</h3>
-        <SharedButton
-          icon={<Upload size={18} />}
-          onClick={() => setIsUploadModalOpen(true)}
-        >
-          رفع ملف جديد
-        </SharedButton>
-      </div>
+    <>
+      <div className="bg-white rounded-xl shadow-sm p-8 space-y-8">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-bold text-gray-900">مكتبة المستندات</h3>
+          <SharedButton
+            icon={<Upload size={18} />}
+            onClick={uploadModal.toggle}
+          >
+            رفع ملف جديد
+          </SharedButton>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {isPending ? (
-          <Loader />
-        ) : files.length ? (
-          files.map((file) => {
-            const name = getFileName(file);
-            const type = file.type?.toUpperCase() || "FILE";
-            const size =
-              file.size || file.file_size || file.fileSize || "غير متوفر";
-            const date = file.uploaded_AT || file.uploaded_at || "-";
-            const fixedUrl = file.file_url.replace(
-              "http://localhost",
-              "http://127.0.0.1:8000",
-            );
-
-            return (
-              <div
-                key={file.id}
-                className="bg-[#EFF1F8]/40 rounded-xl border border-[#EFF1F8] shadow-sm p-4 flex items-center justify-between gap-2"
-              >
-                <div className="flex min-w-0 flex-1 gap-3 text-gray-400  overflow-hidden">
-                  <div
-                    className={`w-8 h-8 flex items-center justify-center rounded-xl`}
-                  >
-                    <FileText />
-                  </div>
-
-                  <div>
-                    <h5 className="truncate text-base text-black">{name}</h5>
-                    <p className="text-xs">
-                      {type} • {size} • {date}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <a
-                    href={fixedUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="تحميل المستند"
-                    className="p-[10px] bg-variable-collection-primary-color/20 text-variable-collection-primary-color rounded-full"
-                  >
-                    <Download size={16} />
-                  </a>
-                  <button
-                    onClick={() => setSelectedFileUrl(fixedUrl)}
-                    className="p-[10px] bg-variable-collection-primary-color/20 text-variable-collection-primary-color rounded-full"
-                  >
-                    <BookOpenIcon size={16} />
-                  </button>
-                  <button className="p-[10px] bg-variable-collection-error-color/20 text-variable-collection-error-color rounded-full">
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <p className="text-sm font-semibold text-gray-500">
-            لا توجد مستندات بعد
-          </p>
-        )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {isPending ? (
+            <Loader />
+          ) : files.length ? (
+            files.map((file) => {
+              return (
+                <DocumentItem
+                  key={file.id}
+                  file={file}
+                  onViewClick={setSelectedPreviewFile}
+                  onDeleteClick={() => setSelectedFile(file)}
+                />
+              );
+            })
+          ) : (
+            <p className="text-sm font-semibold text-gray-500">
+              لا توجد مستندات بعد
+            </p>
+          )}
+        </div>
       </div>
 
       <DocumentUploadModal
-        isOpen={isUploadModalOpen}
+        isOpen={uploadModal.isOpen}
         caseId={caseId}
-        onClose={() => setIsUploadModalOpen(false)}
-        onSubmit={() => {
-          setIsUploadModalOpen(false);
-        }}
+        onClose={uploadModal.toggle}
+      />
+
+      <DeleteModal
+        isOpen={!!selectedFile}
+        onClose={() => setSelectedFile(null)}
+        onConfirm={onDelete}
+        isDeleting={isDeleting}
+        title="حذف الملف"
+        description="هل أنت متأكد من حذف هذا الملف؟ لا يمكن التراجع عن هذا الإجراء بمجرد تأكيده"
       />
 
       <PDFModal
-        isOpen={!!selectedFileUrl}
-        onClose={() => setSelectedFileUrl(null)}
-        pdfFile={selectedFileUrl}
+        isOpen={!!selectedPreviewFile}
+        onClose={() => setSelectedPreviewFile(null)}
+        file={selectedPreviewFile}
       />
-    </div>
+    </>
   );
-}
-
-function getFileName(file) {
-  if (file.name) return file.name;
-  if (!file.file_url) return "مستند";
-
-  const fileName = file.file_url.split("/").pop();
-  return decodeURIComponent(fileName || "مستند");
 }

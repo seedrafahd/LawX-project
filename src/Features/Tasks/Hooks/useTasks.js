@@ -3,7 +3,10 @@ import {
   createTaskRequest,
   getTasksRequest,
   updateTaskStatus,
-} from "../Services/TasksApi";
+  updateTaskRequest,
+  deleteTaskRequest,
+} from "../services/TasksApi";
+import toast from "react-hot-toast";
 
 export const useTasks = () => {
   return useQuery({
@@ -19,7 +22,10 @@ export const useCreateTask = () => {
     mutationFn: createTaskRequest,
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
@@ -31,7 +37,44 @@ export const useUpdateTaskStatus = () => {
     mutationFn: updateTaskStatus,
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTaskRequest,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      toast.success("تم تحديث المهمة بنجاح");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteTaskRequest,
+
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      if (variables?.case_id) {
+        queryClient.invalidateQueries({
+          queryKey: ["tasks", variables.case_id],
+        });
+      }
+      toast.success("تم حذف المهمة بنجاح");
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };

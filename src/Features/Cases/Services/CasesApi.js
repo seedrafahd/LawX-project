@@ -6,6 +6,12 @@ export const getCasesRequest = async () => {
   return res.data;
 };
 
+// get case details
+export const getCaseDetailsRequest = async (id) => {
+  const res = await Axios.get(`/Case/get_case_details/${id}`);
+  return res.data;
+};
+
 // create case
 export const createCaseRequest = async (data) => {
   const res = await Axios.post("/Case/create_case", data);
@@ -14,13 +20,20 @@ export const createCaseRequest = async (data) => {
 };
 
 // update case
-export const updateCaseRequest = async ({ id, data }) => {
-  const res = await Axios.put(`/Case/update_case`, data);
+export const updateCaseRequest = async (data) => {
+  console.log(data);
+  const res = await Axios.post(`/Case/update_case`, data);
   return res.data;
 };
 
 // delete case
 export const deleteCaseRequest = async (id) => {
-  const res = await Axios.delete(`/cases/${id}`);
+  const res = await Axios.delete(`/Case/delete_case/${id}`);
+  return res.data;
+};
+
+// Get Clients
+export const getClientsRequest = async (id) => {
+  const res = await Axios.get(`/ManageUsers/get_clients`);
   return res.data;
 };
