@@ -15,7 +15,9 @@ export default function CaseSummary({ formData }) {
           {formData.case_category && (
             <Row label="نوع القضية" value={formData.case_category} />
           )}
-          {formData.price && <Row label="سعر القضية" value={formData.price} />}
+          {!!formData.price && (
+            <Row label="سعر القضية" value={formData.price} />
+          )}
           {formData.billing_type && (
             <Row
               label="نوع الدفع"

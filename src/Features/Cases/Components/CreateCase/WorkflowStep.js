@@ -34,7 +34,7 @@ export default function WorkflowStep({
           return (
             <div
               key={opt.id}
-              onClick={() => setFormData({ ...formData, workflow: opt.id })}
+              onClick={() => setFormData("workflow", opt.id)}
               className={`cursor-pointer border-2 rounded-xl px-3 py-2 gap-[14px] flex items-center transition bg-variable-collection-primary-color/10 ${
                 selected
                   ? "border-variable-collection-primary-color"

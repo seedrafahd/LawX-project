@@ -12,8 +12,8 @@ export default function RequestInfoCard({ request }) {
         <div className="flex flex-wrap items-center gap-2">
           <SharedBadge text={request.type} color="blue" />
           <SharedBadge
-            text={statusStyles[request.status].text}
-            color={statusStyles[request.status].color}
+            text={statusStyles[request.status]?.text}
+            color={statusStyles[request.status]?.color}
           />
         </div>
       </div>

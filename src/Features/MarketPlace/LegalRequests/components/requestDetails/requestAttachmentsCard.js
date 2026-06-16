@@ -14,7 +14,7 @@ export default function RequestAttachmentsCard({ documents }) {
     <div className="rounded-xl bg-white p-8 space-y-6">
       <h3 className="flex items-center gap-3 font-bold text-gray-900">
         <Paperclip size={18} />
-        المرفقات ({documents.length})
+        المرفقات ({documents?.length})
       </h3>
 
       {documents?.length ? (

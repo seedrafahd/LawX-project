@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { baseURL } from "../shared/constants/URL";
 
-const baseURL = "http://127.0.0.1:8000/api/";
 const cookie = new Cookies();
 
 export const Axios = axios.create({

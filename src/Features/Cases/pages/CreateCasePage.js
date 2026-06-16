@@ -12,10 +12,12 @@ import AssignCourtStep from "../Components/CreateCase/AssignCourtStep";
 import { useCaseForm } from "../hooks/useCaseForm";
 import { useClients } from "../hooks/useClient";
 import AssignTeamStep from "../Components/CreateCase/AssignTeamStep";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function CreateCasePage() {
+  const { user } = useAuth();
   const { form, errors, isPending, updateField, handleSubmit, closeModal } =
-    useCaseForm();
+    useCaseForm(user.role === "admin");
   const { data, isPending: isClients } = useClients();
   const clients = data?.clients || [];
   console.log(clients);
@@ -77,12 +79,14 @@ export default function CreateCasePage() {
                     errors={errors}
                     onBack={() => setStep(4)}
                   />
-                  <AssignTeamStep
-                    formData={form}
-                    setFormData={updateField}
-                    errors={errors}
-                    onBack={() => setStep(4)}
-                  />
+                  {user.role === "admin" && (
+                    <AssignTeamStep
+                      formData={form}
+                      setFormData={updateField}
+                      errors={errors}
+                      onBack={() => setStep(4)}
+                    />
+                  )}
                   <AssignCourtStep
                     formData={form}
                     setFormData={updateField}

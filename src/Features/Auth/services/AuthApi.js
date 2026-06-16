@@ -1,9 +1,7 @@
 import { Axios } from "../../../App/Axios";
 
-const baseURL = "http://127.0.0.1:8000/api";
-
 export const loginRequest = async (form) => {
-  let response = await Axios.post(`${baseURL}/Auth/login`, {
+  let response = await Axios.post(`Auth/login`, {
     email: form.email,
     password: form.password,
   });

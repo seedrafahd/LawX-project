@@ -4,7 +4,7 @@ import { useCreateCase } from "./useCases";
 import { useNavigate } from "react-router-dom";
 import { validateCaseForm } from "../helpers/validation";
 
-export const useCaseForm = () => {
+export const useCaseForm = (isAdmin) => {
   const navigate = useNavigate();
   const [form, setForm] = useState(INITIAL_CASES_FORM);
   const [errors, setErrors] = useState({});
@@ -30,7 +30,7 @@ export const useCaseForm = () => {
     event.preventDefault();
     if (isPending) return;
 
-    const validationErrors = validateCaseForm(form);
+    const validationErrors = validateCaseForm({ form, isAdmin });
 
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);

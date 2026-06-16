@@ -1,4 +1,4 @@
-export function validateCaseForm(form) {
+export function validateCaseForm({ form, isAdmin }) {
   const errors = {};
 
   if (!form.title || form.title.trim().length < 5) {
@@ -6,7 +6,7 @@ export function validateCaseForm(form) {
   }
 
   if (!form.case_number || form.case_number.trim().length < 3) {
-    errors.case_number = " يجب أن يكون العنوان 3 أحرف على الأقل";
+    errors.case_number = " يجب أن يكون رقم القضية 3 أرقام على الأقل";
   }
 
   if (!form.description || form.description.trim().length < 10) {
@@ -25,7 +25,7 @@ export function validateCaseForm(form) {
     errors.lead_lawyer_id = "حدد المحامي المسؤول";
   }
 
-  if (form.team.length === 0) {
+  if (isAdmin && (!form.team || form.team.length === 0)) {
     errors.team = "حدد الفريق المسؤول";
   }
 

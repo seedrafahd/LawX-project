@@ -45,11 +45,12 @@ export default function CaseDetailsStep({
               onChange={(e) => setFormData("case_number", e.target.value)}
               className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C]"
             />
-            {formData.case_number && formData.case_number.trim().length < 3 && (
-              <span className="text-variable-collection-error-color text-xs">
-                يجب أن يكون رقم القضية 3 أرقام على الأقل
-              </span>
-            )}
+            {!!formData.case_number &&
+              formData.case_number.trim().length < 3 && (
+                <span className="text-variable-collection-error-color text-xs">
+                  يجب أن يكون رقم القضية 3 أرقام على الأقل
+                </span>
+              )}
           </SharedField>
         </div>
 
@@ -76,7 +77,7 @@ export default function CaseDetailsStep({
               onChange={(e) => setFormData("price", e.target.value)}
               className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 pl-11 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#40558C]"
             />
-            {formData.price && formData.price < 0 && (
+            {formData.price < 0 && (
               <span className="text-variable-collection-error-color text-xs">
                 يجب أن يكون السعر صحيح أكبر من الصفر
               </span>
