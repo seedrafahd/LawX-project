@@ -11,8 +11,7 @@ import Loader from "../../../shared/Components/Loading";
 export default function Dashboard() {
   const { data, isPending } = useDashboard();
   const { data: alertsData } = useAlerts();
-  const alerts = alertsData.data?.alerts || [];
-  console.log(alerts);
+  const alerts = alertsData?.data?.alerts || [];
 
   if (isPending) return <Loader />;
 

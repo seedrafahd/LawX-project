@@ -56,7 +56,7 @@ export default function MyDrawer({ mobileOpen, onMobileClose }) {
   const menuItems =
     role === "super_admin"
       ? superAdminMenuItems
-      : role === "admin"
+      : role === "admin" || role === "lawer"
         ? officeAdminMenuItems
         : null;
   if (!menuItems) {
@@ -137,7 +137,10 @@ export default function MyDrawer({ mobileOpen, onMobileClose }) {
       <ConfirmDialog
         open={showModal}
         onClose={() => setShowModal(false)}
-        onConfirm={logout}
+        onConfirm={() => {
+          setShowModal(false);
+          logout();
+        }}
         title="تأكيد تسجيل الخروج"
         description="هل أنت متأكد من رغبتك في تسجيل الخروج؟ سيتم إنهاء جلستك الحالية وستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى بياناتك."
         confirmText="تسجيل الخروج"

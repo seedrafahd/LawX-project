@@ -20,7 +20,6 @@ export const authSlice = createSlice({
     logout: (currState) => {
       currState.user = null;
       currState.token = null;
-      currState.isInitialized = false;
     },
     setInitialized: (currState) => {
       currState.isInitialized = true;

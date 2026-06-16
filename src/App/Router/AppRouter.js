@@ -44,7 +44,7 @@ export default function AppRouter() {
         </Route> */}
 
         {/* Office Admin Routes */}
-        <Route element={<ProtectedRoute allowedRole={"admin" || "lawer"} />}>
+        <Route element={<ProtectedRoute allowedRole={["admin", "lawer"]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/cases">
               <Route index element={<CasesPage />} />

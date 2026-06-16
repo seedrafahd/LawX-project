@@ -1,5 +1,4 @@
 export function FilterToolbar({ handleChange, teamMembers = [] }) {
-  console.log(teamMembers);
   return (
     <div className="flex flex-wrap items-end gap-6">
       {/* state */}

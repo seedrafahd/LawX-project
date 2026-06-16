@@ -29,7 +29,7 @@ export default function MyOffersPage() {
         break;
 
       case "accepted":
-        navigate(`/offers/${offer.proposal_id}/contract`);
+        // navigate(`/offers/${offer.proposal_id}/contract`);
         break;
 
       default:

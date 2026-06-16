@@ -6,15 +6,19 @@ export const useFilteredCases = ({ cases, filters }) => {
 
   return useMemo(() => {
     return cases?.filter((c) => {
-      if (filters.tab === "my" && c.lawyer_id !== user?.id) return false;
-      if (filters.tab === "office" && !c.isOfficeCase) return false;
+      if (filters.tab === "my" && c.lawyer_id !== user?.ID) return false;
+      if (filters.tab === "office" && c.lawyer_id === user?.ID) return false;
 
       if (filters.status && c.status !== filters.status) return false;
-      if (filters.lawyer && !(c.team || []).some((m) => (m.name || m) === filters.lawyer)) return false;
+      if (
+        filters.lawyer &&
+        !(c.team || []).some((m) => (m.name || m) === filters.lawyer)
+      )
+        return false;
       if (filters.type && c.type !== filters.type) return false;
       if (filters.court && c.court !== filters.court) return false;
 
       return true;
     });
-  }, [cases, filters]);
+  }, [cases, filters, user?.ID]);
 };
