@@ -1,7 +1,7 @@
 import { Navigate, NavLink } from "react-router-dom";
-import { useAuth } from "../Features/Auth/Hooks/useAuth";
+import { useAuth } from "../Features/Auth/hooks/useAuth";
 import { useState } from "react";
-import ConfirmDialog from "../shared/Components/ConfirmDialog";
+import ConfirmDialog from "../shared/components/ConfirmDialog";
 import logoImage from "./Assets/lawX.png";
 
 // Icons

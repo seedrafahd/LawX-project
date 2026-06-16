@@ -2,10 +2,10 @@ import { CalendarDays, DollarSign } from "lucide-react";
 import StatCard from "../components/offerDetails/statCard";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteOfferAction from "../components/deleteOfferAction";
-import SharedBadge from "../../../../shared/Components/sharedBadge";
+import SharedBadge from "../../../../shared/components/sharedBadge";
 import { useOfferDetails } from "../hooks/useOffers";
 import RequestAttachmentsCard from "../../LegalRequests/components/requestDetails/requestAttachmentsCard";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 
 export default function OfferDetailsPage() {
   const navigate = useNavigate();

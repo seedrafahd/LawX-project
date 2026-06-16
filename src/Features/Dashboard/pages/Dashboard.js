@@ -2,11 +2,11 @@ import FolderIcon from "@mui/icons-material/Folder";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import StatCard from "../Components/StatsCard";
-import ScheduleItem from "../Components/ScheduleItem";
-import FinanceChart from "../Components/Chart";
-import { useAlerts, useDashboard } from "../Hooks/useDashboard";
-import Loader from "../../../shared/Components/Loading";
+import StatCard from "../components/StatsCard";
+import ScheduleItem from "../components/ScheduleItem";
+import FinanceChart from "../components/Chart";
+import { useAlerts, useDashboard } from "../hooks/useDashboard";
+import Loader from "../../../shared/components/Loading";
 
 export default function Dashboard() {
   const { data, isPending } = useDashboard();

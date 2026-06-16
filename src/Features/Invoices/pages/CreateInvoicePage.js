@@ -5,7 +5,7 @@ import InvoiceSummarySidebar from "../components/createInvoice/InvoiceSummarySid
 import { useInvoicForm } from "../hooks/useInvoiceForm";
 import { useInvoiceSubmission } from "../hooks/useInvoiceSubmission";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../../../shared/Components/Loading";
+import Loader from "../../../shared/components/Loading";
 
 export default function CreateInvoicePage() {
   const navigate = useNavigate();

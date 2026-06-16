@@ -2,8 +2,8 @@ import { useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
-import SharedField from "../../../shared/Components/SharedFeild";
-import SharedModal from "../../../shared/Components/SharedModal";
+import SharedField from "../../../shared/components/SharedFeild";
+import SharedModal from "../../../shared/components/SharedModal";
 import { PAYMENT_TYPE_OPTIONS } from "../helpers/constants";
 
 export default function EditCaseModal({
@@ -50,7 +50,12 @@ export default function EditCaseModal({
     const newOpponent = { ...opponentInput, name: opponentInput.name.trim() };
     const updated = [...(form.opponents || []), newOpponent];
     updateField("opponents", updated);
-    setOpponentInput({ name: "", type: "individual", national_id: "", phone: "" });
+    setOpponentInput({
+      name: "",
+      type: "individual",
+      national_id: "",
+      phone: "",
+    });
   };
 
   const removeOpponent = (index) => {
@@ -268,7 +273,10 @@ export default function EditCaseModal({
               placeholder="رقم الهوية"
               value={opponentInput.national_id}
               onChange={(e) =>
-                setOpponentInput({ ...opponentInput, national_id: e.target.value })
+                setOpponentInput({
+                  ...opponentInput,
+                  national_id: e.target.value,
+                })
               }
               className="h-12 rounded-lg border border-gray-300 bg-gray-50 px-4 text-sm outline-none focus:border-[#40558C]"
             />
@@ -302,7 +310,11 @@ export default function EditCaseModal({
                   <div className="text-sm">
                     <p className="font-medium text-gray-700">{opp.name}</p>
                     <p className="text-xs text-gray-500">
-                      {opp.type === "company" ? "شركة" : opp.type === "covernment_entity" ? "جهة حكومية" : "فرد"}
+                      {opp.type === "company"
+                        ? "شركة"
+                        : opp.type === "covernment_entity"
+                          ? "جهة حكومية"
+                          : "فرد"}
                       {opp.national_id && ` • ${opp.national_id}`}
                       {opp.phone && ` • ${opp.phone}`}
                     </p>

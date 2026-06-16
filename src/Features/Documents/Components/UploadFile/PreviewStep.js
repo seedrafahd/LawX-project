@@ -1,4 +1,4 @@
-import SharedField from "../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../shared/components/SharedFeild";
 import CompactFilePreview from "../CompactFilePreview";
 import SelectField from "../SelectField";
 

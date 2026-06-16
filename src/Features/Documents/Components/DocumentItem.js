@@ -1,5 +1,5 @@
 import { BookOpenIcon, Download, FileText, Trash2 } from "lucide-react";
-import IconActionButton from "../../../shared/Components/IconActionButton";
+import IconActionButton from "../../../shared/components/IconActionButton";
 
 export default function DocumentItem({ file, onDeleteClick, onViewClick }) {
   // console.log(file);

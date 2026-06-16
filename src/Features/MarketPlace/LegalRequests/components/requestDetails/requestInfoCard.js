@@ -1,5 +1,5 @@
 import { Wallet } from "lucide-react";
-import SharedBadge from "../../../../../shared/Components/sharedBadge";
+import SharedBadge from "../../../../../shared/components/sharedBadge";
 import { statusStyles } from "../../helpers/constants";
 
 export default function RequestInfoCard({ request }) {

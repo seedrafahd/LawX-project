@@ -1,6 +1,6 @@
-import FileAttachmentField from "../../../../shared/Components/FileAttachmentField";
-import SharedField from "../../../../shared/Components/SharedFeild";
-import { CURRENCY_OPTIONS } from "../../../../shared/Constants/currencyOptions";
+import FileAttachmentField from "../../../../shared/components/FileAttachmentField";
+import SharedField from "../../../../shared/components/SharedFeild";
+import { CURRENCY_OPTIONS } from "../../../../shared/constants/currencyOptions";
 
 export default function OfferForm({
   form,

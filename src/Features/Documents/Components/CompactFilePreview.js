@@ -1,6 +1,6 @@
 import { Trash2 } from "lucide-react";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { getFileMetadata } from "../Utils/File";
+import { getFileMetadata } from "../utils/File";
 
 export default function CompactFilePreview({ file, onDelete }) {
   const fileMeta = getFileMetadata(file);

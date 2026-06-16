@@ -2,10 +2,10 @@ import React, { useMemo, useState } from "react";
 import OfferCard from "../components/offerCard";
 import FilterTabs from "../components/filterTabs";
 import { getOffersStats } from "../helpers/getOffersStats";
-import StatCard from "../../../../shared/Components/statCard";
+import StatCard from "../../../../shared/components/statCard";
 import { useNavigate } from "react-router-dom";
 import { useOffers } from "../hooks/useOffers";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 
 export default function MyOffersPage() {
   const navigate = useNavigate();

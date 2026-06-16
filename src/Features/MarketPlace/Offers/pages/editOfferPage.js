@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useOfferForm } from "../hooks/useOfferForm";
-import { useFileUpload } from "../../../../shared/Hooks/useFileUpload";
+import { useFileUpload } from "../../../../shared/hooks/useFileUpload";
 import { useOfferDetails, useUpdateOffer } from "../hooks/useOffers";
 import { buildUpdateOfferPayload } from "../helpers/helpers";
 import OfferDescriptionCard from "../components/editOffer/offerDescriptionCard";
 import OfferAttachmentsCard from "../components/editOffer/offerAttachmentsCard";
 import OfferSidebar from "../components/editOffer/offerSidebar";
 import EditOfferHeader from "../components/editOffer/editOfferHeader";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 import toast from "react-hot-toast";
 
 export default function EditOfferPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, isPending } = useOfferDetails(id);
-  const selectedOffer = data?.data.data || {};
+  const selectedOffer = useMemo(() => data?.data.data || {}, [data]);
   const { form, errors, file, setFile, updateField } = useOfferForm();
   const { fileInputRef, chooseFile, handleFileChange, handleDrop } =
     useFileUpload(setFile);
@@ -38,7 +38,7 @@ export default function EditOfferPage() {
       if (selectedOffer.documents)
         updateField("documents", selectedOffer.documents);
     }
-  }, [selectedOffer]);
+  }, [selectedOffer, updateField]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

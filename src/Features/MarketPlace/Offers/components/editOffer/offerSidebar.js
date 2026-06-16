@@ -1,6 +1,6 @@
-import SharedField from "../../../../../shared/Components/SharedFeild";
-import { CURRENCY_OPTIONS } from "../../../../../shared/Constants/currencyOptions";
-import SharedButton from "../../../../../shared/Components/SharedButton";
+import SharedField from "../../../../../shared/components/SharedFeild";
+import { CURRENCY_OPTIONS } from "../../../../../shared/constants/currencyOptions";
+import SharedButton from "../../../../../shared/components/SharedButton";
 
 export default function OfferSidebar({ form, errors, updateField }) {
   return (
@@ -51,7 +51,7 @@ export default function OfferSidebar({ form, errors, updateField }) {
           className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 text-sm text-gray-700 outline-none transition placeholder:text-gray-400"
         />
       </SharedField>
-      
+
       <SharedField label="شروط الدفع" error={errors.payment_terms}>
         <input
           type="text"

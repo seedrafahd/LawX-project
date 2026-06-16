@@ -1,9 +1,8 @@
-import SharedField from "../../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../../shared/components/SharedFeild";
 
 export default function OfferDescriptionCard({ form, errors, updateField }) {
   return (
     <section className="bg-white rounded-lg shadow-sm p-6 md:p-8 space-y-6">
-     
       <SharedField label=" وصف العرض" error={errors.message_for_client}>
         <textarea
           rows={7}

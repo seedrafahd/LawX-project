@@ -1,6 +1,6 @@
 import React from "react";
 import { Bookmark, Clock3, FileText, MapPin } from "lucide-react";
-import SharedBadge from "../../../../shared/Components/sharedBadge";
+import SharedBadge from "../../../../shared/components/sharedBadge";
 import { statusStyles } from "../helpers/constants";
 
 export default function RequestCard({ item, tab, onOpenDetails, onOpenOffer }) {

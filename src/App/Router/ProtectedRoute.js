@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../Features/Auth/Hooks/useAuth";
-import Loader from "../../shared/Components/Loading";
+import { useAuth } from "../../Features/Auth/hooks/useAuth";
+import Loader from "../../shared/components/Loading";
 
 export default function ProtectedRoute({ allowedRole }) {
   const { token, user, isInitialized } = useAuth();

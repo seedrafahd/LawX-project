@@ -4,7 +4,7 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import StepHeader from "./StepHeader";
-import SharedField from "../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../shared/components/SharedFeild";
 import { PAYMENT_TYPE_OPTIONS } from "../../helpers/constants";
 
 export default function PaymentTypeStep({

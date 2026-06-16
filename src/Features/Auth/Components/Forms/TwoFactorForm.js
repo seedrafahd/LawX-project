@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "universal-cookie";
-import { loginRequest, verify2FARequest } from "../../Services/AuthApi";
+import { loginRequest, verify2FARequest } from "../../services/AuthApi";
 import { setError, setLoading, setUserDetails } from "../../AuthSlice";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Typography } from "@mui/material";
 import AuthButton from "../AuthButton";
 import AuthFormCard from "../AuthFormCard";

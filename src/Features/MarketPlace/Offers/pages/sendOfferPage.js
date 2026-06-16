@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { replace, useLocation, useNavigate, useParams } from "react-router-dom";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 import OfferForm from "../components/offerForm";
 import { useOfferForm } from "../hooks/useOfferForm";
 import { useOfferSubmission } from "../hooks/useOfferSubmission";
-import { useFileUpload } from "../../../../shared/Hooks/useFileUpload";
+import { useFileUpload } from "../../../../shared/hooks/useFileUpload";
 
 export default function SendOfferPage() {
   const navigate = useNavigate();

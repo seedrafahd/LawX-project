@@ -1,7 +1,7 @@
-import SharedButton from "../../../../shared/Components/SharedButton";
-import FileAttachmentField from "../../../../shared/Components/FileAttachmentField";
+import SharedButton from "../../../../shared/components/SharedButton";
+import FileAttachmentField from "../../../../shared/components/FileAttachmentField";
 import SummaryRow from "./SummaryRow";
-import { useFileUpload } from "../../../../shared/Hooks/useFileUpload";
+import { useFileUpload } from "../../../../shared/hooks/useFileUpload";
 import { useMemo } from "react";
 import TipCard from "./TipCard";
 

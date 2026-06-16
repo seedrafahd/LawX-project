@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Upload } from "lucide-react";
-import SharedButton from "../../../shared/Components/SharedButton";
-import { useDeleteDocument, useDocuments } from "../Hooks/useDocuments";
-import Loader from "../../../shared/Components/Loading";
+import SharedButton from "../../../shared/components/SharedButton";
+import { useDeleteDocument, useDocuments } from "../hooks/useDocuments";
+import Loader from "../../../shared/components/Loading";
 import PDFModal from "./OpenPDFModal";
 import DocumentItem from "./DocumentItem";
-import DeleteModal from "../../../shared/Components/DeleteModal";
+import DeleteModal from "../../../shared/components/DeleteModal";
 import DocumentUploadModal from "./UploadFile/DocumentUploadModal";
-import { useModal } from "../../../shared/Hooks/useModal";
+import { useModal } from "../../../shared/hooks/useModal";
 
 export default function DocumentLibrary({ caseId }) {
   const { data: files = [], isPending } = useDocuments(caseId);

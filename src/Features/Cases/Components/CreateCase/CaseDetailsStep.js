@@ -2,7 +2,7 @@ import StarIcon from "@mui/icons-material/Star";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StepNavigation from "./StepNavigation";
 import StepHeader from "./StepHeader";
-import SharedField from "../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../shared/components/SharedFeild";
 
 export default function CaseDetailsStep({
   formData,

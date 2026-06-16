@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useRequests } from "../hooks/useRequests";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 import RequestCard from "../components/requestCard";
 import FilterBar from "../components/filterBar";
-import { useFilters } from "../../../../shared/Hooks/useFilters";
+import { useFilters } from "../../../../shared/hooks/useFilters";
 import { INITIAL_REQUESTS_FILTERS } from "../helpers/constants";
 import { useFilteredRequests } from "../hooks/useFilteredRequests";
 import { getMarketplaceStats } from "../helpers/getMarketplaceStats";

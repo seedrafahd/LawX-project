@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NotificationsHeader from "../components/NotificationsHeader";
 import NotificationsTabs from "../components/NotificationsTabs";
 import NotificationCard from "../components/NotificationCard";
-import Loader from "../../../shared/Components/Loading";
+import Loader from "../../../shared/components/Loading";
 import {
   useNotifications,
   useMarkAsRead,

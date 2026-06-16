@@ -1,4 +1,4 @@
-import SharedField from "../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../shared/components/SharedFeild";
 import { SectionCard } from "../SectionCard";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 

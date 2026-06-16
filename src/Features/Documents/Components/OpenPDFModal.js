@@ -5,7 +5,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import SharedButton from "../../../shared/Components/SharedButton";
+import SharedButton from "../../../shared/components/SharedButton";
 
 export default function PDFModal({ isOpen, onClose, file }) {
   if (!isOpen) return null;

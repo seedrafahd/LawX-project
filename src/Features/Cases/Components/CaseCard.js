@@ -5,11 +5,11 @@ import {
   Trash2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { StatusDropdown } from "../../../shared/Components/sharedBadge";
-import TeamAvatars from "../../../shared/Components/TeamAvatars";
-import { useDeleteCase, useUpdateCase } from "../Hooks/useCases";
-import DeleteModal from "../../../shared/Components/DeleteModal";
-import Loader from "../../../shared/Components/Loading";
+import { StatusDropdown } from "../../../shared/components/sharedBadge";
+import TeamAvatars from "../../../shared/components/TeamAvatars";
+import { useDeleteCase, useUpdateCase } from "../hooks/useCases";
+import DeleteModal from "../../../shared/components/DeleteModal";
+import Loader from "../../../shared/components/Loading";
 import { useRef, useState } from "react";
 import { statusOptions } from "../helpers/constants";
 

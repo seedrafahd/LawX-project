@@ -1,6 +1,6 @@
-import SharedField from "../../../../shared/Components/SharedFeild";
+import SharedField from "../../../../shared/components/SharedFeild";
 import SelectField from "../SelectField";
-import FileAttachmentField from "../../../../shared/Components/FileAttachmentField";
+import FileAttachmentField from "../../../../shared/components/FileAttachmentField";
 
 export default function UploadStep({
   selectedType,

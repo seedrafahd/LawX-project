@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
 import { Trash2, Plus } from "lucide-react";
-import SharedModal from "../../../../shared/Components/SharedModal";
-import { useClients } from "../../Hooks/useClient";
+import SharedModal from "../../../../shared/components/SharedModal";
+import { useClients } from "../../hooks/useClient";
 
-const ROLE_OPTIONS = [
-  "باحث قانوني",
-  "محامي",
-  "شريك",
-  "مستشار",
-  "مساعد قانوني",
-];
+const ROLE_OPTIONS = ["باحث قانوني", "محامي", "شريك", "مستشار", "مساعد قانوني"];
 
 export default function EditTeamModal({
   isOpen,

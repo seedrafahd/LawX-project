@@ -1,5 +1,5 @@
 import { FileText, ImageIcon } from "lucide-react";
-import FileAttachmentField from "../../../../../shared/Components/FileAttachmentField";
+import FileAttachmentField from "../../../../../shared/components/FileAttachmentField";
 
 export default function OfferAttachmentsCard({
   attachments,

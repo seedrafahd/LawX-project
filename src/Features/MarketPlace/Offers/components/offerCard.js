@@ -1,5 +1,5 @@
 import { Trash2 } from "lucide-react";
-import SharedBadge from "../../../../shared/Components/sharedBadge";
+import SharedBadge from "../../../../shared/components/sharedBadge";
 import DeleteOfferAction from "./deleteOfferAction";
 
 export default function OfferCard({ offer, onOpenDetails, onActionClick }) {

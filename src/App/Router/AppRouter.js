@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
-import AuthPage from "../../Features/Auth/Pages/AuthPage";
+import AuthPage from "../../Features/Auth/pages/AuthPage";
 import DashboardLayout from "../DashboardLayout";
 import SplashScreen from "../SplashPage";
 import Dashboard from "../../Features/Dashboard/pages/Dashboard";
@@ -9,10 +9,10 @@ import LoginForm from "../../Features/Auth/Components/Forms/LoginForm";
 import TwoFactorForm from "../../Features/Auth/Components/Forms/TwoFactorForm";
 import ForgotPasswordForm from "../../Features/Auth/Components/Forms/ForgetPasswordForm";
 import ResetPasswordForm from "../../Features/Auth/Components/Forms/ResetPasswordForm";
-import CreateCasePage from "../../Features/Cases/Pages/CreateCasePage";
-import CasesPage from "../../Features/Cases/Pages/CasesPage";
-import CaseDetailsPage from "../../Features/Cases/Pages/CaseDetailsPage";
-import HearingsPage from "../../Features/Hearings/Pages/HearingsPage";
+import CreateCasePage from "../../Features/Cases/pages/CreateCasePage";
+import CasesPage from "../../Features/Cases/pages/CasesPage";
+import CaseDetailsPage from "../../Features/Cases/pages/CaseDetailsPage";
+import HearingsPage from "../../Features/Hearings/pages/HearingsPage";
 import TasksPage from "../../Features/Tasks/pages/TasksPage";
 import MyOffersPage from "../../Features/MarketPlace/Offers/pages/myOffersPage";
 import MarketplacePage from "../../Features/MarketPlace/LegalRequests/pages/marketplacePage";

@@ -1,5 +1,5 @@
-import DeleteModal from "../../../../shared/Components/DeleteModal";
-import { useModal } from "../../../../shared/Hooks/useModal";
+import DeleteModal from "../../../../shared/components/DeleteModal";
+import { useModal } from "../../../../shared/hooks/useModal";
 import { useDeleteOffer } from "../hooks/useOffers";
 
 export default function DeleteOfferAction({ offerId, children, onSuccess }) {

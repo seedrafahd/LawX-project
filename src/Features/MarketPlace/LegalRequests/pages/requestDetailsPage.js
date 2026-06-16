@@ -4,7 +4,7 @@ import RequestAttachmentsCard from "../components/requestDetails/requestAttachme
 import RequestInfoCard from "../components/requestDetails/requestInfoCard";
 import RequestDetailsActions from "../components/requestDetails/requestDetailsActions";
 import { useRequestDetails } from "../hooks/useRequests";
-import Loader from "../../../../shared/Components/Loading";
+import Loader from "../../../../shared/components/Loading";
 
 export default function RequestDetailsPage() {
   const { id } = useParams();

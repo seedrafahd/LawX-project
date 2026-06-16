@@ -5,7 +5,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import img from "./Assets/image-person.png";
-import SharedButton from "../shared/Components/SharedButton";
+import SharedButton from "../shared/components/SharedButton";
 import { useNotifications } from "../Features/Notifications/hooks/useNotifications";
 
 export default function MyAppBar({ onMenuClick }) {

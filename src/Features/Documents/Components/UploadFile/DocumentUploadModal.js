@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { UploadCloud } from "lucide-react";
 import toast from "react-hot-toast";
-import SharedModal from "../../../../shared/Components/SharedModal";
-import { useUploadDocument } from "../../Hooks/useDocuments";
+import SharedModal from "../../../../shared/components/SharedModal";
+import { useUploadDocument } from "../../hooks/useDocuments";
 import UploadingState from "./UploadingState";
 import SuccessState from "../SuccessState";
 import PreviewStep from "./PreviewStep";
 import UploadStep from "./UploadStep";
 import PDFModal from "../OpenPDFModal";
-import { useFileUpload } from "../../../../shared/Hooks/useFileUpload";
+import { useFileUpload } from "../../../../shared/hooks/useFileUpload";
 
 export default function DocumentUploadModal({
   isOpen = false,
@@ -84,7 +84,9 @@ export default function DocumentUploadModal({
       setUploadedFile({
         File_name: file?.name || "مستند",
         file_url: previewFileUrl,
-        file_size: file?.size ? `${(file.size / 1024).toFixed(2)} KB` : "غير متوفر",
+        file_size: file?.size
+          ? `${(file.size / 1024).toFixed(2)} KB`
+          : "غير متوفر",
         uploaded_AT: new Date().toLocaleString("ar-SA"),
         uploaded_by: { name: "أنت" },
       });

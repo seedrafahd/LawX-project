@@ -1,4 +1,4 @@
-import { CURRENCY_OPTIONS } from "../../../../shared/Constants/currencyOptions";
+import { CURRENCY_OPTIONS } from "../../../../shared/constants/currencyOptions";
 import { isBeforeToday } from "../../../../shared/helpers/validation";
 
 export const validateOfferForm = ({ form, file, requestId }) => {

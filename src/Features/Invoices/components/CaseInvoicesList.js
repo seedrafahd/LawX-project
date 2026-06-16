@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import SharedButton from "../../../shared/Components/SharedButton";
+import SharedButton from "../../../shared/components/SharedButton";
 import { InvoiceCard } from "./InvoiceCard";
 
 export default function CaseInvoicesList({ invoices }) {

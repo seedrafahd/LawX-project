@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { forgetPasswordRequest } from "../../Services/AuthApi";
+import { forgetPasswordRequest } from "../../services/AuthApi";
 import { useDispatch } from "react-redux";
 import { setError, setLoading } from "../../AuthSlice";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Typography } from "@mui/material";
 import AuthButton from "../AuthButton";
 import AuthFormCard from "../AuthFormCard";
@@ -28,11 +28,7 @@ export default function ForgotPasswordForm() {
       navigate(`/login/reset-password/${email}`);
     } catch (err) {
       console.log(err.message);
-      dispatch(
-        setError(
-          err.message,
-        ),
-      );
+      dispatch(setError(err.message));
       setTimeout(() => {
         dispatch(setError(null));
       }, 5000);

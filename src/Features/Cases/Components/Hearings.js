@@ -2,7 +2,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import EventRepeatOutlinedIcon from "@mui/icons-material/EventRepeatOutlined";
 import { CalendarDaysIcon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import SharedButton from "../../../shared/Components/SharedButton";
+import SharedButton from "../../../shared/components/SharedButton";
 import { getDate, getTime } from "../../../shared/helpers/date";
 
 export function HearingsOverview({ next_session, last_session }) {

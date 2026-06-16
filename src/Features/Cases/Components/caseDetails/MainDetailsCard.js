@@ -1,7 +1,7 @@
-import Loader from "../../../../shared/Components/Loading";
-import { StatusDropdown } from "../../../../shared/Components/sharedBadge";
+import Loader from "../../../../shared/components/Loading";
+import { StatusDropdown } from "../../../../shared/components/sharedBadge";
 import { statusOptions } from "../../helpers/constants";
-import { useUpdateCase } from "../../Hooks/useCases";
+import { useUpdateCase } from "../../hooks/useCases";
 
 export default function MainDetailsCard({ caseData }) {
   console.log(caseData);
