@@ -19,13 +19,6 @@ export default function ClientAndOpponentsStep({
     phone: "",
   });
 
-  // const clients = [
-  //   {
-  //     id: "d027c247-b4a3-476b-be54-e4457d5eb26b",
-  //     name: "أحمد العلي",
-  //   },
-  // ];
-
   const addOpponent = () => {
     if (!opponentInput.name.trim()) return;
     const newOpponent = { ...opponentInput, name: opponentInput.name.trim() };

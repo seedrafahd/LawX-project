@@ -22,6 +22,15 @@ import OfferDetailsPage from "../../Features/MarketPlace/Offers/pages/offerDetai
 import EditOfferPage from "../../Features/MarketPlace/Offers/pages/editOfferPage";
 import CreateInvoicePage from "../../Features/Invoices/pages/CreateInvoicePage";
 import NotificationsPage from "../../Features/Notifications/pages/NotificationsPage";
+import LegislativeLibraryPage from "../../Features/LegislativeLibrary/pages/LegislativeLibraryPage";
+import LawsPage from "../../Features/LegislativeLibrary/pages/LawsPage";
+import CreateLawPage from "../../Features/LegislativeLibrary/pages/CreateLawPage";
+import LawDetailsPage from "../../Features/LegislativeLibrary/pages/LawDetailsPage";
+import TemplatesPage from "../../Features/Templates/pages/TemplatesPage";
+import TemplateDetailsPage from "../../Features/Templates/pages/TemplateDetailsPage";
+import CreateTemplatePage from "../../Features/Templates/pages/CreateTemplatePage";
+import GenerateDocumentPage from "../../Features/Templates/pages/GenerateDocumentPage";
+import DocumentDetailsPage from "../../Features/Documents/pages/DocumentDetailsPage";
 
 export default function AppRouter() {
   return (
@@ -46,6 +55,7 @@ export default function AppRouter() {
         {/* Office Admin Routes */}
         <Route element={<ProtectedRoute allowedRole={["admin", "lawer"]} />}>
           <Route element={<DashboardLayout />}>
+            {/* CASES */}
             <Route path="/cases">
               <Route index element={<CasesPage />} />
               <Route path="create" element={<CreateCasePage />} />
@@ -53,6 +63,10 @@ export default function AppRouter() {
               <Route
                 path="case_details/:id/hearings"
                 element={<HearingsPage />}
+              />
+              <Route
+                path="document_details/:id"
+                element={<DocumentDetailsPage />}
               />
             </Route>
             <Route path="/tasks" element={<TasksPage />} />
@@ -81,6 +95,38 @@ export default function AppRouter() {
                 <Route path="edit_offer/:id" element={<EditOfferPage />} />
               </Route>
             </Route>
+
+            {/* Legislative Library */}
+            <Route path="/legislative_library">
+              <Route index element={<LegislativeLibraryPage />} />
+              <Route
+                path="law_details/:id"
+                // element={<RequestDetailsPage />}
+              />
+              {/* <Route path="create" element={<CreateInvoicePage />} /> */}
+            </Route>
+
+            {/* Laws */}
+            <Route path="/laws">
+              <Route index element={<LawsPage />} />
+              <Route path="law_details/:id" element={<LawDetailsPage />} />
+              <Route path="create" element={<CreateLawPage />} />
+              <Route path="edit/:id" element={<CreateLawPage />} />
+            </Route>
+
+            {/* Templates */}
+            <Route path="/templates">
+              <Route index element={<TemplatesPage />} />
+              <Route
+                path="template_details/:id"
+                element={<TemplateDetailsPage />}
+              />
+              <Route path="create" element={<CreateTemplatePage />} />
+              <Route path="edit/:id" element={<CreateTemplatePage />} />
+              <Route path="generate/:id" element={<GenerateDocumentPage />} />
+            </Route>
+
+            {/* Notifications */}
             <Route path="notifications" element={<NotificationsPage />} />
           </Route>
         </Route>

@@ -14,10 +14,11 @@ export default function DocumentUploadModal({
   isOpen = false,
   caseId,
   onClose,
+  documents = [],
 }) {
   const [step, setStep] = useState("upload");
-  const [selectedType, setSelectedType] = useState("");
-  // const [notes, setNotes] = useState("");
+  // const [selectedType, setSelectedType] = useState("");
+  const [form, setForm] = useState({ type: "", parent_id: null });
   const [file, setFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [progress, setProgress] = useState(0);
@@ -43,15 +44,25 @@ export default function DocumentUploadModal({
 
   const isPreview = step === "preview";
 
-  const updateSelectedType = (value) => {
-    setSelectedType(value);
-    setErrors((currentErrors) => ({ ...currentErrors, documentType: "" }));
+  // const updateSelectedType = (value) => {
+  //   setSelectedType(value);
+  //   setErrors((currentErrors) => ({ ...currentErrors, documentType: "" }));
+  // };
+  const updateField = (field, value) => {
+    setForm((currentForm) => ({
+      ...currentForm,
+      [field]: value,
+    }));
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: "",
+    }));
   };
 
   const handleClose = () => {
     setStep("upload");
     setFile(null);
-    setSelectedType("");
+    setForm({ type: "", parent_id: null });
     setErrors({});
     setProgress(0);
     setIsPdfModalOpen(false);
@@ -62,9 +73,9 @@ export default function DocumentUploadModal({
   };
 
   const handleSubmit = () => {
-    if (!caseId || !selectedType || !file) {
+    if (!caseId || !form.type || !file) {
       setErrors({
-        documentType: !selectedType ? "هذا الحقل مطلوب" : "",
+        type: !form.type ? "هذا الحقل مطلوب" : "",
         file: !file ? "يرجى اختيار ملف" : "",
       });
 
@@ -78,8 +89,8 @@ export default function DocumentUploadModal({
       const formData = new FormData();
       formData.append("case_id", caseId);
       formData.append("file", file);
-      formData.append("type", selectedType);
-      // formData.append("notes", notes.trim());
+      formData.append("type", form.type);
+      formData.append("parent_id", form.parent_id);
 
       setUploadedFile({
         File_name: file?.name || "مستند",
@@ -106,7 +117,6 @@ export default function DocumentUploadModal({
       );
       return;
     }
-
     setStep("preview");
   };
 
@@ -139,27 +149,31 @@ export default function DocumentUploadModal({
           />
         ) : (
           <div className="space-y-5 p-8">
-            {(errors.documentType || errors.file) && (
+            {(errors.type || errors.file) && (
               <div className="rounded-lg bg-red-50 px-4 py-3 text-right text-xs font-semibold text-red-600">
-                {errors.documentType || errors.file}
+                {errors.type || errors.file}
               </div>
             )}
             {isPreview ? (
-              <PreviewStep
-                file={file}
-                selectedType={selectedType}
-                updateSelectedType={updateSelectedType}
-              />
+              <PreviewStep file={file} form={form} updateField={updateField} />
             ) : (
               <UploadStep
-                selectedType={selectedType}
-                updateSelectedType={updateSelectedType}
+                form={form}
+                updateField={updateField}
                 chooseFile={chooseFile}
                 handleDrop={handleDrop}
-                handleFileChange={handleFileChange}
+                handleFileChange={(e) => {
+                  handleFileChange(e);
+                  setErrors((currentErrors) => ({
+                    ...currentErrors,
+                    file: "",
+                  }));
+                }}
                 fileInputRef={fileInputRef}
                 file={file}
                 setFile={setFile}
+                documents={documents}
+                setErrors={setErrors}
               />
             )}
           </div>

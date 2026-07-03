@@ -1,14 +1,11 @@
-import {
-  MARKETPLACE_TABS,
-  STATUS_OPTIONS,
-} from "../helpers/constants";
+import { MARKETPLACE_TABS, STATUS_OPTIONS } from "../helpers/constants";
 
 export default function FilterBar({ filters, onFilterChange, cityOptions }) {
   const activeTab = filters.tab;
 
   function SelectField({ label, filterKey, value, options }) {
     return (
-      <label className="border-l border-gray-200 px-4 xl:px-6 first:pr-0">
+      <label className="border-l border-gray-200 px-4 xl:px-6 md:first:pr-0">
         <span className="mb-1 block text-[10px] font-bold text-gray-700">
           {label}
         </span>
@@ -28,9 +25,9 @@ export default function FilterBar({ filters, onFilterChange, cityOptions }) {
   }
 
   return (
-    <header className="flex flex-col gap-4 lg:gap-0 lg:flex-row lg:justify-between bg-white rounded-xl p-4">
-      <div className="flex flex-col md:flex-row  lg:items-center gap-6 order-2 lg:order-1">
-        <div className="flex md:items-center">
+    <header className="flex flex-col gap-4 xl:gap-0 xl:flex-row xl:justify-between bg-white rounded-xl p-4">
+      <div className="flex flex-col lg:flex-row lg:items-center gap-6 order-2 xl:order-1">
+        <div className="flex flex-col md:flex-row lg:items-center gap-2 md:gap-0">
           <SelectField
             label="المدينة"
             filterKey="city"
@@ -45,7 +42,7 @@ export default function FilterBar({ filters, onFilterChange, cityOptions }) {
           />
         </div>
 
-        <label className="w-full md:w-56">
+        <label className="w-full md:w-36 xl:w-56">
           <span className="mb-1 block text-[10px] font-bold text-gray-700">
             عنوان الطلب
           </span>
@@ -57,7 +54,7 @@ export default function FilterBar({ filters, onFilterChange, cityOptions }) {
           />
         </label>
       </div>
-      <div className="flex gap-6 order-1 lg:order-2">
+      <div className="flex gap-6 order-1 xl:order-2">
         {MARKETPLACE_TABS.map((tab) => (
           <button
             key={tab.id}

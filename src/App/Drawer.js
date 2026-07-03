@@ -13,7 +13,15 @@ import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Bell } from "lucide-react";
+import {
+  Bell,
+  Book,
+  ClipboardCheck,
+  HandCoins,
+  LayoutTemplate,
+  Scale,
+  ShoppingBag,
+} from "lucide-react";
 
 const DRAWER_WIDTH = 230;
 
@@ -33,16 +41,31 @@ const superAdminMenuItems = [
 const officeAdminMenuItems = [
   { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
   { icon: <BusinessCenterIcon />, label: "القضايا", link: "cases" },
-  { icon: <BusinessCenterIcon />, label: "المهام", link: "tasks" },
+  { icon: <ClipboardCheck />, label: "المهام", link: "tasks" },
   {
-    icon: <BusinessCenterIcon />,
+    icon: <ShoppingBag />,
     label: "سوق الطلبات",
     link: "marketplace/requests",
   },
   {
-    icon: <BusinessCenterIcon />,
+    icon: <HandCoins />,
     label: "عروضي",
     link: "marketplace/my_offers",
+  },
+  {
+    icon: <Book />,
+    label: "المكتبة التشريعية",
+    link: "legislative_library",
+  },
+  {
+    icon: <Scale />,
+    label: " قانون",
+    link: "laws",
+  },
+  {
+    icon: <LayoutTemplate />,
+    label: " قوالب",
+    link: "templates",
   },
   { icon: <Bell />, label: "الإشعارات", link: "notifications" },
 ];

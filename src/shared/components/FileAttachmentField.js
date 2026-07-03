@@ -10,7 +10,7 @@ export default function FileAttachmentField({
   fileInputRef,
   file,
   onDelete,
-  accept = ".pdf,.png,.csv",
+  accept = ".pdf,.png,.csv,.docx",
 }) {
   return (
     <>

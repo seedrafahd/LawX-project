@@ -1,4 +1,5 @@
 import { CircleAlert } from "lucide-react";
+import Loader from "./Loading";
 
 export default function DeleteModal({
   isOpen,
@@ -10,6 +11,7 @@ export default function DeleteModal({
 }) {
   if (!isOpen) return null;
 
+  if (isDeleting) return <Loader />;
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#00000066] backdrop-blur-[6px]"

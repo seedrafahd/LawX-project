@@ -35,7 +35,7 @@ export default function FiltersBar({ filters, setFilters, teamMembers = [] }) {
               setFilters((prev) => ({ ...prev, search: e.target.value }));
             }}
             placeholder="البحث باسم المهمة أو القضية..."
-            className="w-full h-[62px] rounded-[6px] bg-white pr-14 pl-4 text-[16px] text-[#1E1E1E] placeholder:text-gray-500 outline-none border border-transparent focus:border-[#2D63EA] transition-all"
+            className="w-full h-[62px] rounded-[6px] bg-white pr-12 pl-4 text-[#1E1E1E] placeholder:text-gray-500 outline-none border border-transparent focus:border-gray-400 transition-all"
           />
         </div>
 

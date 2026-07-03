@@ -25,14 +25,10 @@ export default function AddHearing({
 
   if (!isOpen) return null;
 
-  const handleDone = () => {
-    closeModal();
-  };
-
   if (isSuccess) {
     return (
       <SuccessModal
-        onDone={handleDone}
+        onDone={closeModal}
         title="تم بنجاح"
         description={
           isEditMode

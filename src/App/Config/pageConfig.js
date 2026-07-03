@@ -23,4 +23,8 @@ export const pageConfig = {
   "/my_offers": {
     title: "/العروض القانونية",
   },
+  ///////////Legislative Library/////////////////////
+  "/legislative-library": {
+    title: "/المكتبة التشريعية",
+  },
 };
