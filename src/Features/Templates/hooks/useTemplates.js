@@ -10,26 +10,26 @@ import {
 } from "../services/TemplatesApi";
 import toast from "react-hot-toast";
 
-export const useTemplates = (filters) => {
+export const useTemplates = (filters, role) => {
   return useQuery({
     queryKey: ["templates", filters],
-    queryFn: () => getTemplatesRequest(filters),
+    queryFn: () => getTemplatesRequest(filters, role),
   });
 };
 
-export const useTemplateDetails = (template_id, options = {}) => {
+export const useTemplateDetails = (template_id, options = {}, role) => {
   return useQuery({
     queryKey: ["templateDetails", template_id],
-    queryFn: () => getTemplateDetailsRequest(template_id),
+    queryFn: () => getTemplateDetailsRequest(template_id, role),
     enabled: Boolean(template_id),
     ...options,
   });
 };
 
-export const useTemplateCategories = () => {
+export const useTemplateCategories = (role) => {
   return useQuery({
     queryKey: ["templateCategories"],
-    queryFn: () => getTempCategoriesRequest(),
+    queryFn: () => getTempCategoriesRequest(role),
   });
 };
 

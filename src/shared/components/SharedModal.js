@@ -16,6 +16,7 @@ export default function SharedModal({
   secondaryLabel,
   secondaryIcon,
   onSecondaryClick,
+  className,
 }) {
   if (!isOpen) return null;
 

@@ -90,7 +90,7 @@ export default function DocumentUploadModal({
       formData.append("case_id", caseId);
       formData.append("file", file);
       formData.append("type", form.type);
-      formData.append("parent_id", form.parent_id);
+      if (form.parent_id) formData.append("parent_id", form.parent_id);
 
       setUploadedFile({
         File_name: file?.name || "مستند",

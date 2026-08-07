@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import { useMemo } from "react";
 import { FilterToolbar } from "../Components/CasesFilter";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Auth/hooks/useAuth";
 import { useCases } from "../hooks/useCases";
 import CasesList from "../Components/CasesList/CasesList";
 import Loader from "../../../shared/components/Loading";
@@ -12,6 +13,14 @@ import { useFilteredCases } from "../hooks/useFilteredCases";
 
 export default function CasesPage() {
   const navigate = useNavigate();
+  const { profile } = useAuth();
+  const type = profile?.lawer_state;
+
+  const isLawyer = type === "licensed";
+  const isOfficeMember = profile?.Employed_In_Office;
+
+  const showTabs = isLawyer && isOfficeMember;
+
   const { data, isPending } = useCases();
   const cases = data?.data?.data?.cases;
 
@@ -56,21 +65,23 @@ export default function CasesPage() {
 
         <div className="flex flex-col gap-8 bg-white px-6 pt-8 pb-6">
           {/* Tabs */}
-          <div className="flex gap-6 border-b">
-            {CASES_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => updateFilter("tab", tab.id)}
-                className={`pb-3 text-sm font-medium border-b-2 transition-all ${
-                  filters.tab === tab.id
-                    ? "border-blue-600 text-blue-700"
-                    : "border-transparent text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          {showTabs && (
+            <div className="flex gap-6 border-b">
+              {CASES_TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => updateFilter("tab", tab.id)}
+                  className={`pb-3 text-sm font-medium border-b-2 transition-all ${
+                    filters.tab === tab.id
+                      ? "border-blue-600 text-blue-700"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Filters */}
           <FilterToolbar

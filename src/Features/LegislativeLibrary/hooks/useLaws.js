@@ -33,11 +33,11 @@ const normalizeLegislation = (item) => {
   };
 };
 
-export const useLaws = (filters = {}) => {
+export const useLaws = (filters = {}, role) => {
   return useQuery({
     queryKey: ["laws", filters],
     queryFn: async () => {
-      const res = await getlegislationsRequest(filters);
+      const res = await getlegislationsRequest(filters, role);
 
       const legislations = (
         res?.legislations ??
@@ -51,19 +51,19 @@ export const useLaws = (filters = {}) => {
   });
 };
 
-export const useLawDetails = (law_id, options = {}) => {
+export const useLawDetails = (law_id, role, options = {}) => {
   return useQuery({
     queryKey: ["lawDetails", law_id],
-    queryFn: () => getlawDetailsRequest(law_id),
+    queryFn: () => getlawDetailsRequest(law_id, role),
     enabled: Boolean(law_id),
     ...options,
   });
 };
 
-export const useLawCategories = (options = {}) => {
+export const useLawCategories = (role, options = {}) => {
   return useQuery({
     queryKey: ["lawCategories"],
-    queryFn: () => getLawCategoriesRequest(),
+    queryFn: () => getLawCategoriesRequest(role),
     ...options,
   });
 };
@@ -121,13 +121,13 @@ export function useDeleteLaw() {
 }
 
 // Search//////////////
-export const useSearchLaw = () => {
+export const useSearchLaw = (role) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: searchLawRequest,
+    mutationFn: (data) => searchLawRequest(data, role),
 
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["laws"] });
     },
     onError: (error) => {

@@ -3,16 +3,23 @@ import LawSidebar from "../components/createLaw/LawSidebar";
 import LegalTextSection from "../components/createLaw/LegalTextSection";
 import LawInfoSection from "../components/createLaw/LawInfoSection";
 import { useLawForm } from "../hooks/useLawForm";
-import { useLawDetails } from "../hooks/useLaws";
+import { useLawCategories, useLawDetails } from "../hooks/useLaws";
 import Loader from "../../../shared/components/Loading";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function CreateLawPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
-  const { data, isLoading: isFetching } = useLawDetails(id, {
+  const { user } = useAuth();
+
+  const { data: categoriesData, isPending: isFetchingCategories } =
+    useLawCategories(user.role);
+  const { data, isLoading: isFetching } = useLawDetails(id, user.role, {
     enabled: isEditMode,
   });
+
+  const categories = categoriesData?.data.categories ?? [];
   const law = data?.data;
   const {
     form,
@@ -24,7 +31,8 @@ export default function CreateLawPage() {
     removeArticle,
     updateArticle,
   } = useLawForm(law, isEditMode);
-  const loading = isPending || isFetching;
+
+  const loading = isPending || isFetching || isFetchingCategories;
 
   const handleCancel = () => {
     navigate("/laws");
@@ -58,6 +66,7 @@ export default function CreateLawPage() {
             form={form}
             errors={errors}
             updateField={updateField}
+            categoriesOptions={categories}
           />
 
           {/* Legal Text */}

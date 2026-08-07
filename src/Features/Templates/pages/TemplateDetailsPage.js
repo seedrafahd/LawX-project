@@ -9,12 +9,16 @@ import { useTemplateDetails, useDeleteTemplate } from "../hooks/useTemplates";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../../shared/components/Loading";
 import DeleteModal from "../../../shared/components/DeleteModal";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function TemplateDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isSyndicate = user.role === "syndicate";
+
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const { data, isPending } = useTemplateDetails(id);
+  const { data, isPending } = useTemplateDetails(id, null, user.role);
   const { mutate: deleteTemplate, isPending: isDeleting } = useDeleteTemplate();
   const template = data?.data.data || {};
   console.log(data?.data.data);
@@ -48,21 +52,23 @@ export default function TemplateDetailsPage() {
           </h1>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-2">
-          <SharedButton
-            icon={<Pencil size={18} />}
-            onClick={() => navigate(`/templates/edit/${id}`)}
-          >
-            تعديل
-          </SharedButton>
-          <SharedButton
-            icon={<Trash2 size={18} />}
-            colors="bg-red-700 text-white hover:bg-red-800"
-            onClick={() => setDeleteOpen(true)}
-          >
-            حذف
-          </SharedButton>
-        </div>
+        {isSyndicate && (
+          <div className="flex flex-col md:flex-row gap-2">
+            <SharedButton
+              icon={<Pencil size={18} />}
+              onClick={() => navigate(`/templates/edit/${id}`)}
+            >
+              تعديل
+            </SharedButton>
+            <SharedButton
+              icon={<Trash2 size={18} />}
+              colors="bg-red-700 text-white hover:bg-red-800"
+              onClick={() => setDeleteOpen(true)}
+            >
+              حذف
+            </SharedButton>
+          </div>
+        )}
       </div>
 
       <DeleteModal
@@ -95,11 +101,13 @@ export default function TemplateDetailsPage() {
         />
       </div>
       {/* Generated Files */}
-      <GeneratedFilesSection
-        name={template.Template_name}
-        generatedFiles={template.Generated_Files || []}
-        handleOpenGenerate={handleOpenGenerate}
-      />
+      {!isSyndicate && (
+        <GeneratedFilesSection
+          name={template.Template_name}
+          generatedFiles={template.Generated_Files || []}
+          handleOpenGenerate={handleOpenGenerate}
+        />
+      )}
     </div>
   );
 }

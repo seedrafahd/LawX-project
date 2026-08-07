@@ -114,6 +114,18 @@ export default function LoginForm() {
         </span>
       </AuthButton>
 
+      <div className="flex items-center justify-center gap-2 text-gray-800 text-sm font-medium">
+        <span>هل هذه أول مرة لك؟</span>
+
+        <button
+          type="button"
+          onClick={() => navigate("/login/activate-account")}
+          className="font-bold text-[#3B4F86] hover:underline"
+        >
+          تفعيل الحساب
+        </button>
+      </div>
+
       {error && (
         <Typography variant="body1" color="error">
           {error}

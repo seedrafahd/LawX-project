@@ -3,7 +3,7 @@ import { getDate } from "../../../shared/helpers/date";
 import SharedBadge from "../../../shared/components/sharedBadge";
 import { statusStyles } from "../helpers/constants";
 
-export default function LegislationCard({ item }) {
+export default function LegislationCard({ item, handleOpenDetails }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm transition-all hover:shadow-md">
       <div className="p-4 md:p-6 space-y-2">
@@ -49,7 +49,10 @@ export default function LegislationCard({ item }) {
               {getDate(item.created_at)}
             </div>
 
-            <button className="flex items-center gap-2 text-sm text-blue-600 font-semibold hover:text-blue-800 transition-colors">
+            <button
+              onClick={handleOpenDetails}
+              className="flex items-center gap-2 text-sm text-blue-600 font-semibold hover:text-blue-800 transition-colors"
+            >
               عرض التفاصيل
               <ArrowLeft size={14} />
             </button>

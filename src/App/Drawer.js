@@ -7,15 +7,12 @@ import logoImage from "./Assets/lawX.png";
 // Icons
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import StarsOutlinedIcon from "@mui/icons-material/StarsOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import ArticleIcon from "@mui/icons-material/Article";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Bell,
-  Book,
   ClipboardCheck,
   HandCoins,
   LayoutTemplate,
@@ -25,63 +22,88 @@ import {
 
 const DRAWER_WIDTH = 230;
 
-const superAdminMenuItems = [
-  { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
-  { icon: <ArticleIcon />, label: "الباقات والخطط", link: "packages" },
-  { icon: <LocalAtmIcon />, label: "إشتراكات ودفعات", link: "subscribes" },
-  { icon: <StarsOutlinedIcon />, label: "ميزات", link: "features" },
-  {
-    icon: <AccountCircleOutlinedIcon />,
-    label: "الملف الشخصي",
-    link: "profile",
-  },
-  { icon: <SettingsIcon />, label: "الإعدادات", link: "settings" },
-];
-
-const officeAdminMenuItems = [
-  { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
-  { icon: <BusinessCenterIcon />, label: "القضايا", link: "cases" },
-  { icon: <ClipboardCheck />, label: "المهام", link: "tasks" },
-  {
-    icon: <ShoppingBag />,
-    label: "سوق الطلبات",
-    link: "marketplace/requests",
-  },
-  {
-    icon: <HandCoins />,
-    label: "عروضي",
-    link: "marketplace/my_offers",
-  },
-  {
-    icon: <Book />,
-    label: "المكتبة التشريعية",
-    link: "legislative_library",
-  },
-  {
-    icon: <Scale />,
-    label: " قانون",
-    link: "laws",
-  },
-  {
-    icon: <LayoutTemplate />,
-    label: " قوالب",
-    link: "templates",
-  },
-  { icon: <Bell />, label: "الإشعارات", link: "notifications" },
-];
+// const syndicateMenuItems = [
+//   // {
+//   //   icon: <AccountCircleOutlinedIcon />,
+//   //   label: "الملف الشخصي",
+//   //   link: "profile",
+//   // },
+//   // { icon: <SettingsIcon />, label: "الإعدادات", link: "settings" },
+// ];
 
 export default function MyDrawer({ mobileOpen, onMobileClose }) {
-  const { logout, user } = useAuth();
+  const { logout, user, profile } = useAuth();
   const role = user?.role;
+  const type = profile?.lawer_state;
 
   const [showModal, setShowModal] = useState(false);
 
-  const menuItems =
-    role === "super_admin"
-      ? superAdminMenuItems
-      : role === "admin" || role === "lawer"
-        ? officeAdminMenuItems
-        : null;
+  const isSyndicate = role === "syndicate";
+  const isLawyer = type === "licensed";
+  const isOfficeMember = profile?.Employed_In_Office;
+  const isOfficeOwner = profile?.Has_Office;
+
+  const showInvitations = !isOfficeMember && !isOfficeOwner && !isSyndicate;
+
+  const showOfficeManagement = isOfficeOwner;
+
+  const canViewCases = isLawyer;
+
+  const showTasks = role !== "syndicate";
+
+  const menuItems = [
+    { icon: <DashboardIcon />, label: "لوحة التحكم", link: "dashboard" },
+
+    isSyndicate && {
+      icon: <PersonIcon />,
+      label: "المحاميين",
+      link: "lawyers",
+    },
+
+    showOfficeManagement && {
+      icon: <DashboardIcon />,
+      label: "إدارة المكتب",
+      link: "office_management",
+    },
+
+    showInvitations && {
+      icon: <PersonIcon />,
+      label: "دعواتي",
+      link: "my_receive_invitations",
+    },
+
+    canViewCases && {
+      icon: <BusinessCenterIcon />,
+      label: "القضايا",
+      link: "cases",
+    },
+
+    showTasks && { icon: <ClipboardCheck />, label: "المهام", link: "tasks" },
+
+    isLawyer && {
+      icon: <ShoppingBag />,
+      label: "سوق الطلبات",
+      link: "marketplace/requests",
+    },
+    isLawyer && {
+      icon: <HandCoins />,
+      label: "عروضي",
+      link: "marketplace/my_offers",
+    },
+
+    {
+      icon: <Scale />,
+      label: " قانون",
+      link: "laws",
+    },
+    {
+      icon: <LayoutTemplate />,
+      label: " قوالب",
+      link: "templates",
+    },
+    { icon: <Bell />, label: "الإشعارات", link: "notifications" },
+  ].filter(Boolean);
+
   if (!menuItems) {
     return <Navigate to="/unauthorized" replace />;
   }

@@ -2,7 +2,12 @@ import { File } from "lucide-react";
 import SharedField from "../../../../shared/components/SharedFeild";
 import RelatedLegislationSelect from "./RelatedLegislationSelect";
 
-export default function LawInfoSection({ form, errors, updateField }) {
+export default function LawInfoSection({
+  form,
+  errors,
+  updateField,
+  categoriesOptions,
+}) {
   return (
     <section className="rounded-xl shadow-sm border border-gray-300 bg-white p-6">
       <div className="flex items-center gap-2 text-gray-900 font-semibold pb-2 border-b-2 border-gray-200">
@@ -48,9 +53,11 @@ export default function LawInfoSection({ form, errors, updateField }) {
             className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 text-sm text-gray-700 outline-none transition placeholder:text-gray-400"
           >
             <option>اختر التصنيف...</option>
-            <option value="2bcd9146-4982-4575-a78a-ad32886857c2">
-              قضايا االعقارات
-            </option>
+            {categoriesOptions?.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
           </select>
         </SharedField>
 

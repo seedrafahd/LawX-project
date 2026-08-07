@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createTaskRequest,
   getTasksRequest,
-  updateTaskStatus,
   updateTaskRequest,
   deleteTaskRequest,
 } from "../services/TasksApi";
@@ -26,18 +25,6 @@ export const useCreateTask = () => {
     },
     onError: (error) => {
       toast.error(error.message);
-    },
-  });
-};
-
-export const useUpdateTaskStatus = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: updateTaskStatus,
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
 };

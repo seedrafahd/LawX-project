@@ -30,9 +30,7 @@ export default function AITagsCard({ tags }) {
               </button>
             ))
           ) : (
-            <p className="text-sm font-semibold text-gray-500">
-              لا توجد مستندات بعد
-            </p>
+            <p className="text-sm font-semibold text-gray-500">لا توجد وسوم</p>
           )}
         </div>
 

@@ -4,13 +4,16 @@ import { useRef, useState } from "react";
 import { useDeleteTemplate } from "../hooks/useTemplates";
 import DeleteModal from "../../../shared/components/DeleteModal";
 
-export default function TemplateCard({ template, handleOpenDetails }) {
+export default function TemplateCard({
+  template,
+  handleOpenDetails,
+  isSyndicate,
+}) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const menuRef = useRef(null);
-  const { mutate: deleteTemplate, isPending: isDeleting } =
-    useDeleteTemplate();
+  const { mutate: deleteTemplate, isPending: isDeleting } = useDeleteTemplate();
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -35,47 +38,49 @@ export default function TemplateCard({ template, handleOpenDetails }) {
             <span className="mt-2 text-gray-600 text-xs font-bold">
               {template.category}
             </span>
-            <div className="relative" ref={menuRef}>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMenuOpen((prev) => !prev);
-                }}
-                className="text-gray-400 hover:text-gray-600 transition"
-              >
-                <EllipsisVertical size={18} />
-              </button>
+            {isSyndicate && (
+              <div className="relative" ref={menuRef}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMenuOpen((prev) => !prev);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition"
+                >
+                  <EllipsisVertical size={18} />
+                </button>
 
-              {menuOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMenuOpen(false);
-                    }}
-                  />
-                  <div className="absolute left-0 top-full mt-1 z-20 min-w-36 rounded-lg bg-white shadow-lg border border-gray-200 py-1">
-                    <button
-                      onClick={handleEdit}
-                      className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      <Pencil size={14} /> تعديل
-                    </button>
-                    <button
+                {menuOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-10"
                       onClick={(e) => {
                         e.stopPropagation();
                         setMenuOpen(false);
-                        setDeleteOpen(true);
                       }}
-                      className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                    >
-                      <Trash2 size={14} /> حذف
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+                    />
+                    <div className="absolute left-0 top-full mt-1 z-20 min-w-36 rounded-lg bg-white shadow-lg border border-gray-200 py-1">
+                      <button
+                        onClick={handleEdit}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <Pencil size={14} /> تعديل
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMenuOpen(false);
+                          setDeleteOpen(true);
+                        }}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 size={14} /> حذف
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           <h3 className="mt-1 text-xl font-bold text-gray-900 leading-relaxed">

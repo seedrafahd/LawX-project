@@ -2,6 +2,7 @@ import { CircleAlert } from "lucide-react";
 import Loader from "./Loading";
 
 export default function DeleteModal({
+  isPrimary = false,
   isOpen,
   title,
   description,
@@ -20,9 +21,13 @@ export default function DeleteModal({
       aria-labelledby="document-upload-flow-title"
     >
       <section className="relative w-full max-w-lg overflow-hidden rounded-xl bg-white px-8 py-24 text-center shadow-2xl sm:px-9">
-        <span className="absolute -right-14 -top-14 h-32 w-32 rounded-full bg-red-700/10" />
+        <span
+          className={`absolute -right-14 -top-14 h-32 w-32 rounded-full ${isPrimary ? "bg-blue-700/10" : "bg-red-700/10"}`}
+        />
 
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-700/10 text-red-700">
+        <div
+          className={`mx-auto flex h-20 w-20 items-center justify-center rounded-full ${isPrimary ? "bg-blue-700/10" : "bg-red-700/10"} text-${isPrimary ? "variable-collection-primary-color" : "red"}-700`}
+        >
           <CircleAlert size={32} />
         </div>
 
@@ -37,9 +42,9 @@ export default function DeleteModal({
           <button
             type="button"
             onClick={onConfirm}
-            className="h-[58px] rounded-lg bg-red-700 text-base font-bold text-white shadow-[0_12px_24px_rgba(52,68,116,0.24)] transition hover:bg-red-800"
+            className={`h-[58px] rounded-lg ${isPrimary ? "bg-variable-collection-primary-color/90" : "bg-red-700"} text-base font-bold text-white shadow-[0_12px_24px_rgba(52,68,116,0.24)] transition hover:${isPrimary ? "bg-variable-collection-primary-color" : "bg-red-800"}`}
           >
-            حذف
+            تأكيد
           </button>
           <button
             type="button"

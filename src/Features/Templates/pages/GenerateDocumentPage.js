@@ -5,11 +5,17 @@ import GenerateVariables from "../components/Generate/GenerateVariables";
 import { useGenerateDoc, useTemplateDetails } from "../hooks/useTemplates";
 import Loader from "../../../shared/components/Loading";
 import { useState } from "react";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function GenerateDocumentPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, isPending: isTemplateLoading } = useTemplateDetails(id);
+  const { user } = useAuth();
+  const { data, isPending: isTemplateLoading } = useTemplateDetails(
+    id,
+    null,
+    user.role,
+  );
   const template = data?.data.data;
   const { mutate, isPending } = useGenerateDoc(id);
   const [customValues, setCustomValues] = useState({});

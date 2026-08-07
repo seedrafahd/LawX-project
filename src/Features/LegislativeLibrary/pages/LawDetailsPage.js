@@ -5,10 +5,12 @@ import LawDetailsSidebar from "../components/lawDetails/LawDetailsSidebar";
 import { useLawDetails } from "../hooks/useLaws";
 import { useParams } from "react-router-dom";
 import Loader from "../../../shared/components/Loading";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function LawDetailsPage() {
   const { id } = useParams();
-  const { data, isPending } = useLawDetails(id);
+  const { user } = useAuth();
+  const { data, isPending } = useLawDetails(id, user.role);
   const law = data?.data || [];
   console.log(law);
 

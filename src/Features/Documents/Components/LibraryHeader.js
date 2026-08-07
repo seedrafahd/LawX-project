@@ -1,5 +1,6 @@
-import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Upload } from "lucide-react";
 import { useState } from "react";
+import SharedButton from "../../../shared/components/SharedButton";
 
 const INITIAL_TAGS_COUNT = 6;
 
@@ -8,6 +9,7 @@ export default function LibraryHeader({
   searchQuery = "",
   onSearchChange,
   onTagClick,
+  openModal,
 }) {
   const [showAllTags, setShowAllTags] = useState(false);
   const hasMoreTags = tags.length > INITIAL_TAGS_COUNT;
@@ -15,18 +17,28 @@ export default function LibraryHeader({
 
   return (
     <div className="space-y-6">
-      <div className="relative">
-        <Search
-          size={18}
-          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-        />
-        <input
-          className="h-10 w-full rounded-lg border border-gray-300 bg-gray-50 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400"
-          placeholder="ابحث عن عقد، مذكرة، فاتورة، أو أي مستند..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          autoFocus
-        />
+      <div className="flex justify-between items-center gap-2">
+        <div className="relative w-full">
+          <Search
+            size={18}
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+          <input
+            className="h-12 w-full rounded-lg border border-gray-300 bg-gray-50 pr-10 text-sm text-gray-700 outline-none transition placeholder:text-gray-400"
+            placeholder="ابحث عن عقد، مذكرة، فاتورة، أو أي مستند..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            autoFocus
+          />
+        </div>
+
+        <SharedButton
+          icon={<Upload size={18} />}
+          onClick={openModal}
+          className="w-fit flex-none shrink-0 whitespace-nowrap"
+        >
+          رفع ملف جديد
+        </SharedButton>
       </div>
 
       {tags.length > 0 && (

@@ -6,6 +6,6 @@ export const getInvicesRequest = async () => {
 };
 
 export const createInviceRequest = async (data) => {
-  const res = await Axios.post("/Case/create_invoice", data);
+  const res = await Axios.post("/lawyer/create_invoice", data);
   return res.data;
 };

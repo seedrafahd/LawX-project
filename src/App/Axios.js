@@ -15,6 +15,7 @@ Axios.interceptors.request.use(
     const token = auth?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers["X-App-Platform"] = "web";
     }
     return config;
   },
@@ -40,6 +41,9 @@ Axios.interceptors.response.use(
     } else if (data?.errors) {
       const firstKey = Object.keys(data.errors)[0];
       message = data.errors[firstKey][0];
+    } else if (data?.details) {
+      const firstKey = Object.keys(data.details)[0];
+      message = data.details[firstKey][0];
     } else if (data?.message) {
       message = data.message;
     } else if (data?.data?.message) {

@@ -7,6 +7,7 @@ export const useAuth = () => {
   const cookies = new Cookies();
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
+  const profile = useSelector((state) => state.auth.profile);
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
   const isInitialized = useSelector((state) => state.auth.isInitialized);
@@ -29,6 +30,7 @@ export const useAuth = () => {
   return {
     user,
     token,
+    profile,
     loading,
     error,
     role: user?.role,

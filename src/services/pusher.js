@@ -22,11 +22,7 @@ const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
       }
 
       const request = new XMLHttpRequest();
-      request.open(
-        "POST",
-        `https://lawx-backend-production.up.railway.app/broadcasting/auth`,
-        true,
-      );
+      request.open("POST", `http://127.0.0.1:8000/broadcasting/auth`, true);
       request.setRequestHeader(
         "Content-Type",
         "application/x-www-form-urlencoded",

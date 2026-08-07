@@ -1,7 +1,12 @@
 import { Eye, FileText, MoreVertical, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 
-export default function DocumentItem({ file, onDeleteClick, onViewClick }) {
+export default function DocumentItem({
+  file,
+  onDeleteClick,
+  onViewClick,
+  onSignRequestClick,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -61,16 +66,25 @@ export default function DocumentItem({ file, onDeleteClick, onViewClick }) {
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  onViewClick(file);
+                  onViewClick();
                 }}
                 className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
               >
                 <Eye size={14} /> عرض
               </button>
+              {/* <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  onSignRequestClick();
+                }}
+                className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              >
+                طلب توقيع الكتروني
+              </button> */}
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  onDeleteClick(file);
+                  onDeleteClick();
                 }}
                 className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
               >

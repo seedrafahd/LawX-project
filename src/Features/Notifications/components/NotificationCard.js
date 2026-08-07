@@ -17,7 +17,7 @@ export default function NotificationCard({ item, onClick }) {
         <div className={`rounded p-2 text-white ${bg}`}>{icon}</div>
 
         <div>
-          <h3 className="font-semibold text-gray-900">{item.title}</h3>
+          <h3 className="font-semibold text-gray-900">{item.type}</h3>
 
           <p className="text-sm text-gray-500">{item.description}</p>
         </div>

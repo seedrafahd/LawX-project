@@ -8,10 +8,9 @@ export default function AuthButton({
   type = "button",
   ...props
 }) {
-  
   const variantClasses = {
     primary:
-      "w-full rounded-xl bg-[#3f4b7f] py-3 text-sm font-bold text-white shadow-md hover:bg-[#2f3a66] sm:py-4 sm:text-base",
+      "w-full rounded-xl bg-variable-collection-primary-color py-3 text-sm font-bold text-white shadow-md hover:bg-[#2f3a66] sm:py-4 sm:text-base",
     gradient:
       "h-12 w-full rounded-2xl bg-gradient-to-r from-[#344474] to-[#59699a] text-white sm:h-14",
     text: "p-0 text-blue-500 hover:underline",

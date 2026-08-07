@@ -25,7 +25,7 @@ export default function AuthInput({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full rounded-2xl border px-4 py-3 text-right shadow-sm outline-none focus:border-[#3f4b7f] sm:py-4`}
+          className={`w-full rounded-xl border border-[#CBD3DF] px-4 py-3 text-right shadow-sm outline-none focus:border-[#3f4b7f] sm:py-4`}
         />
         {icon && (
           <span className="absolute left-4 top-1/2 flex -translate-y-1/2 text-[#868686]">

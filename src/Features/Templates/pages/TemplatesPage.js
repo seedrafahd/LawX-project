@@ -4,16 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useTemplateCategories, useTemplates } from "../hooks/useTemplates";
 import TemplateCard from "../components/TemplateCard";
 import Loader from "../../../shared/components/Loading";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function TemplatesPage() {
+  const { user } = useAuth();
+  const isSyndicate = user.role === "syndicate";
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     page: 1,
     title: "",
     category: "",
   });
-  const { data, isPending } = useTemplates(filters);
-  const { data: categoriesData } = useTemplateCategories();
+  const { data, isPending } = useTemplates(filters, user.role);
+  const { data: categoriesData } = useTemplateCategories(user.role);
   const categories = categoriesData?.data ?? [];
 
   const templates = data?.data.data ?? [];
@@ -84,13 +87,15 @@ export default function TemplatesPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => navigate("/templates/create")}
-          className="flex items-center px-6 py-3 gap-2 bg-variable-collection-primary-color text-white rounded-xl"
-        >
-          <Plus size={18} /> إضافة قالب
-        </button>
+        {isSyndicate && (
+          <button
+            type="button"
+            onClick={() => navigate("/templates/create")}
+            className="flex items-center px-6 py-3 gap-2 bg-variable-collection-primary-color text-white rounded-xl"
+          >
+            <Plus size={18} /> إضافة قالب
+          </button>
+        )}
       </div>
 
       {/* Filters */}
@@ -147,6 +152,7 @@ export default function TemplatesPage() {
                 key={template.Template_id}
                 template={template}
                 handleOpenDetails={handleOpenDetails}
+                isSyndicate={isSyndicate}
               />
             ))}
           </div>

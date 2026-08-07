@@ -16,7 +16,7 @@ export const initialForm = {
 export const INITIAL_LIBRARY_FILTERS = {
   country: "",
   status: "",
-  category: "",
+  category_id: "",
   title: "",
 };
 

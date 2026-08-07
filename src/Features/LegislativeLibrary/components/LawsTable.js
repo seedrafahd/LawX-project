@@ -78,7 +78,7 @@ export default function LawsTable({ laws, pagination, onPageChange }) {
         <div className="flex items-center gap-3 text-[#6f7890]">
           <span>إظهار</span>
 
-          <span className="text-sm">5 من {totalItems} سجلات</span>
+          <span className="text-sm">1 من {totalItems} سجلات</span>
         </div>
 
         {/* Left */}

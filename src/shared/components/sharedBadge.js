@@ -8,6 +8,7 @@ const badgeStyles = {
   orange: "bg-[#FFDBCB] text-[#783100]",
   green: "bg-[#DCFCE7] text-[#22C55E]",
   red: "bg-red-100 text-red-700",
+  gray: "bg-gray-100 text-gray-700",
 };
 export default function SharedBadge({ text, color }) {
   // const [color, setColor] = useState("primary");
@@ -22,7 +23,7 @@ export default function SharedBadge({ text, color }) {
   );
 }
 
-export const StatusDropdown = ({ value, options, onChange }) => {
+export const StatusDropdown = ({ value, options, onChange, disabled }) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -38,13 +39,14 @@ export const StatusDropdown = ({ value, options, onChange }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selected = options.find((item) => item.value === value);
+  const selected = options.find((item) => String(item.value) === String(value));
 
   return (
     <div ref={dropdownRef} className={`relative`}>
       {/* Trigger */}
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => !disabled && setOpen(!open)}
+        disabled={disabled}
         className={`
           flex
           justify-between
@@ -53,15 +55,18 @@ export const StatusDropdown = ({ value, options, onChange }) => {
           rounded-full
           text-xs
           font-bold
-          ${badgeStyles[selected.color]}
+          ${disabled ? "opacity-60 cursor-default" : "cursor-pointer"}
+          ${badgeStyles[selected?.color] || "bg-gray-100 text-gray-700"}
         `}
       >
-        <span>{selected?.label}</span>
+        <span>{selected?.label ?? "—"}</span>
 
-        <ChevronDown
-          size={16}
-          className={`transition ${open ? "rotate-180" : ""}`}
-        />
+        {!disabled && (
+          <ChevronDown
+            size={16}
+            className={`transition ${open ? "rotate-180" : ""}`}
+          />
+        )}
       </button>
 
       {/* Menu */}
@@ -97,7 +102,7 @@ export const StatusDropdown = ({ value, options, onChange }) => {
                 <span>{item.label}</span>
               </div>
 
-              {value === item.value && (
+              {String(value) === String(item.value) && (
                 <Check size={16} className="text-blue-600" />
               )}
             </button>

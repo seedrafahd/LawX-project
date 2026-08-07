@@ -6,13 +6,19 @@ import { useTemplateDetails } from "../hooks/useTemplates";
 import Loader from "../../../shared/components/Loading";
 import { useFileUpload } from "../../../shared/hooks/useFileUpload";
 import SuccessModal from "../../../shared/components/SuccessModal";
+import { useAuth } from "../../Auth/hooks/useAuth";
 
 export default function CreateTemplatePage() {
   const { id } = useParams();
+  const { user } = useAuth();
   const isEditMode = Boolean(id);
-  const { data, isLoading: isFetching } = useTemplateDetails(id, {
-    enabled: isEditMode,
-  });
+  const { data, isLoading: isFetching } = useTemplateDetails(
+    id,
+    {
+      enabled: isEditMode,
+    },
+    user.role,
+  );
   const editTemplate = data?.data?.data ?? null;
 
   const {

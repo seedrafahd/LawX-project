@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   token: null,
+  profile: null,
   loading: false,
   error: null,
   isInitialized: false,
@@ -17,9 +18,14 @@ export const authSlice = createSlice({
       currtState.token = action.payload.token;
     },
 
+    setLawyerProfile: (currtState, action) => {
+      currtState.profile = action.payload;
+    },
+
     logout: (currState) => {
       currState.user = null;
       currState.token = null;
+      currState.profile = null;
     },
     setInitialized: (currState) => {
       currState.isInitialized = true;
@@ -33,6 +39,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUserDetails, logout, setLoading, setError, setInitialized } =
-  authSlice.actions;
+export const {
+  setUserDetails,
+  setLawyerProfile,
+  logout,
+  setLoading,
+  setError,
+  setInitialized,
+} = authSlice.actions;
 export default authSlice.reducer;

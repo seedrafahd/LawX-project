@@ -1,19 +1,18 @@
 import { useMemo, useState } from "react";
-import { Upload } from "lucide-react";
-import SharedButton from "../../../shared/components/SharedButton";
 import { useDeleteDocument, useDocuments } from "../hooks/useDocuments";
 import Loader from "../../../shared/components/Loading";
 import PDFModal from "./OpenPDFModal";
-import DocumentItem from "./DocumentItem";
 import DeleteModal from "../../../shared/components/DeleteModal";
 import DocumentUploadModal from "./UploadFile/DocumentUploadModal";
 import { useModal } from "../../../shared/hooks/useModal";
-import LibraryHeader from "./LibraryHeader";
-import { useNavigate } from "react-router-dom";
+import { DOCUMENTS_TABS } from "../helpers/constants";
+import DocumentsList from "../pages/DocumentsList";
+import SendSignatureRequestsList from "../../ElectronicSignature/pages/SendSignaturRequestsList";
+import RequireToSignPage from "../../ElectronicSignature/pages/RequireToSignPage";
 
 export default function DocumentLibrary({ caseId }) {
-  const navigate = useNavigate();
   const { data: files = [], isPending } = useDocuments(caseId);
+  const [activeTab, setActiveTab] = useState("documents");
   const uploadModal = useModal();
   const [selectedPreviewFile, setSelectedPreviewFile] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -54,46 +53,39 @@ export default function DocumentLibrary({ caseId }) {
   return (
     <>
       <div className="bg-white rounded-xl shadow-sm p-8 space-y-8">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-bold text-gray-900">مكتبة المستندات</h3>
-          <SharedButton
-            icon={<Upload size={18} />}
-            onClick={uploadModal.toggle}
-          >
-            رفع ملف جديد
-          </SharedButton>
+        <div className="flex gap-6 border-b">
+          {DOCUMENTS_TABS.map((tap) => (
+            <button
+              key={tap.id}
+              onClick={() => setActiveTab(tap.id)}
+              className={`pb-3 text-sm font-medium border-b-2 transition-all ${
+                activeTab === tap.id
+                  ? "border-blue-600 text-blue-700"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {tap.label}
+            </button>
+          ))}
         </div>
-        <LibraryHeader
-          tags={allTags}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onTagClick={handleTagClick}
-        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {isPending ? (
-            <Loader />
-          ) : filteredFiles.length ? (
-            filteredFiles.map((file) => {
-              return (
-                <DocumentItem
-                  key={file.id}
-                  file={file}
-                  onViewClick={() =>
-                    navigate(`/cases/document_details/${file.id}`, {
-                      state: { file },
-                    })
-                  }
-                  onDeleteClick={() => setSelectedFile(file)}
-                />
-              );
-            })
-          ) : (
-            <p className="text-sm font-semibold text-gray-500">
-              لا توجد مستندات بعد
-            </p>
-          )}
-        </div>
+        {isPending ? (
+          <Loader />
+        ) : activeTab === "documents" ? (
+          <DocumentsList
+            tags={allTags}
+            searchQuery={searchQuery}
+            filteredFiles={filteredFiles}
+            setSelectedFile={setSelectedFile}
+            onSearchChange={setSearchQuery}
+            onTagClick={handleTagClick}
+            openModal={uploadModal.toggle}
+          />
+        ) : activeTab === "sent_requests" ? (
+          <SendSignatureRequestsList caseId={caseId} />
+        ) : (
+          <RequireToSignPage />
+        )}
       </div>
 
       <DocumentUploadModal

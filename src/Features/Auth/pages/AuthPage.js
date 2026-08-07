@@ -1,18 +1,9 @@
-import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AuthAppBar from "../Components/AuthAppBar";
 import ellipse5 from "../../../App/Assets/Ellipse 5.png";
 import ellipse6 from "../../../App/Assets/Ellipse 6.png";
 
 export default function AuthPage() {
-  const { token, user } = useSelector((state) => state.auth);
-
-  // if already logged in //
-  if (token && user) {
-    if (user.role === "office_admin") return <Navigate to="/cases" replace />;
-    if (user.role === "accountant") return <Navigate to="/billing" replace />;
-  }
-
   return (
     <div className=" w-full min-h-screen flex flex-col bg-variable-collection-SCREEN-BG-color overflow-hidden">
       <div className=" flex-1 relative w-full min-h-screen bg-[#eff1f824] backdrop-blur-[18px] backdrop-brightness-[100%]">

@@ -1,5 +1,6 @@
 import { Eye, FileText, Pencil, Trash2 } from "lucide-react";
 import { statusStyles } from "../helpers/constants";
+import { getDate } from "../../../shared/helpers/date";
 
 const getStatusClasses = (status) => {
   const style = statusStyles[status];
@@ -37,7 +38,7 @@ export default function LawRow({
       <td className="px-6 py-6">{law.law_number}</td>
       <td className="px-6 py-6">{law.category?.name}</td>
       <td className="px-6 py-6">{law.country}</td>
-      <td className="px-6 py-6">{law.publish_date}</td>
+      <td className="px-6 py-6">{getDate(law.publish_date)}</td>
       <td className="px-6 py-6">
         <span
           className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold ${getStatusClasses(

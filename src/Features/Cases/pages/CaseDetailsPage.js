@@ -2,7 +2,6 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HearingsOverview } from "../Components/Hearings";
 import SharedButton from "../../../shared/components/SharedButton";
-import DocumentLibrary from "../../Documents/Components/DocumentLibrary";
 import TasksListForCase from "../../Tasks/components/TasksListForCase";
 import CaseTeamCard from "../Components/caseDetails/CaseTeamCard";
 import MainDetailsCard from "../Components/caseDetails/MainDetailsCard";
@@ -20,6 +19,7 @@ import FinancialInfoCard from "../Components/caseDetails/FinancialInfoCard";
 import PaymentMilestons from "../Components/caseDetails/PaymentMilestons";
 import EditCaseModal from "../Components/EditCaseModal";
 import EditTeamModal from "../Components/caseDetails/EditTeamModal";
+import DocumentLibrary from "../../Documents/Components/DocumentLibrary";
 
 export default function CaseDetailsPage() {
   const navigate = useNavigate();

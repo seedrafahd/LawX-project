@@ -1,71 +1,81 @@
 import { Search } from "lucide-react";
 import { STATUS_OPTIONS } from "../helpers/constants";
 
-export default function FilterBar({ filters, onFilterChange, countryOptions }) {
-  function SelectField({ filterKey, value, options }) {
+export default function FilterBar({
+  filters,
+  onFilterChange,
+  searchInput,
+  setSearchInput,
+  countryOptions,
+  categoriesOptions,
+}) {
+  function SelectField({ label, filterKey, value, options }) {
     return (
-      <select
-        value={value}
-        className="border-none w-full h-14 bg-white border border-gray-200 rounded-xl flex items-center px-2 xl:px-6 py-3 text-sm text-gray-700 transition"
-        onChange={(e) => onFilterChange(filterKey, e.target.value)}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="lg:col-span-2">
+        <label className="block text-xs text-gray-500 mb-1 px-2">{label}</label>
+        <select
+          value={value}
+          className="w-full h-10 rounded-lg border border-gray-300 bg-[#fafbfd] p-2 text-xs text-gray-900"
+          onChange={(e) => {
+            onFilterChange(filterKey, e.target.value);
+            onFilterChange("page", "1");
+          }}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-[10px]">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 bg-[#F3F4F5] rounded-2xl p-3 md:p-4 shadow-sm">
+    <div className="bg-white rounded-xl border border-[#d8deea] shadow-sm p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
         {/* Search */}
-        <div className="relative">
+        <div className="relative lg:col-span-6">
           <Search
-            size={14}
+            size={20}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
           />
 
           <input
-            value={filters.title}
-            onChange={(e) => onFilterChange("title", e.target.value)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             type="text"
-            placeholder="ابحث عن قانون، مادة أو موضوع قانوني... (مثلاً: زواج، نفقة)"
-            className="w-full h-14 bg-white border border-gray-200 rounded-xl pr-8 md:pr-12 pl-4 text-sm text-gray-700 outline-none border border-transparent focus:border-gray-400"
+            placeholder="ابحث باسم القانون"
+            className="w-full h-14 rounded-lg border border-gray-300 bg-[#fafbfd] pr-12 pl-4 outline-none focus:border-2"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          {/* Country */}
-          <SelectField
-            filterKey="country"
-            value={filters.country}
-            options={countryOptions}
-          />
+        {/* Type */}
+        <SelectField
+          label=" التصنيف القانوني"
+          filterKey="category_id"
+          value={filters.category_id}
+          options={categoriesOptions}
+        />
 
-          {/* Status */}
-          <SelectField
-            filterKey="status"
-            value={filters.status}
-            options={STATUS_OPTIONS}
-          />
+        {/* Status */}
+        <SelectField
+          label=" حالة القانون"
+          filterKey="status"
+          value={filters.status}
+          options={STATUS_OPTIONS}
+        />
 
-          {/* Type */}
-          <select
-            className="border-none w-full h-14 bg-white border border-gray-200 rounded-xl flex items-center px-2 xl:px-6 py-3 text-sm text-gray-700"
-            // onChange={(e) => handleChange("status", e.target.value)}
-          >
-            <option value="">التصنيف: الكل</option>
-            <option value="pending">قيد المعالجة</option>
-            <option value="closed">مغلقة</option>
-            <option value="open">مفتوحة</option>
-          </select>
-        </div>
+        {/* Country */}
+        <SelectField
+          label="الدولة"
+          filterKey="country"
+          value={filters.country}
+          options={countryOptions}
+        />
       </div>
 
-      <p className="text-gray-500 text-xs">
+      <p className="text-gray-500 text-xs mt-2">
         جرب: "ما هي عقوبة التشهير في نظام الجرائم المعلوماتية؟"
       </p>
     </div>

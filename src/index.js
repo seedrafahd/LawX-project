@@ -10,6 +10,10 @@ import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 
+// REACT-PDF CSS
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+
 const rtlCache = createCache({
   key: "mui-rtl",
   stylisPlugins: [rtlPlugin],
@@ -19,8 +23,8 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#344474",
-  light: "#85B6F8",
-  dark: "#2F80ED",
+      light: "#85B6F8",
+      dark: "#2F80ED",
     },
     secondary: {
       main: "#344474",

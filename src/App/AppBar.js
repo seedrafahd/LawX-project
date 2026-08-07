@@ -1,16 +1,22 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { pageConfig } from "./Config/pageConfig";
-import { Menu, Plus } from "lucide-react";
+import { ArrowRight, Menu, Plus } from "lucide-react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import img from "./Assets/image-person.png";
 import SharedButton from "../shared/components/SharedButton";
 import { useNotifications } from "../Features/Notifications/hooks/useNotifications";
+import { useAuth } from "../Features/Auth/hooks/useAuth";
 
 export default function MyAppBar({ onMenuClick }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { profile } = useAuth();
+
+  const isLawyer = profile?.lawer_state === "licensed";
+  const isOfficeOwner = profile?.Has_Office;
+
   const { data } = useNotifications();
   const unreadCount = data?.unread?.length || 0;
 
@@ -56,12 +62,22 @@ export default function MyAppBar({ onMenuClick }) {
 
         {currentPage.type === "dashboard" ? (
           <div className="flex items-center gap-4 ">
-            <SharedButton
-              icon={<Plus size={18} />}
-              onClick={(e) => navigate("/cases/create")}
-            >
-              إضافة قضية
-            </SharedButton>
+            {isLawyer && !isOfficeOwner && (
+              <SharedButton
+                icon={<ArrowRight size={18} />}
+                onClick={(e) => navigate("/office_management/activate")}
+              >
+                إنشاء مكتب
+              </SharedButton>
+            )}
+            {isLawyer && (
+              <SharedButton
+                icon={<Plus size={18} />}
+                onClick={(e) => navigate("/cases/create")}
+              >
+                إضافة قضية
+              </SharedButton>
+            )}
           </div>
         ) : (
           <div className="flex items-center gap-4">
